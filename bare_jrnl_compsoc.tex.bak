@@ -1224,17 +1224,14 @@ One worrying aspect of this research is that it seems to consider only the numbe
  Q2:How well of these approaches mentioned in previous sections performed when identifying the MFS in the real softwares?
  Q3:If we combine the result of one approach with another one, does it give us a better result than both of them?
 
-The subject systems for these studies are HSQLDB(2.0rc8). HSQLDB is a database management system written in pure java.　All of these software share the same form of testing proceedings as depicted in figure .
-
-The proceeding consists of three components: configuration file, source library and the test script. The source library is the subject software under test, in specific it is the released binary libraries which supply some functional interfaces. The configuration file is the file that can change the properties of the software, and the test script will test some functions of the source software.  Our proceeding is then easy to describe, we will try different configuration of the software by changing the content of the configuration file, and then executing the same test script to observe the result.
-
+The subject systems for these studies are HSQLDB(2.0rc8). HSQLDB is a database management system written in pure java.
 
 \subsection{experimental setup}
 Before we use these programs for study, we will take the following steps for each program to obtain the basic information of them, 1)Build the input configuration model of the subject program 2)execute the test case under each possible configuration and record their executed result. 3)list all the types of fault during testing and judge their priority.
 
 We will depict these processes and results for each subject program in detail.
 \subsubsection{HSQLDB}
-Through searching the developers' community of HSQLDB in sourceforge, we found a buggy version with its faulty description in [], and a test script is attached which can reproduce the bug. The original test script only considered one option which have two values, remaining the other options set default configuration. To see what result of the test script will get when executing under more different configurations, we need add some other options which may influence the behaviour of the database management software. We choose some of the options of the properties of table, sql, server and so on. Along with the one in the original test script, we last derive a input configuration model of HSQLDB　listed in table \ref{modelHSQLDB}.
+Through searching the developers' community of HSQLDB in sourceforge, we found a buggy version with its faulty description in [], and a test script is attached which can reproduce the bug. The original test script only considered one option which have two values, remaining the other options set default configuration. To learn how the test script will doing under more different configurations, we add more maksome other options of the database management software to make it , combined with the option in test script we derive the input configuration model in listed table \ref{modelHSQLDB}.
 
 \begin{table}\renewcommand{\arraystretch}{1.3}
   \caption{input model of HSQLDB} \centering
