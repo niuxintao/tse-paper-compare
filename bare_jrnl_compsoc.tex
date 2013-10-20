@@ -1219,22 +1219,30 @@ timing result
 One worrying aspect of this research is that it seems to consider only the number of tests and number of faults uncovered. In the practice of testing, it is as important or more important to know testing times.
 
 \section{Empirical Case study}
- While we got know that our approach have a better performance than others in several scenarios such as a failing test case contains multiple MFSs, the generated extra test case introduces newly MFS and so on from previous simulated experiments, it does not give us strong confidence in that our approach will also perform well in real software systems. One important reason of this is that we don't know whether these competitive scenarios for our approach existed in real software systems. So to eliminate the doubt we conduct a series empirical studies in this section. These empirical studies aimed to answer the following questions:
+ While we got know that our approach have a better performance than others in several scenarios such as a failing test case contains multiple MFSs, the generated extra test case introduces newly MFS and so on from previous simulated experiments, it did not give us strong confidence in that our approach will also perform well in real software systems. One important reason of this is that we don't know whether these competitive scenarios for our approach existed in real software systems. So to eliminate the doubt we conduct a series empirical studies in this section. These empirical studies aimed to answer the following questions:
+
  Q1:Is there any test case that contain multiple MFSs, and if so, do they overlapped each other? Do any of these MFSs have high degree and how likely does it introduce newly MFS when generate extra test cases.
+
  Q2:How well of these approaches mentioned in previous sections performed when identifying the MFS in the real softwares?
+
  Q3:If we combine the result of one approach with another one, does it give us a better result than both of them?
 
-The subject systems for these studies are HSQLDB(2.0rc8). HSQLDB is a database management system written in pure java.　All of these software share the same form of testing proceedings as depicted in figure .
+The subject systems for these studies are HSQLDB(2.0rc8). HSQLDB is a database management system written in pure java.　All of these software share the same testing proceedings as depicted in Fig.\ref{proceeding}.
+\begin{figure}
+ \centering
+ \includegraphics[width=2.7in]{proceed.eps}
+ \caption{proceeding}
+ \label{proceeding}
+\end{figure}
 
-The proceeding consists of three components: configuration file, source library and the test script. The source library is the subject software under test, in specific it is the released binary libraries which supply some functional interfaces. The configuration file is the file that can change the properties of the software, and the test script will test some functions of the source software.  Our proceeding is then easy to describe, we will try different configuration of the software by changing the content of the configuration file, and then executing the same test script to observe the result.
-
+As see from the figure, there are three modules in our proceeding: configuration file, software under test and the test script. The software under test is a set of software components which supply some interfaces, with which one can invoke the serving functions of the software. The configuration file is the file that can custom the properties of the software, and the test script is a executable file which test some functions of the software. Our proceeding is trying different configuration of the software by changing the content of the configuration file, and then executing the same test script to observe the result.
 
 \subsection{experimental setup}
 Before we use these programs for study, we will take the following steps for each program to obtain the basic information of them, 1)Build the input configuration model of the subject program 2)execute the test case under each possible configuration and record their executed result. 3)list all the types of fault during testing and judge their priority.
 
 We will depict these processes and results for each subject program in detail.
 \subsubsection{HSQLDB}
-Through searching the developers' community of HSQLDB in sourceforge, we found a buggy version with its faulty description in [], and a test script is attached which can reproduce the bug. The original test script only considered one option which have two values, remaining the other options set default configuration. To see what result of the test script will get when executing under more different configurations, we need add some other options which may influence the behaviour of the database management software. We choose some of the options of the properties of table, sql, server and so on. Along with the one in the original test script, we last derive a input configuration model of HSQLDB　listed in table \ref{modelHSQLDB}.
+Through searching the developers' community of HSQLDB in sourceforge, we found a buggy version with its faulty description in [], and a test script is attached which can reproduce the bug. The original test script only considered one option which have two values, remaining the other options set default values. To see what will happen when executing the test script under more different configurations, we need add some other options which may influence the behaviour of the database management software. From numerous optioins of HSQLDb, We choose some of the options that control the properties of table, some control the sql, some control the server and some control the result set. Along with the one in the original test script, we derive a input configuration model of HSQLDBlisted in table \ref{modelHSQLDB}.
 
 \begin{table}\renewcommand{\arraystretch}{1.3}
   \caption{input model of HSQLDB} \centering
@@ -1258,10 +1266,10 @@ Through searching the developers' community of HSQLDB in sourceforge, we found a
 
   \begin{tabular}{c*{2}{p{0.53\columnwidth}}}
   \hline
-  \bfseries Database properties &   \bfseries values \\
+  \bfseries Server properties &   \bfseries values \\
    \hline
-    existed form & MEM, FILE\\
-    Server Type & SERVER, WEBSERVER, INPROCESS
+   Server Type & SERVER, WEBSERVER, INPROCESS \\
+    existed form & MEM, FILE
   \end{tabular}
 
   \begin{tabular}{c*{2}{p{0.53\columnwidth}}}
@@ -1275,42 +1283,32 @@ Through searching the developers' community of HSQLDB in sourceforge, we found a
 
   \begin{tabular}{c*{2}{p{0.53\columnwidth}}}
   \hline
-  \bfseries StatementType \\
+  \bfseries option in test script &   \bfseries values\\
    \hline
-    STATEMENT, PREPAREDSTATEMENT
+   StatementType & STATEMENT, PREPAREDSTATEMENT
   \end{tabular}
 
 \end{table}
 
 %execute
-
+We sign this input model as ($2^13, 3^3$). There are $ 2^13 * 3 ^ 3 = 221184 $ possible configurations in total. We executed the test script under each of the 221184 configurations and record their result. In specific, there are 147472 configurations triggered exceptions, and others passed this test. These exceptions can classify 4 types according to the exception traces. Through viewing the exception trace info and the source code of test script, we sorted out the priorities of these exceptions. Table \ref{faultyPriority} shows the detail the 4 types of exceptions. The "exception ID" column shows the id of the exception. The "lower priority "column shows the IDs of exception which have lower priority than this exception. The "num of configs" show the number of test configurations under which the test script triggered this type of exception when executing.
 
 %faulty type and their priority
 \begin{table}\renewcommand{\arraystretch}{1.3}
   \caption{faulty and Priority} \centering
   \label{faultyPriority}
 
-  \begin{tabular}{c*{2}{p{0.53\columnwidth}}}
+  \begin{tabular}{c*{3}{p{0.33\columnwidth}}}
   \hline
-  \bfseries faulty  &   \bfseries priority \\
+  \bfseries exception\ ID  &   \bfseries lower\ priority & \bfseries num\ of\ configs\\
    \hline
-   1 & 2\\
-   2 & 1\\
-   3 & 1 2\\
-   4 & 1 2
+   1 & 2 & 36855\\
+   2 & 1 & 110558\\
+   3 & 1 2 & 58\\
+   4 & 1 2 & 1
   \end{tabular}
 
 \end{table}
-
-Before we describe our case studies we should first describe the subject programs in our case study.
-Database systems is customable and complicated. so we choose a database as our system. Through viewing its developer's community . we find a bug description which have been repaired[]. We take this version and its test script. To be more adaptive for our testing approach, we add some configuration options to the test script. To be more specific, we can see the followed model  the test model is as follows,
-
-from which the configuration file which controlled the behavior of data base is the input model which listed as follows: we can simplify as this
-$ 2^13 * 3 ^ 3 = 221184 $
-
-the source code of HSQLDB is just a jar  library, the test file is a common script file that drive one running case of the sqldb.
-
-Our testing paradigm is writing the configure file and executing the test script.
 
 \subsubsection{preprocessing}
 To evaluate the performance of different algorithms , we should know the real MFS in this software, the original webpage is a hint, but is not enough, as it is just adapt two options. And now we add more options , which make the problem more complicated. So we take the followed steps:
