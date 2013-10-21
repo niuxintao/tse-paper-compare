@@ -1219,29 +1219,30 @@ timing result
 One worrying aspect of this research is that it seems to consider only the number of tests and number of faults uncovered. In the practice of testing, it is as important or more important to know testing times.
 
 \section{Empirical Case study}
- While we got know that our approach have a better performance than others in several scenarios such as a failing test case contains multiple MFSs, the generated extra test case introduces newly MFS and so on from previous simulated experiments, it does not give us strong confidence in that our approach will also perform well in real software systems. One important reason of this is that we don't know whether these competitive scenarios for our approach existed in real software systems. So to eliminate the doubt we conduct a series empirical studies in this section. These empirical studies aimed to answer the following questions:
+ While we got know that our approach have a better performance than others in several scenarios such as a failing test case contains multiple MFSs, the generated extra test case introduces newly MFS and so on from previous simulated experiments, it did not give us strong confidence in that our approach will also perform well in real software systems. One important reason of this is that we don't know whether these competitive scenarios for our approach existed in real software systems. So to eliminate the doubt we conduct a series empirical studies in this section. These empirical studies aimed to answer the following questions:
+
  Q1:Is there any test case that contain multiple MFSs, and if so, do they overlapped each other? Do any of these MFSs have high degree and how likely does it introduce newly MFS when generate extra test cases.
+
  Q2:How well of these approaches mentioned in previous sections performed when identifying the MFS in the real softwares?
+
  Q3:If we combine the result of one approach with another one, does it give us a better result than both of them?
 
-The subject systems for these studies are HSQLDB(2.0rc8). HSQLDB is a database management system written in pure java.　All of these software share the same form of testing proceedings as depicted in Fig. \.
-Fig.\ref{fig_overview} shows an overview of our approach. We next discuss each part of the approach in more detail.
+The subject systems for these studies are HSQLDB(2.0rc8). HSQLDB is a database management system written in pure java.　All of them have millions of uncommented lines of code. And they all share the same proceedings depicted in Fig.\ref{proceeding} when tested in the following studies.
 \begin{figure}
  \centering
- \includegraphics[width=2.7in]{gp.eps}
- \caption{overview of approach of identifying MFS}
- \label{fig_overview}
+ \includegraphics[width=2.7in]{proceed.eps}
+ \caption{proceeding}
+ \label{proceeding}
 \end{figure}
-\subsubsection{Choosing a pending schema}
-The proceeding consists of three components: configuration file, source library and the test script. The source library is the subject software under test, in specific it is the released binary libraries which supply some functional interfaces. The configuration file is the file that can change the properties of the software, and the test script will test some functions of the source software.  Our proceeding is then easy to describe, we will try different configuration of the software by changing the content of the configuration file, and then executing the same test script to observe the result.
 
+As see from the figure, there are three modules in this proceeding: configuration file, software under test and the test script. The software under test is a set of software components which supply some interfaces, with which one can invoke the serving functions of the software. The configuration file is the file that can custom the properties of the software, and the test script is a executable file which test some functions of the software. In specific, the proceeding is trying different configuration of the software by changing the content of the configuration file, and then executing the same test script to observe the result.
 
 \subsection{experimental setup}
 Before we use these programs for study, we will take the following steps for each program to obtain the basic information of them, 1)Build the input configuration model of the subject program 2)execute the test case under each possible configuration and record their executed result. 3)list all the types of fault during testing and judge their priority.
 
 We will depict these processes and results for each subject program in detail.
 \subsubsection{HSQLDB}
-Through searching the developers' community of HSQLDB in sourceforge, we found a buggy version with its faulty description in [], and a test script is attached which can reproduce the bug. The original test script only considered one option which have two values, remaining the other options set default configuration. To see what result of the test script will get when executing under more different configurations, we need add some other options which may influence the behaviour of the database management software. We choose some of the options of the properties of table, sql, server and so on. Along with the one in the original test script, we last derive a input configuration model of HSQLDB　listed in table \ref{modelHSQLDB}.
+Through searching the developers' community of HSQLDB in sourceforge, we found a buggy version with its faulty description in [], and a test script is attached which can reproduce the bug. The original test script only considered one option which have two values, remaining the other options set default values. To see what will happen when executing the test script under more different configurations, we need add some other options which may influence the behaviour of the database management software. From numerous optioins of HSQLDB, We chose some of the options that control the properties of table, some control the sql, some control the server and some control the result set. Along with the one in the original test script, we derive a input configuration model of HSQLDBlisted in table \ref{modelHSQLDB}.
 
 \begin{table}\renewcommand{\arraystretch}{1.3}
   \caption{input model of HSQLDB} \centering
@@ -1265,10 +1266,10 @@ Through searching the developers' community of HSQLDB in sourceforge, we found a
 
   \begin{tabular}{c*{2}{p{0.53\columnwidth}}}
   \hline
-  \bfseries Database properties &   \bfseries values \\
+  \bfseries Server properties &   \bfseries values \\
    \hline
-    existed form & MEM, FILE\\
-    Server Type & SERVER, WEBSERVER, INPROCESS
+   Server Type & SERVER, WEBSERVER, INPROCESS \\
+    existed form & MEM, FILE
   \end{tabular}
 
   \begin{tabular}{c*{2}{p{0.53\columnwidth}}}
@@ -1282,59 +1283,110 @@ Through searching the developers' community of HSQLDB in sourceforge, we found a
 
   \begin{tabular}{c*{2}{p{0.53\columnwidth}}}
   \hline
-  \bfseries StatementType \\
+  \bfseries option in test script &   \bfseries values\\
    \hline
-    STATEMENT, PREPAREDSTATEMENT
+   StatementType & STATEMENT, PREPAREDSTATEMENT
   \end{tabular}
 
 \end{table}
 
 %execute
-
+We denoted this input model as ($2^{13}, 3^3$). There are $ 2^{13} * 3 ^ 3 = 221184 $ possible configurations in total. We executed the test script under each of the 221184 configurations and recorded their result. In specific, there are 147472 configurations triggered exceptions, while others passed this test. These exceptions can be classified to 4 types according to the exception traces. Through viewing the exception trace info and the source code of test script, we sorted out the priorities of these exceptions. Table \ref{faultyPriority} shows the detail of the 4 types of exceptions. The "exception ID" column shows the id of the exception. The "lower priority "column gives the IDs of exception which have lower priority than this exception. The "num of configs" means the number of test configurations under which the test script triggered this type of exception when executing.
 
 %faulty type and their priority
 \begin{table}\renewcommand{\arraystretch}{1.3}
   \caption{faulty and Priority} \centering
   \label{faultyPriority}
 
-  \begin{tabular}{c*{2}{p{0.53\columnwidth}}}
+  \begin{tabular}{c*{3}{p{0.33\columnwidth}}}
   \hline
-  \bfseries faulty  &   \bfseries priority \\
+  \bfseries exception\ ID  &   \bfseries lower\ priority & \bfseries num\ of\ configs\\
    \hline
-   1 & 2\\
-   2 & 1\\
-   3 & 1 2\\
-   4 & 1 2
+   1 & 2 & 36855\\
+   2 & 1 & 110558\\
+   3 & 1 2 & 58\\
+   4 & 1 2 & 1
   \end{tabular}
 
 \end{table}
 
-Before we describe our case studies we should first describe the subject programs in our case study.
-Database systems is customable and complicated. so we choose a database as our system. Through viewing its developer's community . we find a bug description which have been repaired[]. We take this version and its test script. To be more adaptive for our testing approach, we add some configuration options to the test script. To be more specific, we can see the followed model  the test model is as follows,
 
-from which the configuration file which controlled the behavior of data base is the input model which listed as follows: we can simplify as this
-$ 2^13 * 3 ^ 3 = 221184 $
+\subsection{Study 1: what the schemas like in practice}
+In the first study, we aimed to answer the Q1. We need to investigate the MFSs of the real softwares to see 1) Do there existed multiple MFSs in the same configuration? 2) if so, how many of them overlapped each other? 3) Do any of the MFSs have the degree larger than 2. 4) What the possibility of introducing newly MFSs when generating extra configurations. In particular we will inspect the MFSs in HSQLDB.
 
-the source code of HSQLDB is just a jar  library, the test file is a common script file that drive one running case of the sqldb.
+The first obstacle of case study 1 is that we don't know the MFSs in the real softwares. The original bug report page of these softwares[][] can give us hints of the MFSs in that version of software, but it is not enough for us to get accurate MFSs of the software. The reason is that we had added more options to test the script which resulted in more exceptions than reported and the original reported exception can also be related to more options that didn't be mentioned in the bug report.
 
-Our testing paradigm is writing the configure file and executing the test script.
+So to know the MFSs at the beginning 
 
 \subsubsection{preprocessing}
-To evaluate the performance of different algorithms , we should know the real MFS in this software, the original webpage is a hint, but is not enough, as it is just adapt two options. And now we add more options , which make the problem more complicated. So we take the followed steps:
+To evaluate the performance of different algorithms , we should know the real MFS in this software, So we take the followed steps:
 1.execute the test script under each possible configuration.  we running  Particularly, we should run $ 2^13 * 3 ^ 3 = 221184 $ test cases. and This process is time consuming.
 2.collect the failure information and their priority. this is done by We also by static review of the test script code.
 3.Use definition to exhaustive get the real faulty schema information.
-\subsubsection{result}
+
+\subsubsection{Measure the MFSs in the softwares}
+We need to count four data: the number of , the number of , the number of and the possiblity. The first three metrics is easy to count just by definition. The last one is not that easy, we need to give the definition first.
+
+definition of the introduce rate
+First , our introduce rate is based on the followed theory:
+In a test case, if we change one factor of it to generate a new test case.  And assume that we introduce a new failure-inducing schema, but meanwhile we didn’t break the original failure-inducing schema in the previous test case.
+ At this situation it will not influence our identifying result for that if we do not introduce the schema, our result is the same---trigger a failure.
+So we just should consider when the introduce newly faulty schemas may affect our identifying result.
+That is, when we break the original MFS, and introduce a new MFS.
+So then the introduce rate is easily defined:
+We just need to compute the change distance between the failure-inducing schemas in this software.
+Change distance of schema:
+A  B
+T(A,B) -- the parameters in A but not in B
+S(A,B) -- the parameters in both A and B, but their value is different.
+$P_{i}$ -- the number of values in i th parameter of SUT
+
+$A_{i}$ -- the value of the i th paramter of SUT in Schema A.
+
+ChangeDistance(A, B) = $|T(A,B)| +\sum_{i \in T(B,A)}\left(P_{i} / 2\right) + \sum_{i \in S(A,B)}\left( |A_{i} - B_{i}| / 2\right)$
+
+Then the introduce rate of a SUT is defined as
+MFSs -- all the MFS in the SUT
+
+$\dfrac {\sum_{a , b \in MFSs, a \neq b }\left(ChangeDistance(a,b)\right)} {|MFSs|\times |MFSs - 1|}$
+
+\subsubsection{result and analysis}
 The result is as follows: four types of fault. their priority is as:
 we get the followed faulty schema for each failure.
 
-\subsection{Study 1: what the schemas like in test configurations of HSQLDB}
-In this study, we want to answer the first question. Do they have multiple faulty schemas, and do they have higher degrees.And can they import bugs.
+\begin{table*}\renewcommand{\arraystretch}{1.3}
+  \caption{MFSs information of each exception} \centering
+  \label{mfs-exp}
+
+  \begin{tabular}{c|c|c|c|c|c}
+  \hline
+  \bfseries exp\ ID  &  \bfseries MFSs & \bfseries degree\ than\ 2 & \bfseries mutliple\ MFSs& \bfseries overlapped\ MFSs &\bfseries intro rate\\
+   \hline
+   1 & 9 & 8 & 8 & 8 &0.10289514866979656\\
+   2 & 24 & 23 & 25 & 1 &0.014515768431573687\\
+   3 & 56 & 56 & 1 & 1 &0.002683553860884163\\
+   4 & 1 & 1 & 0 & 0 & -
+  \end{tabular}
+
+\end{table*}
+
+
+\subsection{Study 2: how these algorithms behave when applied in real softwares}
 
 \subsubsection{Study setup}
 The first two one : multiple and high degree and overlapped is counted very easy, we just use their definitions. But the way we evaluate the introuduce rate is not so.First , our introduce rate is based on the followed theory:
 In a test case, if we change one factor of it to generate a new test case.  And assume that we introduce a new failure-inducing schema, but meanwhile we didn’t break the original failure-inducing schema in the previous test case.
  At this situation it will not influence our identifying result for that if we do not introduce the schema, our result is the same---trigger a failure.
+
+ \subsubsection{measurement}
+
+ \subsubsection{result and analysis}
+
+ \subsection{Study 3: Is combination useful?}
+ \subsubsection{Study setup}
+ \subsubsection{measurement}
+ \subsubsection{result and analysis}
+
 \subsection{Study 1:input testing}
 This section we will apply the identifying techniques into the input testing. Input testing is the correct testing for any input that is supplied by the system under testing. The input could varies from user operation, network event signal, program input parameters and so on. In this section, we just limit the input to the input parameter values. And the SUT is just a simple program that need input parameter to run. We believe the study of other form of input testing is similar.
 
@@ -1428,12 +1480,12 @@ This last experiment is similar to the second one, except it don't have faulty v
 \subsubsection{Subject programs}
 
 \section{Related works and Discuss}
-Nie抯 approach in [3] and [6] first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
+Nie's approach in [3] and [6] first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
 Delta debugging [5] proposed by Zeller is an adaptive divide朼nd-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. [4] also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently,
 Colbourn and McClary [7] proposed a non-adaptive method. Their approach extends the covering array to the locating array to detect and locate interaction faults.
-C. Mart韓ez [8-9] proposed two adaptive algorithms. The first one needs safe value as their assumption and the second one remove the assumption when the number of values of each parameter is equal to 2. Their algorithms focus on identifying the faulty tuples that have no more than 2 parameters.
+C. Martiez [8-9] proposed two adaptive algorithms. The first one needs safe value as their assumption and the second one remove the assumption when the number of values of each parameter is equal to 2. Their algorithms focus on identifying the faulty tuples that have no more than 2 parameters.
 Ghandehari.etc [10] defines the suspiciousness of tuple and suspiciousness of the environment of a tuple. Based on this, they rank the possible tuples and generate the test cases. Although their approach imposes minimal assumption, it does not ensure that the tuples ranked in the top are the faulty tuples.
-Yilmaz [11] proposed a machine learning method to identify inducing combinations from a combinatorial testing set. They construct a classified tree to analyze the covering arrays and detect potential faulty combinations. Beside this, Fouch?[12] and Shakya [13] made some improvements in identifying failure-inducing combinations based on Yilmaz抯 work.
+Yilmaz [11] proposed a machine learning method to identify inducing combinations from a combinatorial testing set. They construct a classified tree to analyze the covering arrays and detect potential faulty combinations. Beside this, Fouch?[12] and Shakya [13] made some improvements in identifying failure-inducing combinations based on Yilmaz' work.
 
 We list a comprehensive detail and comparison table \ref{comparison-metrics}as followed.
 

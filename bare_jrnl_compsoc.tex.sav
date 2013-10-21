@@ -1312,16 +1312,15 @@ We denoted this input model as ($2^{13}, 3^3$). There are $ 2^{13} * 3 ^ 3 = 221
 
 
 \subsection{Study 1: what the schemas like in practice}
-In the first study, we aimed to answer the Q1. We need to investigate the MFSs of the real softwares to see 1) Do there existed multiple MFSs in the same configuration? 2) if so, how many of them overlapped each other? 3) Do any of the MFSs have the degree larger than 2. 4) What the possibility of introducing newly MFSs when generating extra configurations. In particular we will inspect the MFSs in HSQLDB.
+In this study, we want to answer the Q1. As we all know, the failure info Do they have multiple faulty schemas, and do they have higher degrees.And can they import bugs. In particular we need to get the MFSs of HSQLDB first. The original bug page report some , however, it is not enough to , as the it 
 
-The first obstacle of case study 1 is that we don't know the MFSs in the real softwares. The original bug report page of these softwares[][] can give us hints of the MFSs of the software, but it is not enough for us to get accurate MFSs of the software. The reason is that we had added more options to test the script which resulted in more exceptions than reported and the original reported exception can also be related to more options that didn't be mentioned in the bug report.
 
-So the only way to recognize the MFSs in the software is searching all the schemas in a configuration one by one, and then judging the state of the schema according to the definition and propositions. We will repeat the process in all the possible configurations of the software, this process is time-assuming which can be optimized by introducing hash table and adjusting the order when searching the schema of a configuration. We will omit these details as it is not point of this paper. Lastly after this time-assuming process we got the accurate MFSs for each software, we set recorded them for later use.
-
-\subsubsection{Measure the MFSs in the softwares}
-We need to count four data: the number of , the number of , the number of and the possiblity. The first three metrics is easy to count just by definition. The last one is not that easy, we need to give the definition first.
-
-definition of the introduce rate
+\subsubsection{preprocessing}
+To evaluate the performance of different algorithms , we should know the real MFS in this software, the original webpage is a hint, but is not enough, as it is just adapt two options. And now we add more options , which make the problem more complicated. So we take the followed steps:
+1.execute the test script under each possible configuration.  we running  Particularly, we should run $ 2^13 * 3 ^ 3 = 221184 $ test cases. and This process is time consuming.
+2.collect the failure information and their priority. this is done by We also by static review of the test script code.
+3.Use definition to exhaustive get the real faulty schema information.
+\subsubsection{definition of the introduce rate}
 First , our introduce rate is based on the followed theory:
 In a test case, if we change one factor of it to generate a new test case.  And assume that we introduce a new failure-inducing schema, but meanwhile we didn’t break the original failure-inducing schema in the previous test case.
  At this situation it will not influence our identifying result for that if we do not introduce the schema, our result is the same---trigger a failure.
