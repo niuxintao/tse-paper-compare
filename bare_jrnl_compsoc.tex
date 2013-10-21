@@ -1322,8 +1322,12 @@ So the only way to recognize the MFSs in the software is searching all the schem
 As MFSs in the softwares are figured out, we can easily count the number of configurations contain multiples MFSs and MFSs that overlapped each other, the number of  MFSs that have a degree larger than 2.  But for the possibility of introducing newly MFSs when generating extra configuration (brief as possibility of introducing), we yet can't measure it for we didn't define how to compute the "possibility". We will give a formula to compute the possibility of introducing later, before then we will explain how is this formula derived.
 
 First we should understand under which condition will the event of introducing newly MFSs harms our identifying algorithm.  Consider the following scenario.
-For a test case of which we want to identify the MFSs, say test case A,  if we change one factor of it to generate a new test case, say test Case B.  And assume that we introduce a new failure-inducing schema, but meanwhile we didn't break the original failure-inducing schema in the previous test case.
- At this situation it will not influence our identifying result for that if we do not introduce the schema, our result is the same---trigger a failure.
+
+For a test case of which we want to identify the MFSs, say test case A,  if we change one factor of it to generate a new test case, say test Case B.  Then assume in this step we introduced a new failure-inducing schema, but meanwhile we didn't break the original failure-inducing schema in the test case A when we generate B.
+
+At this situation it will not influence our identifying result for that if we did not introduce the schema, our result is the same---trigger the same failure.
+
+Still for that case, 
 So we just should consider when the introduce newly faulty schemas may affect our identifying result.
 That is, when we break the original MFS, and introduce a new MFS.
 So then the introduce rate is easily defined:
