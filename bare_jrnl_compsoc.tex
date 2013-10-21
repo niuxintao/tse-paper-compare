@@ -1316,14 +1316,13 @@ In the first study, we aimed to answer the Q1. We need to investigate the MFSs o
 
 The first obstacle of case study 1 is that we don't know the MFSs in the real softwares. The original bug report page of these softwares[][] can give us hints of the MFSs of the software, but it is not enough for us to get accurate MFSs of the software. The reason is that we had added more options to test the script which resulted in more exceptions than reported and the original reported exception can also be related to more options that didn't be mentioned in the bug report.
 
-So the only way to recognize the MFSs in the software is searching all the schemas in a configuration one by one, and then judging the state of the schema according to the definition and propositions. We will repeat the process in all the possible configurations of the software, this process is time-assuming which can be optimized by introducing hash table and adjusting the order when searching the schema of a configuration. We will omit these details as it is not point of this paper. Lastly after this time-assuming process we got the accurate MFSs for each software, we set recorded them for later use.
+So the only way to recognize the MFSs in the software is searching all the schemas in a configuration one by one, and then judging the state of the schema according to the definition and propositions. We will repeat the process in all the possible configurations of the software, this process is time-assuming which can be optimized by introducing hash table and adjusting the order when searching the schema of a configuration. We will omit these details as it is not point of this paper. Lastly after this time-assuming process we got the accurate MFSs for each software, we recorded them for later use.
 
 \subsubsection{Measure the MFSs in the softwares}
-We need to count four data: the number of , the number of , the number of and the possiblity. The first three metrics is easy to count just by definition. The last one is not that easy, we need to give the definition first.
+As MFSs in the softwares are figured out, we can easily count the number of configurations contain multiples MFSs and MFSs that overlapped each other, the number of  MFSs that have a degree larger than 2.  But for the possibility of introducing newly MFSs when generating extra configuration (brief as possibility of introducing), we yet can't measure it for we didn't define how to compute the "possibility". We will give a formula to compute the possibility of introducing later, before then we will explain how is this formula derived.
 
-definition of the introduce rate
-First , our introduce rate is based on the followed theory:
-In a test case, if we change one factor of it to generate a new test case.  And assume that we introduce a new failure-inducing schema, but meanwhile we didn’t break the original failure-inducing schema in the previous test case.
+First we should understand under which condition will the event of introducing newly MFSs harms our identifying algorithm.  Consider the following scenario.
+For a test case of which we want to identify the MFSs, say test case A,  if we change one factor of it to generate a new test case, say test Case B.  And assume that we introduce a new failure-inducing schema, but meanwhile we didn't break the original failure-inducing schema in the previous test case.
  At this situation it will not influence our identifying result for that if we do not introduce the schema, our result is the same---trigger a failure.
 So we just should consider when the introduce newly faulty schemas may affect our identifying result.
 That is, when we break the original MFS, and introduce a new MFS.
@@ -1356,9 +1355,9 @@ we get the followed faulty schema for each failure.
   \hline
   \bfseries exp\ ID  &  \bfseries MFSs & \bfseries degree\ than\ 2 & \bfseries mutliple\ MFSs& \bfseries overlapped\ MFSs &\bfseries intro rate\\
    \hline
-   1 & 9 & 8 & 8 & 8 &0.10289514866979656\\
-   2 & 24 & 23 & 25 & 1 &0.014515768431573687\\
-   3 & 56 & 56 & 1 & 1 &0.002683553860884163\\
+   1 & 9 & 8 & 8 & 8 &0.1028\\
+   2 & 24 & 23 & 25 & 1 &0.0145\\
+   3 & 56 & 56 & 1 & 1 &0.0026\\
    4 & 1 & 1 & 0 & 0 & -
   \end{tabular}
 
