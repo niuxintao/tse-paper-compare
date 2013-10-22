@@ -1314,45 +1314,35 @@ We denoted this input model as ($2^{13}, 3^3$). There are $ 2^{13} * 3 ^ 3 = 221
 \subsection{Study 1: what the schemas like in practice}
 In the first study, we aimed to answer the Q1. We need to investigate the MFSs of the real softwares to see 1) Do there existed multiple MFSs in the same configuration? 2) if so, how many of them overlapped each other? 3) Do any of the MFSs have the degree larger than 2. 4) What the possibility of introducing newly MFSs when generating extra configurations. In particular we will inspect the MFSs in HSQLDB.
 
-The first obstacle of case study 1 is that we don't know the MFSs in the real softwares. The original bug report page of these softwares[][] can give us hints of the MFSs in that version of software, but it is not enough for us to get accurate MFSs of the software. The reason is that we had added more options to test the script which resulted in more exceptions than reported and the original reported exception can also be related to more options that didn't be mentioned in the bug report.
+The first obstacle of case study 1 is that we don't know the MFSs in the real softwares. The original bug report page of these softwares[][] can give us hints of the MFSs of the software, but it is not enough for us to get accurate MFSs of the software. The reason is that we had added more options to test the script which resulted in more exceptions than reported and the original reported exception can also be related to more options that didn't be mentioned in the bug report.
 
-So to know the MFSs at the beginning 
-
-\subsubsection{preprocessing}
-To evaluate the performance of different algorithms , we should know the real MFS in this software, So we take the followed steps:
-1.execute the test script under each possible configuration.  we running  Particularly, we should run $ 2^13 * 3 ^ 3 = 221184 $ test cases. and This process is time consuming.
-2.collect the failure information and their priority. this is done by We also by static review of the test script code.
-3.Use definition to exhaustive get the real faulty schema information.
+So the only way to recognize the MFSs in the software is searching all the schemas in a configuration one by one, and then judging the state of the schema according to the definition and propositions. We will repeat the process in all the possible configurations of the software, this process is time-assuming which can be optimized by introducing hash table and adjusting the order when searching the schema of a configuration. We will omit these details as it is not point of this paper. Lastly after this time-assuming process we got the accurate MFSs for each software, we recorded them for later use.
 
 \subsubsection{Measure the MFSs in the softwares}
-We need to count four data: the number of , the number of , the number of and the possiblity. The first three metrics is easy to count just by definition. The last one is not that easy, we need to give the definition first.
+As MFSs in the softwares are figured out, we can easily count the number of configurations contain multiples MFSs and MFSs that overlapped each other, as well as count the number of  MFSs that have a degree larger than 2.  But for the possibility of introducing newly MFSs when generating extra configuration (brief as possibility of introducing), we yet can't measure it for we didn't define how to compute the "possibility". We will give a formula to compute the possibility of introducing next, before then we will explain how is this formula derived.
 
-definition of the introduce rate
-First , our introduce rate is based on the followed theory:
-In a test case, if we change one factor of it to generate a new test case.  And assume that we introduce a new failure-inducing schema, but meanwhile we didn’t break the original failure-inducing schema in the previous test case.
- At this situation it will not influence our identifying result for that if we do not introduce the schema, our result is the same---trigger a failure.
-So we just should consider when the introduce newly faulty schemas may affect our identifying result.
-That is, when we break the original MFS, and introduce a new MFS.
-So then the introduce rate is easily defined:
-We just need to compute the change distance between the failure-inducing schemas in this software.
-Change distance of schema:
-A  B
-T(A,B) -- the parameters in A but not in B
-S(A,B) -- the parameters in both A and B, but their value is different.
-$P_{i}$ -- the number of values in i th parameter of SUT
+First we should understand under which condition will the event of introducing newly MFSs harms our identifying algorithm.  Consider the following scenario.
 
-$A_{i}$ -- the value of the i th paramter of SUT in Schema A.
+For a test case of which we want to identify the MFS, say test case A,  if we change one factor of it to generate a new test case, say test Case B.  Then assume in this step we introduced a new failure-inducing schema, but meanwhile we didn't break the original failure-inducing schema in the test case A when we generate B, in other words, the MFS in A is still in B.
 
-ChangeDistance(A, B) = $|T(A,B)| +\sum_{i \in T(B,A)}\left(P_{i} / 2\right) + \sum_{i \in S(A,B)}\left( |A_{i} - B_{i}| / 2\right)$
+At this situation it will not influence our identifying result for that if we did not introduce the schema, our result is the same---trigger the same failure.
+
+Consider another scenario, still for test case A, and we also change one factor of it to generate a new test case, say test Case C. Similarly, we introduced a new MFS, but different from the first scenario, this time we break the original MFS in the test case A when we generate C, which means the MFS in A is not in C.
+
+At this situation it will influence our identifying result for that our expected result is that C should passed the test as we have broken the MFS in A. But the result failed at last. And we could owe this failure to some schema in A that is not the real MFS if we did nothing to deal with the introducing problem.
+
+So we just need consider the possibility of the situation of simultaneously broking one MFS and introducing another MFS. This metric is related to the cost of changing one schema to another schema. The followed formula define the changing cost of two schemas:
+
+ChangeCost(A, B) = $|T(A,B)| +\sum_{i \in T(B,A)}\left(P_{i} / 2\right) + \sum_{i \in S(A,B)}\left( |A_{i} - B_{i}| / 2\right)$
+
+In this formula, A and B represent two different schemas. the denotation of T(A,B) gives the parameters in A but not in B. And S(A,B) means the parameters in both A and B, but their value is different.
+$P_{i}$ refers to the number of values in the $i$th parameter of SUT, and $A_{i}$ is the value of one factor in Schema A , the factor is the $i$th parameter of SUT.
 
 Then the introduce rate of a SUT is defined as
-MFSs -- all the MFS in the SUT
-
-$\dfrac {\sum_{a , b \in MFSs, a \neq b }\left(ChangeDistance(a,b)\right)} {|MFSs|\times |MFSs - 1|}$
+$\dfrac {\sum_{a , b \in MFSs, a \neq b }\left(ChangeCost(a,b)\right)} {|MFSs|\times |MFSs - 1|}$
 
 \subsubsection{result and analysis}
-The result is as follows: four types of fault. their priority is as:
-we get the followed faulty schema for each failure.
+The statistic info of MFSs of the real software is listed in Table \ref{mfs-exp}. 
 
 \begin{table*}\renewcommand{\arraystretch}{1.3}
   \caption{MFSs information of each exception} \centering
@@ -1362,14 +1352,15 @@ we get the followed faulty schema for each failure.
   \hline
   \bfseries exp\ ID  &  \bfseries MFSs & \bfseries degree\ than\ 2 & \bfseries mutliple\ MFSs& \bfseries overlapped\ MFSs &\bfseries intro rate\\
    \hline
-   1 & 9 & 8 & 8 & 8 &0.10289514866979656\\
-   2 & 24 & 23 & 25 & 1 &0.014515768431573687\\
-   3 & 56 & 56 & 1 & 1 &0.002683553860884163\\
+   1 & 9 & 8 & 8 & 8 &0.1028\\
+   2 & 24 & 23 & 25 & 1 &0.0145\\
+   3 & 56 & 56 & 1 & 1 &0.0026\\
    4 & 1 & 1 & 0 & 0 & -
   \end{tabular}
 
 \end{table*}
 
+In this table,  "exp ID" is the id of exception which the MFSs will trigger, "MFSs" gives the number of MFSs that can trigger this type of Exception show in "exp ID" column. Column "degree than 2" list the number of MFSs that have a degree larger than 2.  "multiple MFSs" means the number of configurations that contain multiple MFSs. The column "overlapped MFSs" gives the number of configurations that contain MFSs that overlapped each other. And the last column "intro rate" shows the introduce possibility of newly MFSs when generating extra test configuration.
 
 \subsection{Study 2: how these algorithms behave when applied in real softwares}
 
