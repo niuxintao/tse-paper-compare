@@ -1390,12 +1390,13 @@ The second study aims to answer the Q2. We will evaluate the performance of each
 \subsubsection{Study setup}
 To conduct this case study, for each algorithm. We will feed it with one failing configuration, for which we will use the algorithm to identify the MFSs. Then we will compare the result of this algorithm to the real MFSs in that configuration given in the study 1. The comparison metrics is similar to the simulated experiment, which consists of  the number of extra test configurations needed, the precise and the recall. To be fair, no other information is given to each algorithm except the feeded failing configuration. We will repeat this comparison for each failing configuration of a exception. At last we will report the average number of test configurations , precise and recall for each algorithm.
 
-As the computing is very time-consuming, we just chose some algorithms mentioned in simulated experiment, they are ChainFeedBack , FIC, RI, OFOT, LG, CTA.
+We will omit some algorithms which are time-consuming for identify these MFSs, it may need days even months, which is not available in practice. As the computing is very time-consuming, we just chose some algorithms mentioned in simulated experiment, they are ChainFeedBack , FIC, RI, OFOT, LG, CTA.
+
  \subsubsection{result and analysis}
  The result is show in table \ref{compare-casestudy}. In this table, Column "exp\ ID" still means for the specific exception of the ID. Column "algorithm" gives the specific algorithm measured in this row. Column "num of extra configs" shows the average number of extra configurations needed to generate to identify the MFSs. Column "recall" shows the recall and column "precise" shows the precise.
 
 From the data listed in the table shows that our algorithm still perform better than others.
-So the answer to Q2 is: the result in real softwares coincided with the result in simulated experiment. 
+So the answer to Q2 is: the result in real softwares coincided with the result in simulated experiment.
 
  \begin{table*}\renewcommand{\arraystretch}{1.3}
   \caption{comparison in real softwares} \centering
@@ -1436,8 +1437,9 @@ So the answer to Q2 is: the result in real softwares coincided with the result i
 \end{table*}
 
  \subsection{Study 3: Is combination useful?}
+ We can find from the last result, all of these algorithms can't all the time get good result. So a nature question is that can we combine the result of multiple algorithms and find a good result. In this study we will carry out some experiments to answer the question, i.e., the Q3.
  \subsubsection{Study setup}
- \subsubsection{measurement}
+ 
  \subsubsection{result and analysis}
 
 \section{Related works and Discuss}
