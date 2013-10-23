@@ -1386,26 +1386,52 @@ Answer: the possibility varies from one to another.
 We can learn from the table that the intro rate of exception 1 is 0.1028, which are the biggest than others, and the smallest is the exception 3, which is 0.0026. They differ markedly, so the possibility of introducing newly MFSs depends on the specific exception and may have big difference among each other.
 
 \subsection{Study 2: how these algorithms behave when applied in real softwares}
-The second study aims to answer the Q2. We will measure each algorithm with the real softwares as the subject.
+The second study aims to answer the Q2. We will evaluate the performance of each algorithm in identifying the MFSs of the real softwares.
 \subsubsection{Study setup}
-For each algorithm. We will feed it with one failing configuration, and use it to identify the MFSs in that configuration. To be fair, no other information is given to each algorithm. We will repeat this process for each failing configuration and record the number of extra test configurations needed, the precise and the recall, as we had done in the simulated experiment. At last we will report the average number of test configurations , precise and recall for each algorithm.
+To conduct this case study, for each algorithm. We will feed it with one failing configuration, for which we will use the algorithm to identify the MFSs. Then we will compare the result of this algorithm to the real MFSs in that configuration given in the study 1. The comparison metrics is similar to the simulated experiment, which consists of  the number of extra test configurations needed, the precise and the recall. To be fair, no other information is given to each algorithm except the feeded failing configuration. We will repeat this comparison for each failing configuration of a exception. At last we will report the average number of test configurations , precise and recall for each algorithm.
+
+As the computing is very time-consuming, we just chose some algorithms mentioned in simulated experiment, they are ChainFeedBack , FIC, RI, OFOT, LG, CTA.
  \subsubsection{result and analysis}
- The result is show in table \ref{compare-casestudy}
+ The result is show in table \ref{compare-casestudy}. In this table, Column "exp\ ID" still means for the specific exception of the ID. Column "algorithm" gives the specific algorithm measured in this row. Column "num of extra configs" shows the average number of extra configurations needed to generate to identify the MFSs. Column "recall" shows the recall and column "precise" shows the precise.
+
+From the data listed in the table shows that our algorithm still perform better than others.
 
  \begin{table*}\renewcommand{\arraystretch}{1.3}
   \caption{comparison in real softwares} \centering
   \label{compare-casestudy}
 
-  \begin{tabular}{c|c|c|c|c|c}
+  \begin{tabular}{c|c|c|c|c}
   \hline
-  \bfseries exp\ ID  &  \bfseries MFSs & \bfseries degree\ than\ 2 & \bfseries mutliple\ MFSs& \bfseries overlapped\ MFSs &\bfseries intro rate\\
+  \bfseries exp\ ID& \bfseries  algorithm   & \bfseries num\ of\ extra\ configs & \bfseries recall & \bfseries precise\\
    \hline
-   1 & 9 & 8 & 8 & 8 &0.1028\\
-   2 & 24 & 23 & 25 & 1 &0.0145\\
-   3 & 56 & 56 & 1 & 1 &0.0026\\
-   4 & 1 & 1 & 0 & 0 & -
+  1 & ChainFeedBack & 15.061 & 1.0 & 0.9995\\
+  \  & FIC  &9.023& 0.9991 & 0.9988 \\
+  \ & RI & 9.024 & 0.9991 & 0.9988 \\
+  \  & OFOT &19.007 & 0.9997 & 0.9995 \\
+  \  & LG &11.000 & 0.0 & 0.0\\
+  \  & CTA &19.0 & 0.9997 & 0.9995\\
+  \hline
+  2 & ChainFeedBack & 13.058 & 0.9999 & 0.9996\\
+  \  & FIC  &6.0160& 0.9999 & 0.9997 \\
+  \ & RI & 6.0161 & 0.9999 & 0.9997 \\
+  \ & OFOT &19.0 & 0.9997 & 0.9997 \\
+  \  & LG &11.0005 & 0.9998 & 1.0\\
+  \  & CTA &19.0 & 0.9997 & -\\
+  \hline
+  3 & ChainFeedBack & 19.793 & 0.9827 & 0.9827\\
+  \  & FIC  &61.6551& 0.8879 & 0.89655 \\
+  \ & RI & 62.6206 & 0.9396 & 0.9482 \\
+  \ & OFOT &19.0 & 0.9827 & 0.9827 \\
+  \  & LG &5.3448& 0 & -\\
+  \  & CTA &19.0 & 0.9137 & 0.9137\\
+  \hline
+  4 & ChainFeedBack & 19.0 & 1.0 & 1.0\\
+  \  & FIC  &65.0& 1.0 & 1.0 \\
+  \ & RI & 65.0 & 1.0 & 1.0 \\
+  \ & OFOT &19.0 & 1.0 & 1.0 \\
+  \  & LG &5.0 & 0.0 & -\\
+  \  & CTA &19.0 &1.0 & 1.0
   \end{tabular}
-
 \end{table*}
 
  \subsection{Study 3: Is combination useful?}
