@@ -1338,7 +1338,8 @@ ChangeCost(A, B) = $|T(A,B)| +\sum_{i \in T(B,A)}\left(P_{i} / 2\right) + \sum_{
 In this formula, A and B represent two different schemas. the denotation of T(A,B) gives the parameters in A but not in B. And S(A,B) means the parameters in both A and B, but their value is different.
 $P_{i}$ refers to the number of values in the $i$th parameter of SUT, and $A_{i}$ is the value of one factor in Schema A , the factor is the $i$th parameter of SUT.
 
-Then the introduce rate of a SUT is defined as
+Then the introduce rate of a SUT is defined as:
+
 $\dfrac {\sum_{a , b \in MFSs, a \neq b }\left(ChangeCost(a,b)\right)} {|MFSs|\times |MFSs - 1|}$
 
 \subsubsection{result and analysis}
@@ -1385,112 +1386,58 @@ Answer: the possibility varies from one to another.
 We can learn from the table that the intro rate of exception 1 is 0.1028, which are the biggest than others, and the smallest is the exception 3, which is 0.0026. They differ markedly, so the possibility of introducing newly MFSs depends on the specific exception and may have big difference among each other.
 
 \subsection{Study 2: how these algorithms behave when applied in real softwares}
-
+The second study aims to answer the Q2. We will evaluate the performance of each algorithm in identifying the MFSs of the real softwares.
 \subsubsection{Study setup}
-The first two one : multiple and high degree and overlapped is counted very easy, we just use their definitions. But the way we evaluate the introuduce rate is not so.First , our introduce rate is based on the followed theory:
-In a test case, if we change one factor of it to generate a new test case.  And assume that we introduce a new failure-inducing schema, but meanwhile we didn’t break the original failure-inducing schema in the previous test case.
- At this situation it will not influence our identifying result for that if we do not introduce the schema, our result is the same---trigger a failure.
+To conduct this case study, for each algorithm. We will feed it with one failing configuration, for which we will use the algorithm to identify the MFSs. Then we will compare the result of this algorithm to the real MFSs in that configuration given in the study 1. The comparison metrics is similar to the simulated experiment, which consists of  the number of extra test configurations needed, the precise and the recall. To be fair, no other information is given to each algorithm except the feeded failing configuration. We will repeat this comparison for each failing configuration of a exception. At last we will report the average number of test configurations , precise and recall for each algorithm.
 
- \subsubsection{measurement}
-
+As the computing is very time-consuming, we just chose some algorithms mentioned in simulated experiment, they are ChainFeedBack , FIC, RI, OFOT, LG, CTA.
  \subsubsection{result and analysis}
+ The result is show in table \ref{compare-casestudy}. In this table, Column "exp\ ID" still means for the specific exception of the ID. Column "algorithm" gives the specific algorithm measured in this row. Column "num of extra configs" shows the average number of extra configurations needed to generate to identify the MFSs. Column "recall" shows the recall and column "precise" shows the precise.
+
+From the data listed in the table shows that our algorithm still perform better than others.
+
+ \begin{table*}\renewcommand{\arraystretch}{1.3}
+  \caption{comparison in real softwares} \centering
+  \label{compare-casestudy}
+
+  \begin{tabular}{c|c|c|c|c}
+  \hline
+  \bfseries exp\ ID& \bfseries  algorithm   & \bfseries num\ of\ extra\ configs & \bfseries recall & \bfseries precise\\
+   \hline
+  1 & ChainFeedBack & 15.061 & 1.0 & 0.9995\\
+  \  & FIC  &9.023& 0.9991 & 0.9988 \\
+  \ & RI & 9.024 & 0.9991 & 0.9988 \\
+  \  & OFOT &19.007 & 0.9997 & 0.9995 \\
+  \  & LG &11.000 & 0.0 & 0.0\\
+  \  & CTA &19.0 & 0.9997 & 0.9995\\
+  \hline
+  2 & ChainFeedBack & 13.058 & 0.9999 & 0.9996\\
+  \  & FIC  &6.0160& 0.9999 & 0.9997 \\
+  \ & RI & 6.0161 & 0.9999 & 0.9997 \\
+  \ & OFOT &19.0 & 0.9997 & 0.9997 \\
+  \  & LG &11.0005 & 0.9998 & 1.0\\
+  \  & CTA &19.0 & 0.9997 & -\\
+  \hline
+  3 & ChainFeedBack & 19.793 & 0.9827 & 0.9827\\
+  \  & FIC  &61.6551& 0.8879 & 0.89655 \\
+  \ & RI & 62.6206 & 0.9396 & 0.9482 \\
+  \ & OFOT &19.0 & 0.9827 & 0.9827 \\
+  \  & LG &5.3448& 0 & -\\
+  \  & CTA &19.0 & 0.9137 & 0.9137\\
+  \hline
+  4 & ChainFeedBack & 19.0 & 1.0 & 1.0\\
+  \  & FIC  &65.0& 1.0 & 1.0 \\
+  \ & RI & 65.0 & 1.0 & 1.0 \\
+  \ & OFOT &19.0 & 1.0 & 1.0 \\
+  \  & LG &5.0 & 0.0 & -\\
+  \  & CTA &19.0 &1.0 & 1.0
+  \end{tabular}
+\end{table*}
 
  \subsection{Study 3: Is combination useful?}
  \subsubsection{Study setup}
  \subsubsection{measurement}
  \subsubsection{result and analysis}
-
-\subsection{Study 1:input testing}
-This section we will apply the identifying techniques into the input testing. Input testing is the correct testing for any input that is supplied by the system under testing. The input could varies from user operation, network event signal, program input parameters and so on. In this section, we just limit the input to the input parameter values. And the SUT is just a simple program that need input parameter to run. We believe the study of other form of input testing is similar.
-
-\subsubsection{Subject programs}
-Siemens, which is a small set of programs, has been used as a benchmark to evaluate the effectiveness of many testing techniques[]. It contain six C programs, which range in size from 138 to 516 lines of non-blank, non-comment code, and perform a variety of functions. Each program has one correct version and several faulty versions which come from by mutating the source code of the original correct version.
-
-The siemens is original thought to study the fault-detecting effectiveness of coverage criteria[], as a result, the large test pool assembled by researchers is not suitable for our testing purpose. We find laleh[] has modeled all the programs according to the combinatorial testing purpose. It is very fit with our work, so we adopt their modeling method.The detail information is listed in table \ref{Siemens}.
-\begin{table}\renewcommand{\arraystretch}{1.3}
-  \caption{The description of Siemens} \centering
-  \label{Siemens}
-  \begin{tabular}{c|c|c|c}\hline
-  \hline
-  \bfseries program &  \bfseries LOC & \bfseries bug versions & \bfseries input model\\
-  \hline
-   print\_tokens & 726 & 7 & $7\ submodel\ list\ in\ table\ref{printtokens} $\\
-   print\_tokens2 & 570 & 10 & $7\ submodel\ list\ in\ table\ref{printtokens}$\\
-   replace & 564 & 32 & $2^{4}\times4^{16}$\\
-   schedule & 412 & 9 & $2^{1}\times3^{8}\times8^{2}$\\
-   schedule2 & 374 & 10 & $2^{1}\times3^{8}\times8^{2}$\\
-   tcas & 173 & 41 & $2^{7}\times3^{2}\times4^{1}\times10^{2}$\\
-   totinfo & 565 & 23 & $3^{3}\times5^{1}\times6^{1}$\\
-  \hline
-  \end{tabular}
-
-\end{table}
-
-\begin{table}\renewcommand{\arraystretch}{1.3}
-  \caption{The description of print\_tokens and print\_tokens2} \centering
-  \label{printtokens}
-  \begin{tabular}{c|c}\hline
-  \hline
-  \bfseries sub program &  \bfseries input model\\
-  \hline
-   keyword & $2^{1}\times3^{1}\times5^{1} $\\
-   identifier & $2^{6}\times3^{1}$\\
-   number & $2^{3}\times3^{1}$\\
-   comment  & $2^{9}\times3^{1}$\\
-   special & $2^{1}\times3^{1}\times8^{1} $\\
-   character & $ $\\
-   string &$ $\\
-  \hline
-  \end{tabular}
-
-\end{table}
-
-\subsubsection{preprocessing}
-
-
-The information of the TCAS is as followed, and to be clearly, we also list the information of other program in Siemens set . but they are average information.
-
-As we all see the multiple and overlapped is existed and the introduce ratio also shows that our algorithm is necessary when face the real bug.
-
-o we should need the tool to make sure the faulty schemas in these system, Symbolic executing, and then we find a failing test configuration contain these test configuration of each faulty version and feed it to each algorithm to see the result. The record information is the same as the toy experiment.
-
-2)The second set is the small and middle scale real softwares: the Siemens software. It has six programs,to make them feasible to test we model them as follows which are the same as the paper[]. Each descriptions are listed in table \ref{Siemens}.
-
-\subsubsection{get statistic info in the software}
-first using using the completely searching method to get all the failure-inducing combinations. It is very time-consuming which is not practical in large parameter SUT. and then using all the algorithms to get it.
-
-\subsubsection{experiment setup}
-
-
-
-\subsubsection{experiment results and analysis}
-
-\subsection{Study 2: configuration testing}
-\subsubsection{Subject programs}
-\subsection{Large scale experiment}
-This last experiment is similar to the second one, except it don't have faulty version. It is a real published version, however it has faulty for sure. Each newer version will help to fix some of them. And to make the evaluation feasible, we also need to know the real MFS. However, it is not possible for we can't using the symbolic execution because it is too large. So we change the style we validate, for each MFS the algorithm identified, we additional generate test configurations to test whether it is right. If all its are right, then we compare which of them are the minimal and identify the most number of MFS.
-3)The last set of programs is the large open-source scale software: MySQL and FireFox. We model them as table \ref{Large-Scale}:.
-\begin{table}\renewcommand{\arraystretch}{1.3}
-  \caption{The description of Large-scale software} \centering
-  \label{Large-Scale}
-  \begin{tabular}{c|c|c|c}\hline
-  \hline
-  \bfseries program & \bfseries version No  & \bfseries LOC  & \bfseries input model\\
-  \hline
-   MySQL & 2013121 & 1 & $2^{2}\times3^{2}$\\
-     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-   FireFox & 2013121 & 1 &  $2^{2}\times3^{2}$\\
-     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-  \hline
-  \end{tabular}
-
-\end{table}
-
-\subsection{Study 2: regression testing}
-\subsubsection{Subject programs}
 
 \section{Related works and Discuss}
 Nie's approach in [3] and [6] first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.

@@ -1338,11 +1338,12 @@ ChangeCost(A, B) = $|T(A,B)| +\sum_{i \in T(B,A)}\left(P_{i} / 2\right) + \sum_{
 In this formula, A and B represent two different schemas. the denotation of T(A,B) gives the parameters in A but not in B. And S(A,B) means the parameters in both A and B, but their value is different.
 $P_{i}$ refers to the number of values in the $i$th parameter of SUT, and $A_{i}$ is the value of one factor in Schema A , the factor is the $i$th parameter of SUT.
 
-Then the introduce rate of a SUT is defined as
+Then the introduce rate of a SUT is defined as:
+
 $\dfrac {\sum_{a , b \in MFSs, a \neq b }\left(ChangeCost(a,b)\right)} {|MFSs|\times |MFSs - 1|}$
 
 \subsubsection{result and analysis}
-The statistic info of MFSs of the real software is listed in Table \ref{mfs-exp}. 
+The statistic info of MFSs of the real software is listed in Table \ref{mfs-exp}.
 
 \begin{table*}\renewcommand{\arraystretch}{1.3}
   \caption{MFSs information of each exception} \centering
@@ -1362,113 +1363,55 @@ The statistic info of MFSs of the real software is listed in Table \ref{mfs-exp}
 
 In this table,  "exp ID" is the id of exception which the MFSs will trigger, "MFSs" gives the number of MFSs that can trigger this type of Exception show in "exp ID" column. Column "degree than 2" list the number of MFSs that have a degree larger than 2.  "multiple MFSs" means the number of configurations that contain multiple MFSs. The column "overlapped MFSs" gives the number of configurations that contain MFSs that overlapped each other. And the last column "intro rate" shows the introduce possibility of newly MFSs when generating extra test configuration.
 
+From this result, we will answer the sub-question of Case study 1 one by one.
+
+1)Do there existed multiple MFSs in the same configuration?
+
+Answer: yes. Although it is rare among the failing configurations(for exception 1, there are 36855 configurations trigger the same exception, and only 8 configurations contain multiple MFSs), but it do exist in the configurations of real software, we can see except the $4$th exception which just has one MFS, all the other exception have configurations have multiple MFSs, which are 8,25,1 respectively.
+
+2)if so, how many of them overlapped each other?
+
+Answer: most of them are overlapped each other. We learned configurations which have overlapped MFSs is 8, 1, 1 respectively. As we all know, the configurations have overlapped MFSs is just one part of the configurations have multiple configurations. Considering the configurations contain multiple MFSs is rare, which are 8 , 25, 1 respectively, then the  We think it is a high possibility when we encounter the situation that configurations contain multiple MFSs and these MFSs overlapped with each other.
+
+One possible explanation for this phenomenon may be real softwares may have many branches, and these branches may have iteration, so for some MFSs , they may share the same entrance of the branch.
+
+3)Do any of the MFSs have the degree larger than 2.
+
+Answer: yes.  It is clearly that almost all the MFSs in the software have a degree than 2, except one MFS for exception 1 ( 8 among 9 MFSs have degrees larger than 2) and one MFS for exception 2( 23 among 24 MFSs have degrees larger than 2).
+
+4)What the possibility of introducing newly MFSs when generating extra configurations?
+
+Answer: the possibility varies from one to another.
+
+We can learn from the table that the intro rate of exception 1 is 0.1028, which are the biggest than others, and the smallest is the exception 3, which is 0.0026. They differ markedly, so the possibility of introducing newly MFSs depends on the specific exception and may have big difference among each other.
+
 \subsection{Study 2: how these algorithms behave when applied in real softwares}
-
+The second study aims to answer the Q2. We will measure each algorithm with the real softwares as the subject.
 \subsubsection{Study setup}
-The first two one : multiple and high degree and overlapped is counted very easy, we just use their definitions. But the way we evaluate the introuduce rate is not so.First , our introduce rate is based on the followed theory:
-In a test case, if we change one factor of it to generate a new test case.  And assume that we introduce a new failure-inducing schema, but meanwhile we didn’t break the original failure-inducing schema in the previous test case.
- At this situation it will not influence our identifying result for that if we do not introduce the schema, our result is the same---trigger a failure.
-
- \subsubsection{measurement}
-
+For each algorithm. We will feed it with one failing configuration, and use it to identify the MFSs in that configuration. To be fair, no other information is given to each algorithm. We will repeat this process for each failing configuration and record the number of extra test configurations needed, the precise and the recall, as we had done in the simulated experiment. At last we will report the average number of test configurations , precise and recall for each algorithm.
  \subsubsection{result and analysis}
+ The result is show in table \ref{compare-casestudy}
+
+ \begin{table*}\renewcommand{\arraystretch}{1.3}
+  \caption{comparison in real softwares} \centering
+  \label{compare-casestudy}
+
+  \begin{tabular}{c|c|c|c|c|c}
+  \hline
+  \bfseries exp\ ID  &  \bfseries MFSs & \bfseries degree\ than\ 2 & \bfseries mutliple\ MFSs& \bfseries overlapped\ MFSs &\bfseries intro rate\\
+   \hline
+   1 & 9 & 8 & 8 & 8 &0.1028\\
+   2 & 24 & 23 & 25 & 1 &0.0145\\
+   3 & 56 & 56 & 1 & 1 &0.0026\\
+   4 & 1 & 1 & 0 & 0 & -
+  \end{tabular}
+
+\end{table*}
 
  \subsection{Study 3: Is combination useful?}
  \subsubsection{Study setup}
  \subsubsection{measurement}
  \subsubsection{result and analysis}
-
-\subsection{Study 1:input testing}
-This section we will apply the identifying techniques into the input testing. Input testing is the correct testing for any input that is supplied by the system under testing. The input could varies from user operation, network event signal, program input parameters and so on. In this section, we just limit the input to the input parameter values. And the SUT is just a simple program that need input parameter to run. We believe the study of other form of input testing is similar.
-
-\subsubsection{Subject programs}
-Siemens, which is a small set of programs, has been used as a benchmark to evaluate the effectiveness of many testing techniques[]. It contain six C programs, which range in size from 138 to 516 lines of non-blank, non-comment code, and perform a variety of functions. Each program has one correct version and several faulty versions which come from by mutating the source code of the original correct version.
-
-The siemens is original thought to study the fault-detecting effectiveness of coverage criteria[], as a result, the large test pool assembled by researchers is not suitable for our testing purpose. We find laleh[] has modeled all the programs according to the combinatorial testing purpose. It is very fit with our work, so we adopt their modeling method.The detail information is listed in table \ref{Siemens}.
-\begin{table}\renewcommand{\arraystretch}{1.3}
-  \caption{The description of Siemens} \centering
-  \label{Siemens}
-  \begin{tabular}{c|c|c|c}\hline
-  \hline
-  \bfseries program &  \bfseries LOC & \bfseries bug versions & \bfseries input model\\
-  \hline
-   print\_tokens & 726 & 7 & $7\ submodel\ list\ in\ table\ref{printtokens} $\\
-   print\_tokens2 & 570 & 10 & $7\ submodel\ list\ in\ table\ref{printtokens}$\\
-   replace & 564 & 32 & $2^{4}\times4^{16}$\\
-   schedule & 412 & 9 & $2^{1}\times3^{8}\times8^{2}$\\
-   schedule2 & 374 & 10 & $2^{1}\times3^{8}\times8^{2}$\\
-   tcas & 173 & 41 & $2^{7}\times3^{2}\times4^{1}\times10^{2}$\\
-   totinfo & 565 & 23 & $3^{3}\times5^{1}\times6^{1}$\\
-  \hline
-  \end{tabular}
-
-\end{table}
-
-\begin{table}\renewcommand{\arraystretch}{1.3}
-  \caption{The description of print\_tokens and print\_tokens2} \centering
-  \label{printtokens}
-  \begin{tabular}{c|c}\hline
-  \hline
-  \bfseries sub program &  \bfseries input model\\
-  \hline
-   keyword & $2^{1}\times3^{1}\times5^{1} $\\
-   identifier & $2^{6}\times3^{1}$\\
-   number & $2^{3}\times3^{1}$\\
-   comment  & $2^{9}\times3^{1}$\\
-   special & $2^{1}\times3^{1}\times8^{1} $\\
-   character & $ $\\
-   string &$ $\\
-  \hline
-  \end{tabular}
-
-\end{table}
-
-\subsubsection{preprocessing}
-
-
-The information of the TCAS is as followed, and to be clearly, we also list the information of other program in Siemens set . but they are average information.
-
-As we all see the multiple and overlapped is existed and the introduce ratio also shows that our algorithm is necessary when face the real bug.
-
-o we should need the tool to make sure the faulty schemas in these system, Symbolic executing, and then we find a failing test configuration contain these test configuration of each faulty version and feed it to each algorithm to see the result. The record information is the same as the toy experiment.
-
-2)The second set is the small and middle scale real softwares: the Siemens software. It has six programs,to make them feasible to test we model them as follows which are the same as the paper[]. Each descriptions are listed in table \ref{Siemens}.
-
-\subsubsection{get statistic info in the software}
-first using using the completely searching method to get all the failure-inducing combinations. It is very time-consuming which is not practical in large parameter SUT. and then using all the algorithms to get it.
-
-\subsubsection{experiment setup}
-
-
-
-\subsubsection{experiment results and analysis}
-
-\subsection{Study 2: configuration testing}
-\subsubsection{Subject programs}
-\subsection{Large scale experiment}
-This last experiment is similar to the second one, except it don't have faulty version. It is a real published version, however it has faulty for sure. Each newer version will help to fix some of them. And to make the evaluation feasible, we also need to know the real MFS. However, it is not possible for we can't using the symbolic execution because it is too large. So we change the style we validate, for each MFS the algorithm identified, we additional generate test configurations to test whether it is right. If all its are right, then we compare which of them are the minimal and identify the most number of MFS.
-3)The last set of programs is the large open-source scale software: MySQL and FireFox. We model them as table \ref{Large-Scale}:.
-\begin{table}\renewcommand{\arraystretch}{1.3}
-  \caption{The description of Large-scale software} \centering
-  \label{Large-Scale}
-  \begin{tabular}{c|c|c|c}\hline
-  \hline
-  \bfseries program & \bfseries version No  & \bfseries LOC  & \bfseries input model\\
-  \hline
-   MySQL & 2013121 & 1 & $2^{2}\times3^{2}$\\
-     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-   FireFox & 2013121 & 1 &  $2^{2}\times3^{2}$\\
-     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-  \hline
-  \end{tabular}
-
-\end{table}
-
-\subsection{Study 2: regression testing}
-\subsubsection{Subject programs}
 
 \section{Related works and Discuss}
 Nie's approach in [3] and [6] first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
