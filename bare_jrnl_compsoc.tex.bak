@@ -1435,26 +1435,26 @@ As we will take a large number of configurations to identify( 147472 for HSQLDB)
 \end{table*}
 
  We will discuss the result by column:
- 
+
  1)the number of extra configurations: We may get two points in this column: a. no algorithms always need the smallest configurations in all conditions. For example,FIC needs the smallest configurations for exception 1(9.023) and exception 2(6.016) but needs the largest number of configurations for exception 4(65.0) as FIC may need a high cost dealing high way degree schema.  RI performs good at exception 2(6.016), but performs bad at exception 3(62.62) and 4 (65.0).  LG needs the smallest number of configurations for exception 3(5.344) and exception 4(5.0), but for exception 1 and 2 it doesn't perform as good as FIC and RI.  b. OFOT and CTA performs almost the same for all the exception exceptions(almost as 19.0, exception the OFOT for the exception 1(19.0007)), this is because they are not the adaptive method, they just change one factor one time for all the conditions. And the unique different is that OFOT add some more configurations to deal the introduce problem. c. Our algorithms performs moderately, better than OFOT for exception 1 and 2 but worse than others, and better than FIC and RI for exception 3 and 4 and worse than others. This is because our algorithm consider more conditions such as introduce, overlapped and high degree problem.
 
- 2)recall :  our algorithms perform the best in all the cases. which means our algorithms is influnced little of these conditions.
+ 2)recall :  our algorithms perform the best in all the cases. which means our algorithms can find more MFSs than others in a failing configuration. This owe to the way our algorithm adopt, that consider as more scenario as possible. Especially consider the multiple , overlapped and the introduce. Another note is that fir exception 1 and exception 3 and 4, the LG algorithm get the recall 0, it is a signal that in this three cases, the MFSs in the SUT have degrees larger than 2.
 
- 3)precise : our algorithms also performs the best in most of the cases. except for the exception 2 are worse than FIC and RI and OFOT and LG.
- 
+ 3)precise : our algorithms also performs the best in most of the cases. except for the exception 2 are worse than FIC and RI and OFOT and LG. As we all know, only one thing can influence the precise, which is the introduce rate. As we have consider it, it will not affect our result.
+
  Besides, we can find a little different, that is the recall and precise is best in 4, second best in 2 , little worse in 1, the worst in 3. This is coincided with the intro rate, which means that the intro rate is defined well and the intro rate really indicate the performance in algorithms.
 
  Overall, the answer to Q2 is: Our algorithms preforms good at recall and precise, and moderately in num of extra configs. This is coincided with the result in simulated experiment.
- 
+
  \subsection{Study 3: Is combination useful?}
  We can find from the last result, all of these algorithms can't all the time get good result. So a nature question is that can we combine the result of multiple algorithms and find a good result. In this study we will carry out some experiments to answer the question, i.e., the Q3.
  \subsubsection{Study setup}
-
+ In this study, we just give pair wise combination of algorithms result.
  \subsubsection{result and analysis}
 
 \section{Related works and Discuss}
 Nie's approach in [3] and [6] first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
-Delta debugging [5] proposed by Zeller is an adaptive divide朼nd-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. [4] also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently,
+Delta debugging [5] proposed by Zeller is an adaptive divide 朼nd-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. [4] also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently,
 Colbourn and McClary [7] proposed a non-adaptive method. Their approach extends the covering array to the locating array to detect and locate interaction faults.
 C. Martiez [8-9] proposed two adaptive algorithms. The first one needs safe value as their assumption and the second one remove the assumption when the number of values of each parameter is equal to 2. Their algorithms focus on identifying the faulty tuples that have no more than 2 parameters.
 Ghandehari.etc [10] defines the suspiciousness of tuple and suspiciousness of the environment of a tuple. Based on this, they rank the possible tuples and generate the test cases. Although their approach imposes minimal assumption, it does not ensure that the tuples ranked in the top are the faulty tuples.
