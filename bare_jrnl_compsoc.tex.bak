@@ -1398,8 +1398,6 @@ To conduct this case study, We will feed one failing configuration to each algor
 As we will take a large number of configurations to identify( 147472 for HSQLDB), this is too big compact to some algorithms, such as TRT, IterAIFL, they can't even accomplish the task. Some other algorithm can complete this task but with a huge time cost, such as SP, it will take weeks or even months to complete. We will omit these algorithms in our comparison to make this study available in a relative short time. As a result, we just choose ChainFeedBack , FIC, RI, OFOT, LG, CTA as our comparison algorithms.
 
  \subsubsection{result and analysis}
- The result is shown in table \ref{compare-casestudy}. In this table, Column "exp\ ID" still means the ID for the specific exception. Column "algorithm" gives the specific algorithm measured in this row. Column "num of extra configs" shows the average number of extra configurations needed to generate to identify the MFSs. Column "recall" and "precise" respectively shows the average recall and precise which have been defined in the simulated experiment for each algorithm.
-
 
  \begin{table*}\renewcommand{\arraystretch}{1.3}
   \caption{comparison in real softwares} \centering
@@ -1439,22 +1437,24 @@ As we will take a large number of configurations to identify( 147472 for HSQLDB)
   \end{tabular}
 \end{table*}
 
+ The result is shown in table \ref{compare-casestudy}. In this table, Column "exp\ ID" still means the ID for the specific exception. Column "algorithm" gives the specific algorithm measured in this row. Column "num of extra configs" shows the average number of extra configurations needed to generate to identify the MFSs. Column "recall" and "precise" respectively shows the average recall and precise which have been defined in the simulated experiment for each algorithm.
+
  We will discuss the result by column:
 
  1)the number of extra configurations: We may get two points in this column: a. no algorithms always need the smallest configurations in all conditions. For example,FIC needs the smallest configurations for exception 1(9.023) and exception 2(6.016) but needs the largest number of configurations for exception 4(65.0) as FIC may need a high cost dealing high way degree schema.  RI performs good at exception 2(6.016), but performs bad at exception 3(62.62) and 4 (65.0).  LG needs the smallest number of configurations for exception 3(5.344) and exception 4(5.0), but for exception 1 and 2 it doesn't perform as good as FIC and RI.  b. OFOT and CTA performs almost the same for all the exception exceptions(almost as 19.0, exception the OFOT for the exception 1(19.0007)), this is because they are not the adaptive method, they just change one factor one time for all the conditions. And the unique different is that OFOT add some more configurations to deal the introduce problem. c. Our algorithms performs moderately, better than OFOT for exception 1 and 2 but worse than others, and better than FIC and RI for exception 3 and 4 and worse than others. This is because our algorithm consider more conditions such as introduce, overlapped and high degree problem.
 
  2)recall : our algorithms perform the best in all the circumstances for this metric, which means our algorithms can find more MFSs than others algorithms when identifying the MFSs in a failing configuration. The reason why our approach have advantages over others is that we consider more scenarios when fed a failing configurations, especially we took account of the case multiple , overlapped MFSs in a test configuration and the case when the MFSs have a high degree. Other approaches may consider some of them, but none of them consider all these scenarios. Another point that needed note is that for exception 1, 3 and 4, the recall of LG algorithm is 0, it is a signal that in this three circumstances, the MFSs in the SUT have degrees larger than 2.
 
- 3)precise : algorithm OFOT and our approach performs better than others (our approrach is litter weaker than OFOT for the exception 2, which ours are 0.9996, OFOT rea 0.9997), our algorithms also performs the best in most of the cases, except for the exception 2 in which case our algorithm is worse than FIC ,RI ,OFOT and LG. As we have discussed before, the condition that introducing newly configurations when generating extra test configurations can make the identifying result incorrectly, so this result give us a good evidence that the feedback action in our approach is effective at avoiding the effects along with the introducing newly MFSs. We can also learn from this column that Algouth it can't get the best in all the cirumstances, we yet have confidence it can give a.
+ 3)precise : algorithm OFOT and our approach performs better than others (our approach is litter weaker than OFOT for the exception 2, which ours is 0.9996, OFOT is 0.9997). As we have discussed before, the condition that introducing newly configurations when generating extra test configurations can make the identifying result incorrectly, so it is a nature idea that if the algorithm deal with the introducing newly MFSs, the algorithm can get a more accurate result than those approaches don't consider this scenario. The result data show in this table is coincide with this idea. We can also learn that the machine learning approach-- CTA can also get a well result (0.9995, - , 0.9137, 1.0, slightly weaker than OFOT and our approach) in this column. Although this approach didn't consider the introducing scenario, the nature of dealing noisy data in machine learning can give this approach a some relief from those bad affects.
 
  In addition, we can find some regular among the exceptions, i.e., for all the algorithms , the recall and precise is best in 4, second best in 2 , little worse in 1, the worst in 3. This is coincided with the intro rate, which means that the intro rate really have a influence for the performance in algorithms.
 
  Overall, the answer to Q2 is: Our algorithms preforms good at recall and precise, and moderately in num of extra configs. This is coincided with the result in simulated experiment.
 
  \subsection{Study 3: Is combination useful?}
- We can find from the last result, all of these algorithms can't all the time get good result. So a nature question is that can we combine the result of multiple algorithms and find a good result. In this study we will carry out some experiments to answer the question, i.e., the Q3.
+ We can learn from the result in the second case study that none of these algorithms can be the best among all the scenarios. So a nature question is that can we combine the result of multiple algorithms to find a better result. In this study we will carry out some experiments to answer this question, i.e., the Q3.
  \subsubsection{Study setup}
- In this study, we just give pair wise combination of algorithms result.
+ In this study, we will using pair-wise 
  \subsubsection{result and analysis}
 
 \section{Related works and Discuss}

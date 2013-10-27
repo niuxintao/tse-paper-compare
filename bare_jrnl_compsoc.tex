@@ -1438,7 +1438,7 @@ As we will take a large number of configurations to identify( 147472 for HSQLDB)
 \end{table*}
 
  The result is shown in table \ref{compare-casestudy}. In this table, Column "exp\ ID" still means the ID for the specific exception. Column "algorithm" gives the specific algorithm measured in this row. Column "num of extra configs" shows the average number of extra configurations needed to generate to identify the MFSs. Column "recall" and "precise" respectively shows the average recall and precise which have been defined in the simulated experiment for each algorithm.
- 
+
  We will discuss the result by column:
 
  1)the number of extra configurations: We may get two points in this column: a. no algorithms always need the smallest configurations in all conditions. For example,FIC needs the smallest configurations for exception 1(9.023) and exception 2(6.016) but needs the largest number of configurations for exception 4(65.0) as FIC may need a high cost dealing high way degree schema.  RI performs good at exception 2(6.016), but performs bad at exception 3(62.62) and 4 (65.0).  LG needs the smallest number of configurations for exception 3(5.344) and exception 4(5.0), but for exception 1 and 2 it doesn't perform as good as FIC and RI.  b. OFOT and CTA performs almost the same for all the exception exceptions(almost as 19.0, exception the OFOT for the exception 1(19.0007)), this is because they are not the adaptive method, they just change one factor one time for all the conditions. And the unique different is that OFOT add some more configurations to deal the introduce problem. c. Our algorithms performs moderately, better than OFOT for exception 1 and 2 but worse than others, and better than FIC and RI for exception 3 and 4 and worse than others. This is because our algorithm consider more conditions such as introduce, overlapped and high degree problem.
@@ -1454,10 +1454,27 @@ As we will take a large number of configurations to identify( 147472 for HSQLDB)
  \subsection{Study 3: Is combination useful?}
  We can learn from the result in the second case study that none of these algorithms can be the best among all the scenarios. So a nature question is that can we combine the result of multiple algorithms to find a better result. In this study we will carry out some experiments to answer this question, i.e., the Q3.
  \subsubsection{Study setup}
- In this study, we just give pair wise combination of algorithms result.
+ In this study, we will using pair-wise . We will record information
  \subsubsection{result and analysis}
+ \begin{table*}\renewcommand{\arraystretch}{1.3}
+  \caption{the combination of algorithms} \centering
+  \label{case-study3}
 
+  \begin{tabular}{c|c|c|c|c|c|c}
+  \hline
+   \ &  ChainFeedBack &   FIC   &  RI &  OFOT &  LG &  CTA\\
+   \hline
+   \bfseries ChainFeedBack & - & \textbackslash & \textbackslash & \textbackslash & \textbackslash & \textbackslash\\
+   \bfseries FIC  & \textbackslash & - & \textbackslash & \textbackslash & \textbackslash & \textbackslash\\
+   \bfseries  RI  & \textbackslash & \textbackslash & - & \textbackslash & \textbackslash & \textbackslash\\
+   \bfseries OFOT  & \textbackslash & \textbackslash & \textbackslash & - & \textbackslash & \textbackslash\\
+   \bfseries LG  & \textbackslash & \textbackslash & \textbackslash & \textbackslash & - & \textbackslash\\
+   \bfseries CTA  & \textbackslash & \textbackslash & \textbackslash & \textbackslash & \textbackslash & -
+  \end{tabular}
+\end{table*}
 \section{Related works and Discuss}
+Detail list the history. In the experiment section, we just give some brief introduction.
+
 Nie's approach in [3] and [6] first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
 Delta debugging [5] proposed by Zeller is an adaptive divide-and-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. [4] also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently,
 Colbourn and McClary [7] proposed a non-adaptive method. Their approach extends the covering array to the locating array to detect and locate interaction faults.
