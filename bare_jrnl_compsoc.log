@@ -1,10 +1,10 @@
-This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2013.10.25)  27 OCT 2013 00:34
+This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2013.10.18)  27 OCT 2013 15:24
 entering extended mode
 **bare_jrnl_compsoc.tex
-(C:\Users\xintao\Desktop\tse\tse-paper-compare\bare_jrnl_compsoc.tex
+(D:\niu桌面\tsepaper\tse-paper-compare\bare_jrnl_compsoc.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for loaded.
-(C:\Users\xintao\Desktop\tse\tse-paper-compare\IEEEtran.cls
+(D:\niu桌面\tsepaper\tse-paper-compare\IEEEtran.cls
 Document Class: IEEEtran 2007/03/05 V1.7a by Michael Shell
 -- See the "IEEEtran_HOWTO" manual for usage information.
 -- http://www.michaelshell.org/tex/ieeetran/
@@ -16,7 +16,7 @@ Document Class: IEEEtran 2007/03/05 V1.7a by Michael Shell
 -- Using IEEE Computer Society mode.
 LaTeX Font Info:    Try loading font information for OT1+ppl on input line 377.
 
-(F:\CTEX\MiKTeX\tex\latex\psnfss\ot1ppl.fd
+(C:\CTEX\MiKTeX\tex\latex\psnfss\ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
 Requested font "pplr7t" at 10.0pt
@@ -170,32 +170,32 @@ Requested font "pplbi7t" at 24.0pt
 \@IEEEtmpitemindent=\dimen116
 \c@IEEEbiography=\count91
 \@IEEEtranrubishbin=\box26
-) (F:\CTEX\MiKTeX\tex\latex\graphics\graphicx.sty
+) (C:\CTEX\MiKTeX\tex\latex\graphics\graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-(F:\CTEX\MiKTeX\tex\latex\graphics\keyval.sty
+(C:\CTEX\MiKTeX\tex\latex\graphics\keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks15
 )
-(F:\CTEX\MiKTeX\tex\latex\graphics\graphics.sty
+(C:\CTEX\MiKTeX\tex\latex\graphics\graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-(F:\CTEX\MiKTeX\tex\latex\graphics\trig.sty
+(C:\CTEX\MiKTeX\tex\latex\graphics\trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(F:\CTEX\MiKTeX\tex\latex\00miktex\graphics.cfg
+(C:\CTEX\MiKTeX\tex\latex\00miktex\graphics.cfg
 File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
 Package graphics Info: Driver file: xetex.def on input line 91.
 
-(F:\CTEX\MiKTeX\tex\xelatex\xetex-def\xetex.def
+(C:\CTEX\MiKTeX\tex\xelatex\xetex-def\xetex.def
 File: xetex.def 2009/11/22 v0.94 LaTeX color/graphics driver for XeTeX (RRM/JK)
 
 ))
 \Gin@req@height=\dimen117
 \Gin@req@width=\dimen118
 )
-(F:\CTEX\MiKTeX\tex\latex\ams\classes\amsthm.sty
+(C:\CTEX\MiKTeX\tex\latex\ams\classes\amsthm.sty
 Package: amsthm 2004/08/06 v2.20
 \thm@style=\toks16
 \thm@bodyfont=\toks17
@@ -207,13 +207,13 @@ Package: amsthm 2004/08/06 v2.20
 \thm@headsep=\skip46
 \dth@everypar=\toks21
 )
-(F:\CTEX\MiKTeX\tex\latex\algorithmicx\algpseudocode.sty
+(C:\CTEX\UserData\tex\latex\algorithmicx\algpseudocode.sty
 Package: algpseudocode 
 
-(F:\CTEX\MiKTeX\tex\latex\base\ifthen.sty
+(C:\CTEX\MiKTeX\tex\latex\base\ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-(F:\CTEX\MiKTeX\tex\latex\algorithmicx\algorithmicx.sty
+(C:\CTEX\UserData\tex\latex\algorithmicx\algorithmicx.sty
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
@@ -229,12 +229,12 @@ Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
 \ALG@tmplength=\skip49
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
-) (F:\CTEX\MiKTeX\tex\latex\algorithms\algorithm.sty
+) (C:\CTEX\UserData\tex\latex\algorithms\algorithm.sty
 Invalid UTF-8 byte or sequence at line 11 replaced by U+FFFD.
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
 nment
 
-(F:\CTEX\MiKTeX\tex\latex\float\float.sty
+(C:\CTEX\MiKTeX\tex\latex\float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count99
 \float@exts=\toks22
@@ -245,24 +245,24 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@every@algorithm=\toks24
 \c@algorithm=\count100
 )
-(F:\CTEX\MiKTeX\tex\latex\ams\math\amsmath.sty
+(C:\CTEX\MiKTeX\tex\latex\ams\math\amsmath.sty
 Package: amsmath 2000/07/18 v2.13 AMS math features
 \@mathmargin=\skip50
 
 For additional information on amsmath, use the `?' option.
-(F:\CTEX\MiKTeX\tex\latex\ams\math\amstext.sty
+(C:\CTEX\MiKTeX\tex\latex\ams\math\amstext.sty
 Package: amstext 2000/06/29 v2.01
 
-(F:\CTEX\MiKTeX\tex\latex\ams\math\amsgen.sty
+(C:\CTEX\MiKTeX\tex\latex\ams\math\amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks25
 \ex@=\dimen119
 ))
-(F:\CTEX\MiKTeX\tex\latex\ams\math\amsbsy.sty
+(C:\CTEX\MiKTeX\tex\latex\ams\math\amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen120
 )
-(F:\CTEX\MiKTeX\tex\latex\ams\math\amsopn.sty
+(C:\CTEX\MiKTeX\tex\latex\ams\math\amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count101
@@ -303,7 +303,7 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
 )
-(C:\Users\xintao\Desktop\tse\tse-paper-compare\bare_jrnl_compsoc.aux)
+(D:\niu桌面\tsepaper\tse-paper-compare\bare_jrnl_compsoc.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 436.
 LaTeX Font Info:    ... okay on input line 436.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 436.
@@ -319,7 +319,7 @@ LaTeX Font Info:    ... okay on input line 436.
 LaTeX Font Info:    Try loading font information for OT1+phv on input line 553.
 
 
-(F:\CTEX\MiKTeX\tex\latex\psnfss\ot1phv.fd
+(C:\CTEX\MiKTeX\tex\latex\psnfss\ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
 Requested font "phvr7t" at 24.0pt
@@ -360,7 +360,7 @@ Requested font "cmex7" at 7.69997pt
 Requested font "cmex7" at 5.5pt
  -> cmex7
 LaTeX Font Info:    Try loading font information for U+pzd on input line 553.
-(F:\CTEX\MiKTeX\tex\latex\psnfss\upzd.fd
+(C:\CTEX\MiKTeX\tex\latex\psnfss\upzd.fd
 File: upzd.fd 2001/06/04 font definitions for U/pzd.
 )
 Requested font "pzdr" at 11.0pt
@@ -568,7 +568,7 @@ Overfull \hbox (44.64409pt too wide) in paragraph at lines 1473--1484
 
 Requested font "pplri7t" at 6.0pt
  -> pplri7t
-
+[14]
 Underfull \hbox (badness 2744) in paragraph at lines 1611--1613
 \OT1/phv/b/n/8 John Doe \OT1/phv/m/n/8 Bi-og-ra-phy tex-t here.Biography tex-t 
 here.Biography
@@ -614,7 +614,7 @@ Underfull \hbox (badness 3029) in paragraph at lines 1611--1613
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
-[14]
+
 Underfull \hbox (badness 3058) in paragraph at lines 1619--1621
 \OT1/phv/b/n/8 Jane Doe \OT1/phv/m/n/8 Bi-og-ra-phy tex-t here.Biography tex-t 
 here.Biography
@@ -657,10 +657,10 @@ Underfull \hbox (badness 3029) in paragraph at lines 1619--1621
 
 [15
 
-] (C:\Users\xintao\Desktop\tse\tse-paper-compare\bare_jrnl_compsoc.aux) ) 
+] (D:\niu桌面\tsepaper\tse-paper-compare\bare_jrnl_compsoc.aux) ) 
 Here is how much of TeX's memory you used:
  2679 strings out of 430478
- 37215 string characters out of 3191501
+ 37181 string characters out of 3191501
  103036 words of memory out of 3000000
  5813 multiletter control sequences out of 15000+200000
  34333 words of font info for 88 fonts, out of 3000000 for 9000
