@@ -766,6 +766,13 @@ the test oracle is that whether it is a test configuration pass or fail. For a c
 
 However, our discuss is based on the SUT is a deterministic software, i.e., will not pass this time and fail that time. We can run our approach multiple times to eliminate this problem, which, however is beyond the scope of this paper.
 \end{definition}
+
+\begin{definition}[faulty]
+
+by this definition, the constraints can also be a faulty, which didn't run as our expected, and it may have a high privilege than the fault caused by the functional code.
+
+\end{definition}
+
 \begin{definition}[schema]
 For the SUT, the \emph{n}-tuple (-,$v_{n_{1}}$,...,$v_{n_{k}}$,...)is called a \emph{k}-value schema (k > 0) when some k parameters have fixed values and the others can take on their respective allowable values, represented as "-". In effect a test configuration its self is a k-value schema, which k is equal to n. Furthermore, if a test configuration contain a schema, i.e., every fixed value in this schema is also in this test configuration, we say this configuration hit this schema.
 \end{definition}
@@ -775,7 +782,7 @@ let $s_{l}$ be a \emph{l}-value schema, $s_{m}$ be an \emph{m}-value schema for 
 \begin{definition}[healthy,faulty and pending]
 A \emph{k}-value schema is called a \emph{faulty schema} if all the valid test configuration hit the schema trigger a failure. And a \emph{k}-value schema is called a \emph{healthy schema} when we find at least one passed valid test configuration that hits this schema. In addition, if we don't have enough information of a schema,i.e., we don't sure whether it is a healthy schema or faulty schema, we call it the pending schema.
 
-Note that, in real software context, there existed the case that a test configuration hit a faulty schema but passed. We call this case the \emph{coincidental correctness}, which may be caused by other factors which influence the execution result. We will not discuss this case in this paper.
+Note that, in real software context, there existed cases that a test configuration hit a faulty schema but passed. We call this case the \emph{coincidental correctness}, which may be caused by other factors which influence the execution result. We will not discuss this case in this paper.
 \end{definition}
 \begin{definition}[minimal faulty schema]
 If a schema is a faulty schema and all its subschemas are healthy schemas, we then call the schema a \emph{minimal faulty schema}(\emph{MINFS} for short).
@@ -810,7 +817,8 @@ All the subschemas of a healthy schema are healthy schemas.
 \end{proposition}
 
 \section{The approach to identify the minimal failure-inducing schemas}
-Based on these definitions and proportions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
+Based on these definitions and propositions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
+
 \subsection{additional failure-inducing not be introduced}
 \newtheorem{assumption}{Assumption}
 \begin{assumption}
@@ -1138,10 +1146,10 @@ Table \ref{augment_example} illustrate this augment algorithm with an example.
 
 \end{table*}
 
-\section{Evaluation using simulated model}
-In this section, we give an a series of  studies of our two identify algorithms on simulated model. The goal of our experiments is to evaluate the efficiency and effectiveness of our two identify algorithms compared with other existed algorithms. The reason why we use simulated model is that we can control. We will validate in real softwares in the next section.
+\section{Evaluation with simulated SUT}
+In this section, we designed a simulated SUT which can be customized the number of parameters and the value of each parameter. We can also manually inject faulty schemas in the simulated SUT. We will conduct a series of experiments with this simulated SUT in this section. The goal of our experiments is to evaluate the efficiency and effectiveness of our approach compared with other existed techniques. The reason why we use simulated program is that we can control the parameters and conditions so that we can thoroughly learn the performance of each algorithm. As for real softwares, we will take some empirical studies in the next section.
 \subsection{comparison algorithms}
-There are some algorithms aim to identify the MFS, they can be classified as non-adaptive methods and adaptive methods. The first set of methods do not need additional test configurations and can identify the when given an executed test configurations while the second one do need. Our algorithm is belong to the second part. To make a clear comparison, we just compare the algorithms which all belong to this part.vThe more detail and discuss of all the algorithms is listed in the section 6. The compared algorithms is as follows:
+There are some algorithms aim to identify the MFS, they can be classified as non-adaptive methods and adaptive methods. The first set of methods do not need additional test configurations and can identify the when given an executed test configurations while the second one do need. Our algorithm is belong to the second part. To make a clear comparison, we just compare the algorithms which all belong to this part. The more detail of these algorithms will be discussed in the related works. The compared algorithms is as follows:
 \subsubsection{OFOT}
 This method is proposed by Nie[]. It first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
 \subsubsection{IterAIFL}
@@ -1181,7 +1189,7 @@ $$precise =
 $$
 
 
-This prescise metric is different from the recall, it is a metirc that measure a aglorithm can perform correct or not.  Which is related to the intro rate.
+This precise metric is different from the recall, it is a metric that measure a algorithm can perform correct or not.  Which is related to the intro rate.
 
 
 \subsection{experiment setups}
@@ -1189,7 +1197,7 @@ We will do the three experiment: (1)single faulty schema.  (2)multiple faulty sc
 
 In detail, for every experiment in the toy experiment section, we first vary the number of input parameters of SUT, i.e., \emph{n}= 10, 40, 80, 120, 160, 200, 240, 280, 320, 360 to observe the behaviour of the algorithms executed among different size of SUT. Then to get an relative generally evaluation, we inject each possible \emph{t}-value schema (reach to $\binom{n}{t}$,) one time for the single faulty schema experiment and each possible combination of two \emph{t}-value schema one time for the multiple faulty schema experiment.(t = 2,3,4,5,6). For the third, we first fix one \emph{t}-value faulty schema, and give an failed test configuration contain this schema, then for each algorithm aims to identify this faulty schema, the first extra test configuration each algorithm generate, we random select an \emph{t}-value schema (do not contained in the original failing test configuration) as the introduced faulty schema.
 
-For all the three experiment, we record the number of extra test configurations, correctly identified schemas and incorrectly identified schemas. At last we compute the recall and presise along with the number of extra test configurations.
+For all the three experiment, we record the number of extra test configurations, correctly identified schemas and incorrectly identified schemas. At last we compute the recall and precise along with the number of extra test configurations.
 
 %\begin{table}\renewcommand{\arraystretch}{1.3}
 %  \caption{The set up of toy  experiment} \centering
@@ -1217,11 +1225,7 @@ For all the three experiment, we record the number of extra test configurations,
 
 \subsection{results and discuss}
 
-\subsection{threats to validate}
-how seeded bugs are representative
-auto oracle, if we don't have a correct version, or we can't determine a test case is faulty and wrong, then what can i do?
-timing result
-One worrying aspect of this research is that it seems to consider only the number of tests and number of faults uncovered. In the practice of testing, it is as important or more important to know testing times.
+
 
 \section{Empirical Case study}
  While we got know that our approach have a better performance than others in several scenarios such as a failing test case contains multiple MFSs, the generated extra test case introduces newly MFS and so on from previous simulated experiments, it did not give us strong confidence in that our approach will also perform well in real software systems. One important reason of this is that we don't know whether these competitive scenarios for our approach existed in real software systems. So to eliminate the doubt we conduct a series empirical studies in this section. These empirical studies aimed to answer the following questions:
@@ -1454,10 +1458,11 @@ As we will take a large number of configurations to identify( 147472 for HSQLDB)
  \subsection{Study 3: Is combination useful?}
  We can learn from the result in the second case study that none of these algorithms can be the best among all the scenarios. So a nature question is that can we combine the result of multiple algorithms to find a better result. In this study we will carry out some experiments to answer this question, i.e., the Q3.
  \subsubsection{Study setup}
- To utilize the result of each algorithm, we build a voting system. Thus, choose some algorithms and take a voting schedule: if the a schema is identified more than two algorithms, then we take it as MFS, otherwise, we will discard it. We will vary the number of algorithms and adopt different combination of algorithms to observe the result. In specific we will take 2, 3, 4, 5 and 6 algorithms as the voters respectively. In addition, we will take all the combination of algorithms for a specific number. Take 2 for example we will choose ChainFeedBack and OFOT as a combination, ChainFeedBack and RI as another combination and so on. The total number combination of algorithms for a specific number $n$ is $\binom{6}{n}$.
+ To utilize the result of each algorithm, we build a voting system. Thus, choose some algorithms and take a voting schedule: if the a schema is identified more than one algorithms, we take it as MFS, otherwise, we will discard it. We will vary the number of algorithms and adopt different combination of algorithms to observe the result. In specific we will take 2, 3, 4, 5 and 6 algorithms as the voters respectively. In addition, we will take all the combination of algorithms for a specific number. Take 2 for example we will choose ChainFeedBack and OFOT as a combination, ChainFeedBack and RI as another combination and so on. The total number combination of algorithms for a specific number $n$ is $\binom{6}{n}$.
 
- For each voting combination, We will also record the "recall" and "precise" for each voting combination. We just want to know, whether there exist some voting combination can have a advantage over all the algorithms consists it. And if so, how much promotion is the voting combination got compared to the best of the combination algorithms. The result is show the percentage of in two facts: if it has a promotion over all the algorithms,  .
+ For each combination of algorithms, we will record the metric "recall" and "precise" of voting result. To measure if the voting system is useful, we compare this voting "recall" to the highest "recall" of the algorithm among the combination. The same comparison is also made to the "precise" metric. Note that the highest "recall" and the highest "precise" is not necessarily belong to the same algorithm in a combination. As a example, for the combination "OFOT" and "RI" for the exception 2. The highest value of "recall" is , which belongs to "OFOT". and the highest value of "precise" is, which is belong to the "RI".  And our voting result will compare to the recall "" and precise "" respectively.
  \subsubsection{result and analysis}
+ The detail comparison result is listed is table \ref{case-study3}. In this table, "Column" means. the "+" signal. means a promotion over the highest . and the "-" signal means a decreasing of the highest.
  \begin{table*}\renewcommand{\arraystretch}{1.3}
   \caption{the combination of algorithms} \centering
   \label{case-study3}
@@ -1476,6 +1481,12 @@ As we will take a large number of configurations to identify( 147472 for HSQLDB)
 \end{table*}
 
 The answer to Q3 is that: yes, it has promotion, but very little.
+
+\section{threats to validate}
+how seeded bugs are representative
+auto oracle, if we don't have a correct version, or we can't determine a test case is faulty and wrong, then what can i do?
+timing result
+One worrying aspect of this research is that it seems to consider only the number of tests and number of faults uncovered. In the practice of testing, it is as important or more important to know testing times.
 \section{Related works and Discuss}
 Detail list the history. In the experiment section, we just give some brief introduction.
 
