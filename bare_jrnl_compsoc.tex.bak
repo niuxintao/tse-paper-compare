@@ -1147,32 +1147,13 @@ Table \ref{augment_example} illustrate this augment algorithm with an example.
 \end{table*}
 
 \section{Evaluation with simulated SUT}
-In this section, we designed a simulated SUT which can be customized the number of parameters and the value of each parameter. We can also manually inject faulty schemas in the simulated SUT. We will conduct a series of experiments with this simulated SUT in this section. The goal of our experiments is to evaluate the efficiency and effectiveness of our approach compared with other existed techniques. The reason why we use simulated program is that we can control the parameters and conditions so that we can thoroughly learn the performance of each algorithm. As for real softwares, we will take some empirical studies in the next section.
+In this section, we designed a simulated SUT of which the number of parameters and the value of each parameter can both be customized. In addition, we can also manually inject faulty schemas in the simulated SUT. We will conduct a series of experiments with this simulated SUT in this section. The goal of our experiments is to evaluate the efficiency and effectiveness of our approach compared with other existed techniques. The main reason why we use simulated program is that we can easily run a bench of experiments with various states of a SUT, i.e., different parameters and different MFSs. By doing so we can thoroughly learn the performance of each algorithm without biases. 
+
+As we discussed in the background section, the fault privilege properties just effect the way we determine a configuration is fail or pass. It doesn't effect the performance of each algorithm. So to be simple and clear, we omit the fault privilege in the simulated SUT , i.e., all the fault in the SUT has the same privilege. This is a ideal scenario which may not exist in real softwares, in the empirical studies of section 7 we will deal with the real faults in some open-source softwares with different privileges.
 \subsection{comparison algorithms}
-There are some algorithms aim to identify the MFS, they can be classified as non-adaptive methods and adaptive methods. The first set of methods do not need additional test configurations and can identify the when given an executed test configurations while the second one do need. Our algorithm is belong to the second part. To make a clear comparison, we just compare the algorithms which all belong to this part. The more detail of these algorithms will be discussed in the related works. The compared algorithms is as follows:
-\subsubsection{OFOT}
-This method is proposed by Nie[]. It first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
-\subsubsection{IterAIFL}
-This method proposed by Wang[] is a mutant based ont the Nie's[]. It define the "change strength" that not like the previous one just change one factor one time, it may change many factors one time.
+There are several algorithms aim to identify the MFS, they can be classified as non-adaptive methods and adaptive methods. The first set of methods do not need additional test configurations and can identify the MFSs when given an executed test configurations while the second one will generate some more additional test configurations to facilitate the process of identifying MFSs in a failing test configuration. Our algorithm is belong to the second part. To make the comparison clear and fair, we just choose the algorithms which all belong to the second part as the comparison subject, i.e., adaptive methods. These algorithms is as follows: (1)OFOT, proposed by Nie[], it change one factor of a test configuration one time to generate a newly configuration and then analysis the MFSs according to the executed result of these generated configurations. (2)FIC-BS, proposed by Zhang, using a delta debugging strategy to isolate the MFSs (3) LG, proposed by Martine[], use a locatable graph to represent the faulty schema and adopt divide and conquer strategy to find the MFSs. (4) SP[], proposed by Ghandehari, they generate configurations for these mostly suspicious schemas and give a rank of these schemas at last based on the suspicious "degree" of them (5) CTA, proposed by , it combine the OFOT strategy and the classified tree technique which first applied in characterize the MFS in [] to analysis the MFSs. (6)RI, proposed by Li[], it is also using delta debugging, but the factors needed to change in a iteration are different from FIC-BS at some condition.(7)IterAIFL, proposed by Wang[], a mutant based on OFOT, which changes different number of factors a time for a test configuration instead of changing one factor all the time.  (8)TRT and TRT-NA, two approaches proposed in our previous work[], using a structured tree model to analysis the MFSs in a failing configurations.  More details of these algorithms will be discussed in the related works.
 
-\subsubsection{FIC}
-Zhang [] propose this method which is combined the OFOT method and binary search. Different from the OFOT, it change half factor one time to quickly located in one factor firstly and then keep the factor and loop the process.
-
-\subsubsection{RI}
-Lee propose this algorithm[]. Similar to the FIC, it is also inspired by the delta debugging. The difference is the order that it change factors.
-
-\subsubsection{Spetrum based method}
-Different from the aforementioned methods, Ghandehari.etc [10] defines the suspiciousness of tuple and suspiciousness of the environment of a tuple. Based on this, they rank the possible tuples and generate the test cases. Although their approach imposes minimal assumption, it does not ensure that the tuples ranked in the top are the faulty tuples.
-
-the parameter setting is as follows: the predefined number is 5, and the number of turns of finding the minimum pe is the parameter mutipled.
-\subsubsection{Martin safe value}
-
-
-\subsubsection{classified tree}
-must add "-M 1" "-U" confidence factor 0.25
-
-\subsubsection{TRT}
-This algorithm is proposed in[].Different from this work. It should record all the schemas of a failed test configuration. It is very resource assume and this is reason we propose this work. A second difference is that the TRT algorithm when meet the situation the extra test configuration may introduce newly faulty schemas is using more test configuration to confirm a schema each time when find a schema is labeled as a faulty schema while this work just validate one time at the end of algorithm.
+Some parameters of SP, the degree we set is 4, and the must add "-M 1" "-U" confidence factor 0.25 for the CTA. 
 
 \subsection{subject programs}
 This section will give an general illusion of the algorithms. We will give an test bench to measure the properties of all the algorithms. All the programs are toys and have the property that we can easily control its input parameters and faulty schemas, which makes clearly get the view of what we want to know from the algorithms. In addition, we will corroborate the results by observing each algorithm of identifying failure-inducing schemas in real software in section 6.
