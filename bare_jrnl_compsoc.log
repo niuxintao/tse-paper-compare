@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2013.10.18)  30 OCT 2013 23:43
+This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2013.10.18)  31 OCT 2013 15:07
 entering extended mode
 **bare_jrnl_compsoc.tex
 (D:\niu桌面\tsepaper\tse-paper-compare\bare_jrnl_compsoc.tex
@@ -508,67 +508,63 @@ File: single.eps Graphic file (type eps)
 Missing character: There is no 　 in font pplr7t!
 File: proceed.eps Graphic file (type eps)
  <proceed.eps>
-Underfull \hbox (badness 10000) in paragraph at lines 1244--1245
+Underfull \hbox (badness 10000) in paragraph at lines 1241--1242
 []\OT1/ppl/m/n/8 sql.enforce[]strict[]size, sql.enforce[]names,sql.enforce[]ref
 s,
  []
 
 
-Underfull \hbox (badness 5316) in paragraph at lines 1244--1245
+Underfull \hbox (badness 5316) in paragraph at lines 1241--1242
 \OT1/ppl/m/n/8 sql.enforce[]size, sql.enforce[]types, sql.enforce[]tdc[]delete,
 
  []
 
 
-Overfull \hbox (3.39851pt too wide) in paragraph at lines 1247--1256
+Overfull \hbox (3.39851pt too wide) in paragraph at lines 1244--1253
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1261--1262
+Underfull \hbox (badness 10000) in paragraph at lines 1258--1259
 []\OT1/ppl/m/n/8 SERVER, WEB-SERV-ER,
  []
 
 
-Overfull \hbox (76.5831pt too wide) in paragraph at lines 1269--1269
+Overfull \hbox (76.5831pt too wide) in paragraph at lines 1266--1266
 []\OT1/ppl/m/n/8 TYPE[]FORWARD[]ONLY,TYPE[]SCROLL[]INSENSITIVE,
  []
 
 
-Overfull \hbox (50.75906pt too wide) in paragraph at lines 1270--1271
+Overfull \hbox (50.75906pt too wide) in paragraph at lines 1267--1268
 []\OT1/ppl/m/n/8 CONCUR[]READ[]ONLY,CONCUR[]UPDATABLE| 
  []
 
 
-Overfull \hbox (4.49564pt too wide) in paragraph at lines 1271--1272
+Overfull \hbox (4.49564pt too wide) in paragraph at lines 1268--1269
 []\OT1/ppl/m/n/8 HOLD[]CURSORS[]OVER[]COMMIT,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1278--1279
+Underfull \hbox (badness 10000) in paragraph at lines 1275--1276
 []\OT1/ppl/m/n/8 STATEMENT, PRE-PARED-STATE-
  []
 
-
-Overfull \hbox (2.2806pt too wide) in paragraph at lines 1291--1300
+[10]
+Overfull \hbox (2.2806pt too wide) in paragraph at lines 1288--1297
  [][] 
  []
 
-
-Underfull \vbox (badness 1584) has occurred while \output is active []
-
- [10]
 [11] [12] [13]
-LaTeX Font Info:    Try loading font information for OMS+ppl on input line 1455
+LaTeX Font Info:    Try loading font information for OMS+ppl on input line 1452
 .
  (C:\CTEX\MiKTeX\tex\latex\psnfss\omsppl.fd
 File: omsppl.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1455.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1452.
 
 
-Overfull \hbox (44.64409pt too wide) in paragraph at lines 1486--1497
+Overfull \hbox (44.64409pt too wide) in paragraph at lines 1483--1494
  [][] 
  []
 
@@ -576,89 +572,89 @@ Overfull \hbox (44.64409pt too wide) in paragraph at lines 1486--1497
 Requested font "pplri7t" at 6.0pt
  -> pplri7t
 
-Underfull \hbox (badness 2744) in paragraph at lines 1624--1626
+Underfull \hbox (badness 2744) in paragraph at lines 1621--1623
 \OT1/phv/b/n/8 John Doe \OT1/phv/m/n/8 Bi-og-ra-phy tex-t here.Biography tex-t 
 here.Biography
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1624--1626
+Underfull \hbox (badness 3029) in paragraph at lines 1621--1623
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1624--1626
+Underfull \hbox (badness 3029) in paragraph at lines 1621--1623
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1624--1626
+Underfull \hbox (badness 3029) in paragraph at lines 1621--1623
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1624--1626
+Underfull \hbox (badness 3029) in paragraph at lines 1621--1623
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1624--1626
+Underfull \hbox (badness 3029) in paragraph at lines 1621--1623
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1624--1626
+Underfull \hbox (badness 3029) in paragraph at lines 1621--1623
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1624--1626
+Underfull \hbox (badness 3029) in paragraph at lines 1621--1623
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1624--1626
+Underfull \hbox (badness 3029) in paragraph at lines 1621--1623
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3058) in paragraph at lines 1632--1634
+Underfull \hbox (badness 3058) in paragraph at lines 1629--1631
 \OT1/phv/b/n/8 Jane Doe \OT1/phv/m/n/8 Bi-og-ra-phy tex-t here.Biography tex-t 
 here.Biography
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1632--1634
+Underfull \hbox (badness 3029) in paragraph at lines 1629--1631
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1632--1634
+Underfull \hbox (badness 3029) in paragraph at lines 1629--1631
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1632--1634
+Underfull \hbox (badness 3029) in paragraph at lines 1629--1631
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1632--1634
+Underfull \hbox (badness 3029) in paragraph at lines 1629--1631
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1632--1634
+Underfull \hbox (badness 3029) in paragraph at lines 1629--1631
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1632--1634
+Underfull \hbox (badness 3029) in paragraph at lines 1629--1631
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1632--1634
+Underfull \hbox (badness 3029) in paragraph at lines 1629--1631
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
@@ -666,10 +662,10 @@ Underfull \hbox (badness 3029) in paragraph at lines 1632--1634
 Here is how much of TeX's memory you used:
  2697 strings out of 430478
  37426 string characters out of 3191501
- 102036 words of memory out of 3000000
+ 103036 words of memory out of 3000000
  5828 multiletter control sequences out of 15000+200000
  34333 words of font info for 88 fonts, out of 3000000 for 9000
  17 hyphenation exceptions out of 8191
- 28i,11n,28p,1970b,329s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 28i,11n,28p,1337b,329s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on bare_jrnl_compsoc.pdf (15 pages).
