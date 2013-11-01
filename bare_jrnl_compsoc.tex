@@ -1177,45 +1177,19 @@ We will carry out the followed five experiment in this section:
 
 2)The second experiment is similar to the first one, except that we will inject double different MFSs with degree 2 in each SUT. It is easily compute their are  $\binom{28}{2} = 278$  possible SUTs in this experiment. For each algorithm, we also feed them with the same failing configuration contain the two MFSs and then let them identify them. Another difference from the experiment 1 is that in this experiment we will record the "recall" and "precise" of each algorithm, as these metric is not equal to 1 for all the algorithms like experiment 1. This experiment mainly focus on observing the performance of each algorithms in facing multiple MFSs in a configuration.
 
-3)The third experiment aims at learning the ability that each algorithm handling the introducing newly MFSs. To accomplish this goal, We firstly inject two MFSs in a SUT, and then feed each algorithm a failing configuration which contain only one MFS,  remaining another MFS not in it. To increase the possibility of introducing newly MFSs for each algorithm, we set the second MFS with degree 1, which may be introduced by may just changing one factor of the original failing configuration.  The first MFS in the original configuration has degree 2. So there are  $\binom{8}{2} \times \binom{8}{1} = 224$ possible SUTs in this experiment. The same as experiment 2, we will record the "recall" and "precise" of each algorithm.
+3)The third experiment aims at learning the capability that each algorithm handling the introducing newly MFSs. To accomplish this goal, We firstly inject two MFSs in a SUT, and then feed each algorithm a failing configuration which contain only one MFS,  remaining another MFS not in it. To increase the possibility of introducing newly MFSs for each algorithm, we set the second MFS with degree 1, which may be easily introduced by just changing one factor of the original failing configuration.  The first MFS in the original configuration has degree 2. So there are  $\binom{8}{2} \times \binom{8}{1} = 224$ possible SUTs in this experiment. The same as experiment 2, we will record the "recall" and "precise" of each algorithm.
 
-and double MFSs, these MFS area each possible, give a test configuration with this two MFSs see the precise and recall 3) For a SUT with 8 parameters, and double MFSss, give a failing test configuration just contain one MFS, , we do so that give an chance that the extra test configuration can introduce another faulty schema. 4) for a SUT with single MFS, degree 2, and vary the number of parameters, are 8 , 9 , 10,12,15,20,30,40,60,80,100,120. average number of additional configurations 5)for a SUT with 8 parameters, a single MFS, the degree vary from 1, 2,3,4,5,6,7,8. and average number of additional test configurations.
+4)For the fourth experiment, we will vary the number of parameters of SUT. In specific we will take 8, 9, 10, 12, 15, 20, 30, 40, 60, 80, 100, 120 respectively as the number of parameters of SUT. For each number of parameters, say n, we will generate $\binom{n}{2}$ SUTs with different MFSs injected. And for these SUT, we will do the same process as experiment 1. At last we will record the average number of additional configurations each algorithm needed for each number of parameters. The goral of this experiment is to see the influence of the number of parameters on each approach.
 
-4)For the fourth experiment is a l 
+5)In the fifth experiment we will fix the number of parameters of SUT to be 8, but vary the number of degrees of the MFS we inject in the SUT. That is, we will inject MFS in SUT with degrees 1,2,3,4,5,6,7,8 respectively, for a degree of m (m = 1,2,3,4,5,6,7,8), we will generate $\binom{8}{m}$ SUTs with different m-degree MFS injected. And then we will do the same thing as experiment 4 , i.e., record the average number of additional configurations each algorithm needed for each number of degree. This experiment is order to inspect whether these algorithm can handle different degree of MFS in a failing configuration.
 
-5)The fifth experiment
-
-In detail, for every experiment in the toy experiment section, we first vary the number of input parameters of SUT, i.e., \emph{n}= 10, 40, 80, 120, 160, 200, 240, 280, 320, 360 to observe the behaviour of the algorithms executed among different size of SUT. Then to get an relative generally evaluation, we inject each possible \emph{t}-value schema (reach to $\binom{n}{t}$,) one time for the single faulty schema experiment and each possible combination of two \emph{t}-value schema one time for the multiple faulty schema experiment.(t = 2,3,4,5,6). For the third, we first fix one \emph{t}-value faulty schema, and give an failed test configuration contain this schema, then for each algorithm aims to identify this faulty schema, the first extra test configuration each algorithm generate, we random select an \emph{t}-value schema (do not contained in the original failing test configuration) as the introduced faulty schema.
-
-For all the three experiment, we record the number of extra test configurations, correctly identified schemas and incorrectly identified schemas. At last we compute the recall and precise along with the number of extra test configurations.
-
-%\begin{table}\renewcommand{\arraystretch}{1.3}
-%  \caption{The set up of toy  experiment} \centering
-%  \label{toy-experiment}
-%  \begin{tabular}{c|c|c|c}\hline
-%  \hline
-%  \bfseries categories & \bfseries version No  & \bfseries LOC  & \bfseries input model\\
-%  \hline
-%   MySQL & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%   FireFox & 2013121 & 1 &  $2^{2}\times3^{2}$\\
-%     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%  \hline
-%  \end{tabular}
-%\end{table}
+\subsection{results and discuss}
 \begin{figure}
  \centering
  \includegraphics[width=2.8in]{single.eps}
  \caption{k = 8, t = 2, additional test suites}
  \label{fig_single}
 \end{figure}
-
-\subsection{results and discuss}
-
-
 
 \section{Empirical Case study}
  While we got know that our approach have a better performance than others in several scenarios such as a failing test case contains multiple MFSs, the generated extra test case introduces newly MFS and so on from previous simulated experiments, it did not give us strong confidence in that our approach will also perform well in real software systems. One important reason of this is that we don't know whether these competitive scenarios for our approach existed in real software systems. So to eliminate the doubt we conduct a series empirical studies in this section. These empirical studies aimed to answer the following questions:
