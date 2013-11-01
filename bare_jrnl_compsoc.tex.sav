@@ -766,6 +766,13 @@ the test oracle is that whether it is a test configuration pass or fail. For a c
 
 However, our discuss is based on the SUT is a deterministic software, i.e., will not pass this time and fail that time. We can run our approach multiple times to eliminate this problem, which, however is beyond the scope of this paper.
 \end{definition}
+
+\begin{definition}[faulty]
+
+by this definition, the constraints can also be a faulty, which didn't run as our expected, and it may have a high privilege than the fault caused by the functional code.
+
+\end{definition}
+
 \begin{definition}[schema]
 For the SUT, the \emph{n}-tuple (-,$v_{n_{1}}$,...,$v_{n_{k}}$,...)is called a \emph{k}-value schema (k > 0) when some k parameters have fixed values and the others can take on their respective allowable values, represented as "-". In effect a test configuration its self is a k-value schema, which k is equal to n. Furthermore, if a test configuration contain a schema, i.e., every fixed value in this schema is also in this test configuration, we say this configuration hit this schema.
 \end{definition}
@@ -775,7 +782,7 @@ let $s_{l}$ be a \emph{l}-value schema, $s_{m}$ be an \emph{m}-value schema for 
 \begin{definition}[healthy,faulty and pending]
 A \emph{k}-value schema is called a \emph{faulty schema} if all the valid test configuration hit the schema trigger a failure. And a \emph{k}-value schema is called a \emph{healthy schema} when we find at least one passed valid test configuration that hits this schema. In addition, if we don't have enough information of a schema,i.e., we don't sure whether it is a healthy schema or faulty schema, we call it the pending schema.
 
-Note that, in real software context, there existed the case that a test configuration hit a faulty schema but passed. We call this case the \emph{coincidental correctness}, which may be caused by other factors which influence the execution result. We will not discuss this case in this paper.
+Note that, in real software context, there existed cases that a test configuration hit a faulty schema but passed. We call this case the \emph{coincidental correctness}, which may be caused by other factors which influence the execution result. We will not discuss this case in this paper.
 \end{definition}
 \begin{definition}[minimal faulty schema]
 If a schema is a faulty schema and all its subschemas are healthy schemas, we then call the schema a \emph{minimal faulty schema}(\emph{MINFS} for short).
@@ -810,7 +817,8 @@ All the subschemas of a healthy schema are healthy schemas.
 \end{proposition}
 
 \section{The approach to identify the minimal failure-inducing schemas}
-Based on these definitions and proportions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
+Based on these definitions and propositions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
+
 \subsection{additional failure-inducing not be introduced}
 \newtheorem{assumption}{Assumption}
 \begin{assumption}
@@ -1138,85 +1146,56 @@ Table \ref{augment_example} illustrate this augment algorithm with an example.
 
 \end{table*}
 
-\section{Evaluation using simulated model}
-In this section, we give an a series of  studies of our two identify algorithms on simulated model. The goal of our experiments is to evaluate the efficiency and effectiveness of our two identify algorithms compared with other existed algorithms. The reason why we use simulated model is that we can control. We will validate in real softwares in the next section.
+\section{Evaluation with simulated SUT}
+In this section, we designed a simulated SUT of which the number of parameters and the value of each parameter can both be customized. In addition, we can also manually inject faulty schemas in the simulated SUT. We will conduct a series of experiments with this simulated SUT in this section. The goal of our experiments is to evaluate the efficiency and effectiveness of our approach compared with other existed techniques. The main reason why we use simulated program is that we can easily run a bench of experiments with various states of a SUT, i.e., different parameters and different MFSs. By doing so we can thoroughly learn the performance of each algorithm without biases.
+
+As we discussed in the background section, the fault privilege properties just effect the way we determine a configuration is fail or pass. It doesn't effect the performance of each algorithm. So to be simple and clear, we omit the fault privilege in the simulated SUT , i.e., all the fault in the SUT has the same privilege. This is a ideal scenario which may not exist in real softwares, in the empirical studies of section 7 we will deal with the real faults in some open-source softwares with different privileges.
 \subsection{comparison algorithms}
-There are some algorithms aim to identify the MFS, they can be classified as non-adaptive methods and adaptive methods. The first set of methods do not need additional test configurations and can identify the when given an executed test configurations while the second one do need. Our algorithm is belong to the second part. To make a clear comparison, we just compare the algorithms which all belong to this part.vThe more detail and discuss of all the algorithms is listed in the section 6. The compared algorithms is as follows:
-\subsubsection{OFOT}
-This method is proposed by Nie[]. It first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
-\subsubsection{IterAIFL}
-This method proposed by Wang[] is a mutant based ont the Nie's[]. It define the "change strength" that not like the previous one just change one factor one time, it may change many factors one time.
+There are several algorithms aim to identify the MFS, they can be classified as non-adaptive methods and adaptive methods. The first set of methods do not need additional test configurations and can identify the MFSs when given an executed test configurations while the second one will generate some more additional test configurations to facilitate the process of identifying MFSs in a failing test configuration. Our algorithm is belong to the second part. To make the comparison clear and fair, we just choose the algorithms which all belong to the second part as the comparison subject, i.e., adaptive methods. These algorithms is listed as follows:
 
-\subsubsection{FIC}
-Zhang [] propose this method which is combined the OFOT method and binary search. Different from the OFOT, it change half factor one time to quickly located in one factor firstly and then keep the factor and loop the process.
+(1)OFOT, proposed by Nie[], it change one factor of a test configuration one time to generate a newly configuration and then analysis the MFSs according to the executed result of these generated configurations. (2)FIC-BS, proposed by Zhang, using a delta debugging strategy to isolate the MFSs (3) LG, proposed by Martine[], use a locatable graph to represent the faulty schema and adopt divide and conquer strategy to find the MFSs. (4) SP[], proposed by Ghandehari, they generate configurations for these mostly suspicious schemas and give a rank of these schemas at last based on the suspicious "degree" of them (5) CTA, proposed by Shakya[], it combine the OFOT strategy and the classified tree technique which first applied in characterize the MFS in [] to analysis the MFSs. (6)RI, proposed by Li[], it is also using delta debugging, but the factors needed to change in a iteration are different from FIC-BS at some conditions.(7)IterAIFL, proposed by Wang[], a mutant based on OFOT, which changes different number of factors instead of one each iteration for a test configuration. (8)TRT and TRT-NA, two approaches proposed in our previous work[], using a structured tree model to analysis the MFSs in a failing configurations.  More details of these algorithms will be discussed in the related works.
 
-\subsubsection{RI}
-Lee propose this algorithm[]. Similar to the FIC, it is also inspired by the delta debugging. The difference is the order that it change factors.
-
-\subsubsection{Spetrum based method}
-Different from the aforementioned methods, Ghandehari.etc [10] defines the suspiciousness of tuple and suspiciousness of the environment of a tuple. Based on this, they rank the possible tuples and generate the test cases. Although their approach imposes minimal assumption, it does not ensure that the tuples ranked in the top are the faulty tuples.
-
-the parameter setting is as follows: the predefined number is 5, and the number of turns of finding the minimum pe is the parameter mutipled.
-\subsubsection{Martin safe value}
-
-
-\subsubsection{classified tree}
-must add "-M 1" "-U" confidence factor 0.25
-
-\subsubsection{TRT}
-This algorithm is proposed in[].Different from this work. It should record all the schemas of a failed test configuration. It is very resource assume and this is reason we propose this work. A second difference is that the TRT algorithm when meet the situation the extra test configuration may introduce newly faulty schemas is using more test configuration to confirm a schema each time when find a schema is labeled as a faulty schema while this work just validate one time at the end of algorithm.
-
-\subsection{subject programs}
-This section will give an general illusion of the algorithms. We will give an test bench to measure the properties of all the algorithms. All the programs are toys and have the property that we can easily control its input parameters and faulty schemas, which makes clearly get the view of what we want to know from the algorithms. In addition, we will corroborate the results by observing each algorithm of identifying failure-inducing schemas in real software in section 6.
-
+Some parameters of these algorithm are assigned: for SP, the degree of MFSs we set is 4, for CTA,the confidence factor of classified tree algorithm is 0.25 as same as [].
 \subsection{evaluation metrics}
-The metrics are additional generated test configurations, the recall and precise.The recall and precise  is defined as:
-
+There are three facts we care about each algorithm: 1)How many additional test configurations do an approach need to generate? 2)How many MFSs can an approach identify for a SUT? 3)Does all the schema identified by an approach are correctly? We will define two formula to represent the second and third facts respectively, i.e., recall and precise:
 $$recall =
- \frac{Identiied\ MFS}{all\ the\ MFS\ in\ SUT}
+ \frac{correctly\ Identiied\ MFS}{all\ the\ MFS\ in\ SUT}
 $$
 
 $$precise =
  \frac{correctly\ Identified\ MFS}{all\ the\ identified\ MFS}
 $$
+The recall is percentage of the correctly identified MFSs of an algorithm of all the MFSs in the SUT. The bigger the metric the better an approach can perform on finding MFSs in a SUT. There are some factors may influence this metric of an algorithm, mainly are whether an approach consider a failing configurations contain multiple MFSs, whether consider if there exist overlapped MFSs in a failing configurations and whether consider the newly introduced MFSs of the additional generate configurations.  The precise is the percentage of the number of correctly identified MFSs of algorithm of all the number of  MFSs this algorithm identified. This metric measure the accurately of an approach and the bigger it is the better the approach performs. This metric is related to whether a algorithm consider the influence if an generated test configuration contain newly MFSs. If the approach did not consider so, it may make a wrong judgement to determine some schemas in the original configuration to be faulty schemas which in fact are not.
+
+Of course these factors we mentioned are just affect these the no-machine learning algorithm, as for the machine learning algorithms,i.e., CTA, the factor that matters is the classified algorithms itself.
+
+
 \subsection{experiment setups}
-We will do the three experiment: (1)single faulty schema.  (2)multiple faulty schema in a failed test configuration. (3)multiple faulty schema, which give a fail test configuration contain one faulty schema , we do so that give an chance that the extra test configuration can introduce another faulty schema.
+We will carry out the followed five experiment in this section:
 
-In detail, for every experiment in the toy experiment section, we first vary the number of input parameters of SUT, i.e., \emph{n}= 10, 40, 80, 120, 160, 200, 240, 280, 320, 360 to observe the behaviour of the algorithms executed among different size of SUT. Then to get an relative generally evaluation, we inject each possible \emph{t}-value schema (reach to $\binom{n}{t}$,) one time for the single faulty schema experiment and each possible combination of two \emph{t}-value schema one time for the multiple faulty schema experiment.(t = 2,3,4,5,6). For the third, we first fix one \emph{t}-value faulty schema, and give an failed test configuration contain this schema, then for each algorithm aims to identify this faulty schema, the first extra test configuration each algorithm generate, we random select an \emph{t}-value schema (do not contained in the original failing test configuration) as the introduced faulty schema.
+1)For the first one, we will give a set of SUTs with 8 parameters, each parameter has 3 values, all of them only have one MFS, the difference between each SUT in this set is the MFS we inject in it. All the MFSs has the degree of 2. There are $\binom{8}{2} = 28$ possible MFSs we can inject, so the number of set of SUTs is 28. For each SUT in this set, we will feed each algorithm the same failing configurations contain the MFS we inject, and then let these algorithm identify the MFS in it. We will record the additional configurations each algorithm needed. As the first experiment is simple, so all the approaches can identify the MFS with precise 1 and recall 1. This experiment will give us a initial view of the cost of each algorithm on identifying the MFS in a failing configuration.
 
-For all the three experiment, we record the number of extra test configurations, correctly identified schemas and incorrectly identified schemas. At last we compute the recall and presise along with the number of extra test configurations.
+2)The second experiment is similar to the first one, except that we will inject double different MFSs with degree 2 in each SUT. It is easily compute their are  $\binom{28}{2} = 278$  possible SUTs in this experiment. For each algorithm, we also feed them with the same failing configuration contain the two MFSs and then let them identify them. Another difference from the experiment 1 is that in this experiment we will record the "recall" and "precise" of each algorithm, as these metric is not equal to 1 for all the algorithms like experiment 1. This experiment mainly focus on observing the performance of each algorithms in facing multiple MFSs in a configuration.
 
-%\begin{table}\renewcommand{\arraystretch}{1.3}
-%  \caption{The set up of toy  experiment} \centering
-%  \label{toy-experiment}
-%  \begin{tabular}{c|c|c|c}\hline
-%  \hline
-%  \bfseries categories & \bfseries version No  & \bfseries LOC  & \bfseries input model\\
-%  \hline
-%   MySQL & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%   FireFox & 2013121 & 1 &  $2^{2}\times3^{2}$\\
-%     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%     \ & 2013121 & 1 & $2^{2}\times3^{2}$\\
-%  \hline
-%  \end{tabular}
-%\end{table}
+3)The third experiment aims at learning the capability that each algorithm handling the introducing newly MFSs. To accomplish this goal, We firstly inject two MFSs in a SUT, and then feed each algorithm a failing configuration which contain only one MFS,  remaining another MFS not in it. To increase the possibility of introducing newly MFSs for each algorithm, we set the second MFS with degree 1, which may be easily introduced by just changing one factor of the original failing configuration.  The first MFS in the original configuration has degree 2. So there are  $\binom{8}{2} \times \binom{8}{1} = 224$ possible SUTs in this experiment. The same as experiment 2, we will record the "recall" and "precise" of each algorithm.
+
+4)For the fourth experiment, we will vary the number of parameters of SUT. In specific we will take 8, 9, 10, 12, 15, 20, 30, 40, 60, 80, 100, 120 respectively as the number of parameters of SUT. For each number of parameters, say n, we will generate $\binom{n}{2}$ SUTs with different MFSs injected. And for these SUT, we will do the same process as experiment 1. At last we will record the average number of additional configurations each algorithm needed for each number of parameters. The goral of this experiment is to see the influence of the number of parameters on each approach.
+
+5)In the fifth experiment we will fix the number of parameters of SUT to be 8, but vary the number of degrees of the MFS we inject in the SUT. That is, we will inject MFS in SUT with degrees 1,2,3,4,5,6,7,8 respectively, for a degree of m (m = 1,2,3,4,5,6,7,8), we will generate $\binom{8}{m}$ SUTs with different m-degree MFS injected. And then we will do the same thing as experiment 4 , i.e., record the average number of additional configurations each algorithm needed for each number of degree. This experiment is order to inspect whether these algorithm can handle different degree of MFS in a failing configuration.
+
+\subsection{results and discuss}
+We will discuss the results into five group according to the experiment set up.
+
+1)The result of the experiment 1 is depicted in figure \ref{fig_single}. There are something that is strictly clear that for algorithm AIFL, CTA, OFOT,LG there additional configurations is the same with the change of MFS, others are changed.
+
+ 
+
 \begin{figure}
  \centering
  \includegraphics[width=2.8in]{single.eps}
  \caption{k = 8, t = 2, additional test suites}
  \label{fig_single}
 \end{figure}
-
-\subsection{results and discuss}
-
-\subsection{threats to validate}
-how seeded bugs are representative
-auto oracle, if we don't have a correct version, or we can't determine a test case is faulty and wrong, then what can i do?
-timing result
-One worrying aspect of this research is that it seems to consider only the number of tests and number of faults uncovered. In the practice of testing, it is as important or more important to know testing times.
 
 \section{Empirical Case study}
  While we got know that our approach have a better performance than others in several scenarios such as a failing test case contains multiple MFSs, the generated extra test case introduces newly MFS and so on from previous simulated experiments, it did not give us strong confidence in that our approach will also perform well in real software systems. One important reason of this is that we don't know whether these competitive scenarios for our approach existed in real software systems. So to eliminate the doubt we conduct a series empirical studies in this section. These empirical studies aimed to answer the following questions:
@@ -1393,10 +1372,6 @@ To conduct this case study, We will feed one failing configuration to each algor
 As we will take a large number of configurations to identify( 147472 for HSQLDB), this is too big compact to some algorithms, such as TRT, IterAIFL, they can't even accomplish the task. Some other algorithm can complete this task but with a huge time cost, such as SP, it will take weeks or even months to complete. We will omit these algorithms in our comparison to make this study available in a relative short time. As a result, we just choose ChainFeedBack , FIC, RI, OFOT, LG, CTA as our comparison algorithms.
 
  \subsubsection{result and analysis}
- The result is shown in table \ref{compare-casestudy}. In this table, Column "exp\ ID" still means the ID for the specific exception. Column "algorithm" gives the specific algorithm measured in this row. Column "num of extra configs" shows the average number of extra configurations needed to generate to identify the MFSs. Column "recall" and "precise" respectively shows the average recall and precise which have been defined in the simulated experiment for each algorithm.
-
-From the data listed in the table shows that our algorithm still perform better than others.   numbers , some are big and some are small reason arexx 
-So the answer to Q2 is: the result in real softwares coincided with the result in simulated experiment.
 
  \begin{table*}\renewcommand{\arraystretch}{1.3}
   \caption{comparison in real softwares} \centering
@@ -1436,15 +1411,57 @@ So the answer to Q2 is: the result in real softwares coincided with the result i
   \end{tabular}
 \end{table*}
 
+ The result is shown in table \ref{compare-casestudy}. In this table, Column "exp\ ID" still means the ID for the specific exception. Column "algorithm" gives the specific algorithm measured in this row. Column "num of extra configs" shows the average number of extra configurations needed to generate to identify the MFSs. Column "recall" and "precise" respectively shows the average recall and precise which have been defined in the simulated experiment for each algorithm.
+
+ We will discuss the result by column:
+
+ 1)the number of extra configurations: We may get two points in this column: a. no algorithms always need the smallest configurations in all conditions. For example,FIC needs the smallest configurations for exception 1(9.023) and exception 2(6.016) but needs the largest number of configurations for exception 4(65.0) as FIC may need a high cost dealing high way degree schema.  RI performs good at exception 2(6.016), but performs bad at exception 3(62.62) and 4 (65.0).  LG needs the smallest number of configurations for exception 3(5.344) and exception 4(5.0), but for exception 1 and 2 it doesn't perform as good as FIC and RI.  b. OFOT and CTA performs almost the same for all the exception exceptions(almost as 19.0, exception the OFOT for the exception 1(19.0007)), this is because they are not the adaptive method, they just change one factor one time for all the conditions. And the unique different is that OFOT add some more configurations to deal the introduce problem. c. Our algorithms performs moderately, better than OFOT for exception 1 and 2 but worse than others, and better than FIC and RI for exception 3 and 4 and worse than others. This is because our algorithm consider more conditions such as introduce, overlapped and high degree problem.
+
+ 2)recall : our algorithms perform the best in all the circumstances for this metric, which means our algorithms can find more MFSs than others algorithms when identifying the MFSs in a failing configuration. The reason why our approach have advantages over others is that we consider more scenarios when fed a failing configurations, especially we took account of the case multiple , overlapped MFSs in a test configuration and the case when the MFSs have a high degree. Other approaches may consider some of them, but none of them consider all these scenarios. Another point that needed note is that for exception 1, 3 and 4, the recall of LG algorithm is 0, it is a signal that in this three circumstances, the MFSs in the SUT have degrees larger than 2.
+
+ 3)precise : algorithm OFOT and our approach performs better than others (our approach is litter weaker than OFOT for the exception 2, which ours is 0.9996, OFOT is 0.9997). As we have discussed before, the condition that introducing newly configurations when generating extra test configurations can make the identifying result incorrectly, so it is a nature idea that if the algorithm deal with the introducing newly MFSs, the algorithm can get a more accurate result than those approaches don't consider this scenario. The result data show in this table is coincide with this idea. We can also learn that the machine learning approach-- CTA can also get a well result (0.9995, - , 0.9137, 1.0, slightly weaker than OFOT and our approach) in this column. Although this approach didn't consider the introducing scenario, the nature of dealing noisy data in machine learning can give this approach a some relief from those bad affects.
+
+ In addition, we can find some regular among the exceptions, i.e., for all the algorithms , the recall and precise is best in 4, second best in 2 , little worse in 1, the worst in 3. This is coincided with the intro rate, which means that the intro rate really have a influence for the performance in algorithms.
+
+ Overall, the answer to Q2 is: Our algorithms preforms good at recall and precise, and moderately in num of extra configs. This is coincided with the result in simulated experiment.
+
  \subsection{Study 3: Is combination useful?}
- We can find from the last result, all of these algorithms can't all the time get good result. So a nature question is that can we combine the result of multiple algorithms and find a good result. In this study we will carry out some experiments to answer the question, i.e., the Q3.
+ We can learn from the result in the second case study that none of these algorithms can be the best among all the scenarios. So a nature question is that can we combine the result of multiple algorithms to find a better result. In this study we will carry out some experiments to answer this question, i.e., the Q3.
  \subsubsection{Study setup}
+ To utilize the result of each algorithm, we build a voting system. Thus, choose some algorithms and take a voting schedule: if the a schema is identified more than one algorithms, we take it as MFS, otherwise, we will discard it. We will vary the number of algorithms and adopt different combination of algorithms to observe the result. In specific we will take 2, 3, 4, 5 and 6 algorithms as the voters respectively. In addition, we will take all the combination of algorithms for a specific number. Take 2 for example we will choose ChainFeedBack and OFOT as a combination, ChainFeedBack and RI as another combination and so on. The total number combination of algorithms for a specific number $n$ is $\binom{6}{n}$.
 
+ For each combination of algorithms, we will record the metric "recall" and "precise" of voting result. To measure if the voting system is useful, we compare this voting "recall" to the highest "recall" of the algorithm among the combination. The same comparison is also made to the "precise" metric. Note that the highest "recall" and the highest "precise" is not necessarily belong to the same algorithm in a combination. As a example, for the combination "OFOT" and "RI" for the exception 2. The highest value of "recall" is , which belongs to "OFOT". and the highest value of "precise" is, which is belong to the "RI".  And our voting result will compare to the recall "" and precise "" respectively.
  \subsubsection{result and analysis}
+ The detail comparison result is listed is table \ref{case-study3}. In this table, "Column" means. the "+" signal. means a promotion over the highest . and the "-" signal means a decreasing of the highest.
+ \begin{table*}\renewcommand{\arraystretch}{1.3}
+  \caption{the combination of algorithms} \centering
+  \label{case-study3}
 
+  \begin{tabular}{c|c|c|c|c|c|c}
+  \hline
+   \ &  ChainFeedBack &   FIC   &  RI &  OFOT &  LG &  CTA\\
+   \hline
+   \bfseries ChainFeedBack & - & \textbackslash & \textbackslash & \textbackslash & \textbackslash & \textbackslash\\
+   \bfseries FIC  & \textbackslash & - & \textbackslash & \textbackslash & \textbackslash & \textbackslash\\
+   \bfseries  RI  & \textbackslash & \textbackslash & - & \textbackslash & \textbackslash & \textbackslash\\
+   \bfseries OFOT  & \textbackslash & \textbackslash & \textbackslash & - & \textbackslash & \textbackslash\\
+   \bfseries LG  & \textbackslash & \textbackslash & \textbackslash & \textbackslash & - & \textbackslash\\
+   \bfseries CTA  & \textbackslash & \textbackslash & \textbackslash & \textbackslash & \textbackslash & -
+  \end{tabular}
+\end{table*}
+
+The answer to Q3 is that: yes, it has promotion, but very little.
+
+\section{threats to validate}
+how seeded bugs are representative
+auto oracle, if we don't have a correct version, or we can't determine a test case is faulty and wrong, then what can i do?
+timing result
+One worrying aspect of this research is that it seems to consider only the number of tests and number of faults uncovered. In the practice of testing, it is as important or more important to know testing times.
 \section{Related works and Discuss}
+Detail list the history. In the experiment section, we just give some brief introduction.
+
 Nie's approach in [3] and [6] first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
-Delta debugging [5] proposed by Zeller is an adaptive divide朼nd-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. [4] also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently,
+Delta debugging [5] proposed by Zeller is an adaptive divide-and-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. [4] also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently,
 Colbourn and McClary [7] proposed a non-adaptive method. Their approach extends the covering array to the locating array to detect and locate interaction faults.
 C. Martiez [8-9] proposed two adaptive algorithms. The first one needs safe value as their assumption and the second one remove the assumption when the number of values of each parameter is equal to 2. Their algorithms focus on identifying the faulty tuples that have no more than 2 parameters.
 Ghandehari.etc [10] defines the suspiciousness of tuple and suspiciousness of the environment of a tuple. Based on this, they rank the possible tuples and generate the test cases. Although their approach imposes minimal assumption, it does not ensure that the tuples ranked in the top are the faulty tuples.
