@@ -1214,7 +1214,15 @@ we can find that our approach can also get a no-bad result among them
  \label{fig_double}
 \end{figure}
 
-3)The third experiment's result is shown in fig \ref{fig_import}.
+3)The third experiment's result is shown in fig \ref{fig_import}. Similar to experiment 2, this figure just record the recall and precise of each algorithm. We can learn several facts of this result.
+
+First, no algorithm can both get recall 1 and precise 1 in this condition. Thus shows that no algorithm can perfectly handle the importing problem. 
+
+Second, even though, there are some algorithm(OFOT, LG, SP, TRT-NA, our approach is almost get precise 1) can get precise 1, this is a signal that the importing problem has a little impact on them
+
+Third, our approach get the highest score in recall than others, the specific rank are $Chain > OFOT > LG = SP = TRT-NA > CTA > AIFL > TRT > FIC = RI$. It shows that our approach can find more MFSs than others when just feeding a failing configuration.
+
+Fourth, algorithms fic and ri really suffers from this condition, as they get both recall and precise 0.
 
 \begin{figure}
  \centering
