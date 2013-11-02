@@ -1186,14 +1186,48 @@ We will carry out the followed five experiment in this section:
 \subsection{results and discuss}
 We will discuss the results into five group according to the experiment set up.
 
-1)The result of the experiment 1 is depicted in figure \ref{fig_single}. There are something that is strictly clear that for algorithm AIFL, CTA, OFOT,LG there additional configurations is the same with the change of MFS, others are changed. 
+1)The result of the experiment 1 is depicted in figure \ref{fig_single}. The y-axis report the number of configurations and the x-axis represent a SUT. Algorithms differs from each other in the signal of point and the line linking these points. For a particular algorithm, a point indicate the number of configurations corresponding to the y-axis needed for identifying the MFS in the SUT which corresponding to the x-axis of this point.
+
+There are some intuitive information we can learn from this figure. First, the configurations needed of some algorithms didn't change along with the change of SUT. These algorithms are AIFL, CTA, OFOT,LG, while others need different configurations according to the SUT they are facing. Second, some algorithms shows a obvious disparity in this figure, we can easily find that the configurations that needed to shows obvious rank: . 
+
+For the remaining algorithms, their results are tangled with each other. So to rank them, we give an average configurations each algorithms needed as follows:
+Chain 9.25, FeedBack 11.25, fic 7.96, ri 8 ofot 16 lg 11 , sp .29, aifl 36, rtr 10.75 TRT-NA 23.75   CTA 16
+
+Overall, we can give an initial rank in the number of configurations each algorithm needed as:  FIC-BS<RI<LG<TRT<CHAIN<OFOT = CTA <TRT-NA<AIFL<SP.
 
 \begin{figure}
  \centering
  \includegraphics[width=2.8in]{single.eps}
- \caption{k = 8, t = 2, additional test suites}
+ \caption{k = 8, t = 2,single, additional test suites}
  \label{fig_single}
 \end{figure}
+
+2)Figure \ref{fig_double} list the result of experiment 2. This figure doesn't show the number of configurations of each algorithms , it just show the average precise and recall for each algorithms. We think it is meaningless. We will attach the average of configurations each algorithms needed in the following which can both get 1 algorithms.
+
+This figure give us a clear result of . We can find the following algorithms: chain, lg, sp, aifl, trt and trt-na can get the precise and recall 1, which means that they all can deal with the multiple results.  and the algorithms ofot and cta can't handle this. As for the remaining algorithms ri and fic, they have a precise 1 , but didn't have recall 1, this is becasue they can't handle the condition if two MFSs have overlapped part, in such condition, they can only identify one.
+
+We just only gives the algorithms can both get 1 the average configuratios as follows:
+
+we can find that our approach can also get a no-bad result among them
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.8in]{d-8-2.eps}
+ \caption{k = 8, t = 2,double, additional test suites}
+ \label{fig_double}
+\end{figure}
+
+3)The third experiment's result is shown in fig \ref{fig_import}.
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.8in]{i-8-2.eps}
+ \caption{k = 8, t = 2,import, additional test suites}
+ \label{fig_import}
+\end{figure}
+
+4)
+
 
 \section{Empirical Case study}
  While we got know that our approach have a better performance than others in several scenarios such as a failing test case contains multiple MFSs, the generated extra test case introduces newly MFS and so on from previous simulated experiments, it did not give us strong confidence in that our approach will also perform well in real software systems. One important reason of this is that we don't know whether these competitive scenarios for our approach existed in real software systems. So to eliminate the doubt we conduct a series empirical studies in this section. These empirical studies aimed to answer the following questions:

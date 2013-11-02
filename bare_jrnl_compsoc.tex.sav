@@ -1186,9 +1186,9 @@ We will carry out the followed five experiment in this section:
 \subsection{results and discuss}
 We will discuss the results into five group according to the experiment set up.
 
-1)The result of the experiment 1 is depicted in figure \ref{fig_single}. There are something that is strictly clear that for algorithm AIFL, CTA, OFOT,LG there additional configurations is the same with the change of MFS, others are changed.
+1)The result of the experiment 1 is depicted in figure \ref{fig_single}. There are some intuitive information we can get from this figure, the first is that we can see some that is strictly clear that for algorithm AIFL, CTA, OFOT,LG there additional configurations is the same with the change of MFS, others are changed. Another obvious result is that the algorithm
 
- 
+
 
 \begin{figure}
  \centering
