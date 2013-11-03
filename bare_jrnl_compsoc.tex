@@ -1231,7 +1231,9 @@ Fourth, algorithms fic and ri really suffers from this condition, as they get bo
  \label{fig_import}
 \end{figure}
 
-4)The data depicted in figure \ref{fig_free_k} shows that the average configurations needed of each algorithm for experiment 4. In this figure, the y-axis still reports the number of configurations while the x-axis represent a set of SUTs with the same number of configurations. These number of parameters are 8, 9, 10, 12, 15, 20, 30, 40, 60, 80, 100 and 120 respectively. And a point of a algorithm in this figure indicate the average number of configurations needed to identiying the MFS in that SUT with the same k.
+4)The data depicted in figure \ref{fig_free_k} shows that the average configurations needed of each algorithm for experiment 4. In this figure, the y-axis still reports the number of configurations while the x-axis represent a set of SUTs with the same number of configurations. These number of parameters are 8, 9, 10, 12, 15, 20, 30, 40, 60, 80, 100 and 120 respectively. And a point in this figure indicate the average number of configurations needed for the corresponding algorithm to identifying the MFS in these SUT with the same number of the parameters. For example, for the point whose x-axis is 8 corresponding to the algorithm "AIFL", we record the number of configurations needed to identify each SUT from the SUT with 8 parameters (totally $\binom{8}{2} = 28$ SUTs) and compute the average value of them, i.e., "".
+
+We can easily learn that AIFL needs the largest number of configurations to identify MFS. Worse more, it need such big computing resource along with increase of k so that we even can't make it to identify the MFS in the SUT with number of parameters bigger than 12.  The second largest is the algorithm "SP". Although it needs much smaller computing resource than "AIFL", we yet can't tolerate the time it need to identify the MFS with number of parameter bigger than 40.
 
 \begin{figure}
  \centering
@@ -1240,7 +1242,9 @@ Fourth, algorithms fic and ri really suffers from this condition, as they get bo
  \label{fig_free_k}
 \end{figure}
 
-we will enlarge some of them to figure \ref{fig_free_k_small}
+As the average number of configurations of "SP" increase quickly with the increase of k. It make the results of the remaining algorithms show unclearly in this figure. To get a better view of the remaining algorithms, we enlarge the  perspective for these algorithms in figure \ref{fig_free_k_small}.
+
+From this perspective, we first find that our previous approach TRT and TRT-NA also suffer from the large k. We can't let them identify the MFS with k bigger than 12. Apart form this two algorithms, all the remaining algorithms: chain, fic, lg, ri can complete this experiment. second, it also give us a intuitive rank of each algorithms according to the cost of configurations generated, i.e., $TRT-NA > LG > CHAIN > TRT > RI > FIC$. Combine With the two algorithms "AIFL" and "SP" we mentioned before, the final rank is $AIFL > SP > TRT-NA > LG > CHAIN > TRT > RI > FIC$.
 
 \begin{figure}
  \centering
@@ -1250,7 +1254,7 @@ we will enlarge some of them to figure \ref{fig_free_k_small}
 \end{figure}
 
 
-5)Figure \ref{fig_free_d} gives us the result of the last experiment.
+5)Figure \ref{fig_free_d} gives us the result of the last experiment.  Note that this time we set SP 4 to distinguish with algorithm lg.
 
 \begin{figure}
  \centering
