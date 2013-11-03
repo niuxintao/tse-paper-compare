@@ -1184,23 +1184,54 @@ We will carry out the followed five experiment in this section:
 5)In the fifth experiment we will fix the number of parameters of SUT to be 8, but vary the number of degrees of the MFS we inject in the SUT. That is, we will inject MFS in SUT with degrees 1,2,3,4,5,6,7,8 respectively, for a degree of m (m = 1,2,3,4,5,6,7,8), we will generate $\binom{8}{m}$ SUTs with different m-degree MFS injected. And then we will do the same thing as experiment 4 , i.e., record the average number of additional configurations each algorithm needed for each number of degree. This experiment is order to inspect whether these algorithm can handle different degree of MFS in a failing configuration.
 
 \subsection{results and discuss}
-We will discuss the results into five group according to the experiment set up.
+We will discuss the results into five groups according to the experiment set up.
 
 1)The result of the experiment 1 is depicted in figure \ref{fig_single}. The y-axis report the number of configurations and the x-axis represent a SUT. Algorithms differs from each other in the signal of point and the line linking these points. For a particular algorithm, a point indicate the number of configurations corresponding to the y-axis needed for identifying the MFS in the SUT which corresponding to the x-axis of this point.
 
-There are some intuitive information we can learn from this figure. First, the configurations needed of some algorithms didn't change along with the change of SUT. These algorithms are AIFL, CTA, OFOT,LG, while others need different configurations according to the SUT they are facing. Second, some algorithms shows a obvious gap in this figure, we can easily find that the configurations that needed to shows obvious rank: . For the remaining algorithms, their results are tangled with each other. So to rank them, we give an average configurations each algorithms needed as follows:
+There are some intuitive information we can learn from this figure. First, the configurations needed of some algorithms didn't change along with the change of SUT. These algorithms are AIFL, CTA, OFOT,LG, while others need different configurations according to the SUT they are facing. Second, some algorithms(sp, aifl, TTR-NA, OFOT, CTA) shows a obvious disparity in this figure, we can easily rank them according to the number of configurations, i.e., $ofot = cta < TRT-na < aifl < sp$. Besides, These algorithms needs more configurations than the remaining algorithms.
 
-Overall, we can give an initial rank in the number of configurations each algorithm needed as:  FIC-BS<RI<LG<TRT<CHAIN<OFOT = CTA <TRT-NA<AIFL<SP.
+For the remaining algorithms, their results are tangled with each other. So in order to rank them, we give an average configurations each algorithms needed : Chain 9.25, FeedBack 11.25, fic 7.96, ri 8 ofot 16 lg 11 , sp .29, aifl 36, rtr 10.75 TRT-NA 23.75   CTA 16. Overall, we can conclude an initial rank in the number of configurations each algorithm needed as:  $FIC-BS<RI<LG<TRT<CHAIN<OFOT = CTA <TRT-NA<AIFL<SP$.
 
 \begin{figure}
  \centering
  \includegraphics[width=2.8in]{single.eps}
- \caption{k = 8, t = 2, additional test suites}
+ \caption{k = 8, t = 2,single, additional test suites}
  \label{fig_single}
 \end{figure}
 
-2)the first is that we can see some that is strictly clear that for algorithm AIFL, CTA, OFOT,LG there additional configurations is the same with the change of MFS, others are changed. Another obvious result is that the algorithm
+2)Figure \ref{fig_double} list the result of experiment 2. This figure doesn't show the number of configurations of each algorithms,instead it just show the average precise and recall for each algorithms as not all these algorithms can both get recall 1 and precise 1 as experiment 1. It is obvious meaningless if we compare two algorithms that one algorithm can reach recall 1 and precise 1 while the other can't. So we will only list the average number configurations of these algorithms that can reach recall 1 and precise 1 later.
 
+From this figure, we can find the following algorithms: chain, lg, sp, aifl, trt and trt-na can both get the precise and recall 1, which means that they can perfectly deal with the multiple MFSs in a failing configuration. As the opposite side, algorithms OFOT and CTA both get the recall 0 and precise 0. This is a signal that the two algorithms can't handle the condition that a failing configuration contain multiple MFSs. So for these two algorithms, they may need other techniques to assist them in facing such conditions.  As for the remaining algorithms RI and FIC, they got precise 1 , but didn't reach recall 1, this is because they can't handle the condition if two MFSs have overlapped part. When they facing such condition, they can only identify one MFS of them.
+
+The average number of configurations of these algorithms can both get recall and precise 1 is as follows:
+
+we can find that our approach can also get a no-bad result among them
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.8in]{d-8-2.eps}
+ \caption{k = 8, t = 2,double, additional test suites}
+ \label{fig_double}
+\end{figure}
+
+3)The third experiment's result is shown in fig \ref{fig_import}. Similar to experiment 2, this figure just record the recall and precise of each algorithm. We can learn several facts of this result.
+
+First, no algorithm can both get recall 1 and precise 1 in this condition. Thus shows that no algorithm can perfectly handle the importing problem. 
+
+Second, even though, there are some algorithm(OFOT, LG, SP, TRT-NA, our approach is almost get precise 1) can get precise 1, this is a signal that the importing problem has a little impact on them
+
+Third, our approach get the highest score in recall than others, the specific rank are $Chain > OFOT > LG = SP = TRT-NA > CTA > AIFL > TRT > FIC = RI$. It shows that our approach can find more MFSs than others when just feeding a failing configuration.
+
+Fourth, algorithms fic and ri really suffers from this condition, as they get both recall and precise 0.
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.8in]{i-8-2.eps}
+ \caption{k = 8, t = 2,import, additional test suites}
+ \label{fig_import}
+\end{figure}
+
+4)
 
 
 \section{Empirical Case study}

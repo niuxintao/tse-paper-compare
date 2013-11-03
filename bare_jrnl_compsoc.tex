@@ -1216,7 +1216,7 @@ we can find that our approach can also get a no-bad result among them
 
 3)The third experiment's result is shown in fig \ref{fig_import}. Similar to experiment 2, this figure just record the recall and precise of each algorithm. We can learn several facts of this result.
 
-First, no algorithm can both get recall 1 and precise 1 in this condition. Thus shows that no algorithm can perfectly handle the importing problem. 
+First, no algorithm can both get recall 1 and precise 1 in this condition. Thus shows that no algorithm can perfectly handle the importing problem.
 
 Second, even though, there are some algorithm(OFOT, LG, SP, TRT-NA, our approach is almost get precise 1) can get precise 1, this is a signal that the importing problem has a little impact on them
 
@@ -1231,7 +1231,42 @@ Fourth, algorithms fic and ri really suffers from this condition, as they get bo
  \label{fig_import}
 \end{figure}
 
-4)
+4)The data depicted in figure \ref{fig_free_k} shows that the average configurations needed of each algorithm for experiment 4. In this figure, the y-axis still reports the number of configurations while the x-axis represent a set of SUTs with the same number of configurations. These number of parameters are 8, 9, 10, 12, 15, 20, 30, 40, 60, 80, 100 and 120 respectively. And a point of a algorithm in this figure indicate the average number of configurations needed to identiying the MFS in that SUT with the same k.
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.8in]{k-2-s.eps}
+ \caption{k is free, t = 2,single, additional test suites}
+ \label{fig_free_k}
+\end{figure}
+
+we will enlarge some of them to figure \ref{fig_free_k_small}
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.8in]{k-2-s-small.eps}
+ \caption{k is free, t = 2,single, additional test suites for some algorithms}
+ \label{fig_free_k_small}
+\end{figure}
+
+
+5)Figure \ref{fig_free_d} gives us the result of the last experiment.
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.8in]{freeD.eps}
+ \caption{k = 8, t is free,single, additional test suites}
+ \label{fig_free_d}
+\end{figure}
+
+we will enlarge some of them to figure \ref{fig_free_d_small}
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.8in]{freeD2.eps}
+ \caption{k = 8, t is free,single, additional test suites for some algorithms}
+ \label{fig_free_d_small}
+\end{figure}
 
 
 \section{Empirical Case study}
