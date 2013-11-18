@@ -529,7 +529,7 @@ E-mail: see http://www.michaelshell.org/contact.html
 \IEEEcompsoctitleabstractindextext{%
 \begin{abstract}
 %\boldmath
-It is common that the software under test(SUT) fails during testing under some specific test configurations(we called failing configurations) and passes under the others. For these failing configurations,in the most general case,not all the options in this configuration is related to the failures. It is desirable to identify the specific options responsible for the failures,i.e., failure-inducing schemas,as by doing this it can reduce the debugging effort.
+Modern softwares is designed composed by many compenents and modlues. As it can give the benifet such as cusetomised, easy to transplantation. It also give us a huge pressure to test them. One challenge is to find the interaction fault between these components. Consider the scenoira . It is a large testing space, when exhastive is impossible. Combinatorial testing teachnique is a relief to this problem by design a small test suite to cover the interactions not exceed to a strength t. Nevertheless, most studies in CT focus on the generating suite, few report how to characterize the interaction fault. Thus, we can't determine which even when we detect them for there are many candidates interactions. publish. The behaviour of modern softwares is influenced by many factors. These factors can be the inputs of the system, configuration options , user events and so on. It is a big pressure to the testing when the factors increase rapidly and the interactions between these factors. It is common that the software under test(SUT) fails during testing under some specific test configurations(we called failing configurations) and passes under the others. For these failing configurations,in the most general case,not all the options in this configuration is related to the failures. It is desirable to identify the specific options responsible for the failures,i.e., failure-inducing schemas,as by doing this it can reduce the debugging effort.
 
 Combinatorial testing(CT) can effectively detect the errors in SUT which are triggered by interactions of options.However, it provide weak support for identifying them.In this paper, we propose an efficient approach which can aids the CT to locate them.Through using the notions of CMINFS(represent for candidate minimal faulty schemas) and CMAXHS(represent for candidate maximal healthy schemas), our approach can get an efficient performance when identifying the failure-inducing schemas compared to our prior work.Also we make an improvement on the approach to better handle the case where additional failure-inducing schemas may be introduced by newly generated test configurations.
 
@@ -763,9 +763,10 @@ A test configuration of the SUT is an array of \emph{n} values, one for each par
 \end{definition}
 \begin{definition}[test oracle]
 the test oracle is that whether it is a test configuration pass or fail. For a clear discuss, we didn't take the multiple output state into account, but we believe our method can easily extend to the multiple oracles.
+\end{definition}
 
 However, our discuss is based on the SUT is a deterministic software, i.e., will not pass this time and fail that time. We can run our approach multiple times to eliminate this problem, which, however is beyond the scope of this paper.
-\end{definition}
+
 
 \begin{definition}[faulty]
 
@@ -781,14 +782,16 @@ let $s_{l}$ be a \emph{l}-value schema, $s_{m}$ be an \emph{m}-value schema for 
 \end{definition}
 \begin{definition}[healthy,faulty and pending]
 A \emph{k}-value schema is called a \emph{faulty schema} if all the valid test configuration hit the schema trigger a failure. And a \emph{k}-value schema is called a \emph{healthy schema} when we find at least one passed valid test configuration that hits this schema. In addition, if we don't have enough information of a schema,i.e., we don't sure whether it is a healthy schema or faulty schema, we call it the pending schema.
+\end{definition}
 
 Note that, in real software context, there existed cases that a test configuration hit a faulty schema but passed. We call this case the \emph{coincidental correctness}, which may be caused by other factors which influence the execution result. We will not discuss this case in this paper.
-\end{definition}
+
 \begin{definition}[minimal faulty schema]
 If a schema is a faulty schema and all its subschemas are healthy schemas, we then call the schema a \emph{minimal faulty schema}(\emph{MINFS} for short).
+\end{definition}
 
 Note that this is the target to identify,for that this will give us the most precise while enough information to help the developers to inspect the scope of the source code.
-\end{definition}
+
 \begin{definition}[maximum healthy schema]
 If a schema is a healthy schema and all its parent-schemas are faulty schemas, we then call the schema a \emph{maximum healthy schema}(\emph{MAXHS} for short).
 \end{definition}
@@ -1155,7 +1158,7 @@ There are several algorithms aim to identify the MFS, they can be classified as 
 
 (1)OFOT, proposed by Nie[], it change one factor of a test configuration one time to generate a newly configuration and then analysis the MFSs according to the executed result of these generated configurations. (2)FIC-BS, proposed by Zhang, using a delta debugging strategy to isolate the MFSs (3) LG, proposed by Martine[], use a locatable graph to represent the faulty schema and adopt divide and conquer strategy to find the MFSs. (4) SP[], proposed by Ghandehari, they generate configurations for these mostly suspicious schemas and give a rank of these schemas at last based on the suspicious "degree" of them (5) CTA, proposed by Shakya[], it combine the OFOT strategy and the classified tree technique which first applied in characterize the MFS in [] to analysis the MFSs. (6)RI, proposed by Li[], it is also using delta debugging, but the factors needed to change in a iteration are different from FIC-BS at some conditions.(7)IterAIFL, proposed by Wang[], a mutant based on OFOT, which changes different number of factors instead of one each iteration for a test configuration. (8)TRT and TRT-NA, two approaches proposed in our previous work[], using a structured tree model to analysis the MFSs in a failing configurations.  More details of these algorithms will be discussed in the related works.
 
-Some parameters of these algorithm are assigned: for SP, the degree of MFSs we set is 4, for CTA,the confidence factor of classified tree algorithm is 0.25 as same as [].
+Some parameters of these algorithm are assigned: for SP, the degree of MFSs we set is 2, for CTA,the confidence factor of classified tree algorithm is 0.25 as same as [].
 \subsection{evaluation metrics}
 There are three facts we care about each algorithm: 1)How many additional test configurations do an approach need to generate? 2)How many MFSs can an approach identify for a SUT? 3)Does all the schema identified by an approach are correctly? We will define two formula to represent the second and third facts respectively, i.e., recall and precise:
 $$recall =
@@ -1233,7 +1236,7 @@ Fourth, algorithms fic and ri really suffers from this condition, as they get bo
 
 4)The data depicted in figure \ref{fig_free_k} shows that the average configurations needed of each algorithm for experiment 4. In this figure, the y-axis still reports the number of configurations while the x-axis represent a set of SUTs with the same number of configurations. These number of parameters are 8, 9, 10, 12, 15, 20, 30, 40, 60, 80, 100 and 120 respectively. And a point in this figure indicate the average number of configurations needed for the corresponding algorithm to identifying the MFS in these SUT with the same number of the parameters. For example, for the point whose x-axis is 8 corresponding to the algorithm "AIFL", we record the number of configurations needed to identify each SUT from the SUT with 8 parameters (totally $\binom{8}{2} = 28$ SUTs) and compute the average value of them, i.e., "".
 
-We can easily perceive that AIFL needs the largest number of configurations to identify MFS. Worse more, it need such big computing resource along with increase of k so that we even can't make it to identify the MFS in the SUT with number of parameters bigger than 12.  The second largest is the algorithm "SP". Although it needs much smaller computing resource than "AIFL", we yet can't tolerate the time it need to identify the MFS with number of parameter bigger than 40.
+We can easily learn that AIFL needs the largest number of configurations to identify MFS. Worse more, it need such big computing resource along with increase of k so that we even can't make it to identify the MFS in the SUT with number of parameters bigger than 12.  The second largest is the algorithm "SP". Although it needs much smaller computing resource than "AIFL", we yet can't tolerate the time it need to identify the MFS with number of parameter bigger than 40.
 
 \begin{figure}
  \centering
@@ -1242,9 +1245,9 @@ We can easily perceive that AIFL needs the largest number of configurations to i
  \label{fig_free_k}
 \end{figure}
 
-As the average number of configurations of "SP" increase quickly with the increase of k. It make the results of the remaining algorithms show unclearly in this figure. To get a better view of the remaining algorithms, we enlarge the  perspective for these algorithms in figure \ref{fig_free_k_small}. 
+As the average number of configurations of "SP" increase quickly with the increase of k. It make the results of the remaining algorithms show unclearly in this figure. To get a better view of the remaining algorithms, we enlarge the  perspective for these algorithms in figure \ref{fig_free_k_small}.
 
-From this perspective, we first find that our previous approach TRT and TRT-NA also suffer from the large k. We can't let them identify the MFS with k bigger than 12. Apart form this two algorithms, all the remaining algorithms: chain, fic, lg, ri can complete this experiment. second, it also give us a intuitive rank of each algorithms according to the cost of configurations generated, i.e., TRT-NA > LG > CHAIN > TRT > RI > FIC. With the two algorithms we, the final rank is AIFL > SP > TRT-NA > LG > CHAIN > TRT > RI > FIC.
+From this perspective, we first find that our previous approach TRT and TRT-NA also suffer from the large k. We can't let them identify the MFS with k bigger than 12. Apart form this two algorithms, all the remaining algorithms: chain, fic, lg, ri can complete this experiment. second, it also give us a intuitive rank of each algorithms according to the cost of configurations generated, i.e., $TRT-NA > LG > CHAIN > TRT > RI > FIC$. Combine With the two algorithms "AIFL" and "SP" we mentioned before, the final rank is $AIFL > SP > TRT-NA > LG > CHAIN > TRT > RI > FIC$.
 
 \begin{figure}
  \centering
@@ -1254,7 +1257,9 @@ From this perspective, we first find that our previous approach TRT and TRT-NA a
 \end{figure}
 
 
-5)Figure \ref{fig_free_d} gives us the result of the last experiment.
+5)Figure \ref{fig_free_d} gives us the result of the last experiment. This figure is organised similarly as figure \ref{fig_free_k}, except the x-axis represents a set of SUTs have the same degree of MFS we inject in it. For a particular algorithm, a point in this figure shows the average number of configurations needed to identify the MFS in these SUTs with same degree MFS injected(there are $\binom{8}{m}$ SUTs for the degree m). Note that int this experiment we set the degree that SP can be identified 4 to distinguish with algorithm LG which can just identify the MFS with degree not bigger than 2.
+
+From this figure, we can find that as we set parameter of SP to be 4, the number of configurations SP needed to identify the MFS in a failing configuration increase a lot than before. And as we expected, SP can just identify the MFS with degree not than 4.  Apart this algorithm we enlarge the view of the remaining algorithm in figure \ref{fig_free_d_small} as experiment 4. From this clearer view, we can find several useful information: First, the LG method can only indentify the MFS with degree not than 2 as expected.  Second, we can find the number of configurations of ri and fic increase quickly along with the degree increase. Third, CTA and CTA need the same configurations 16 regardless of what the degree is. Fourth, though AIFL perform worst in most cases, when d is 7 and 8 it can do better than other techniques. Fifth, the number of configurations needed of TRT-NA, TRT and our chain techniques first increase then decrease along with increase of d.
 
 \begin{figure}
  \centering

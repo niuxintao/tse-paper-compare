@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2013.10.18)  4 NOV 2013 14:22
+This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2013.10.18)  18 NOV 2013 22:17
 entering extended mode
 **bare_jrnl_compsoc.tex
 (D:\niu桌面\tsepaper\tse-paper-compare\bare_jrnl_compsoc.tex
@@ -455,49 +455,49 @@ Requested font "phvb7t" at 10.0pt
 \c@assumption=\count115
 \c@lemma=\count116
 
-** ATTENTION: \proof is deprecated (line 833). Use \IEEEproof instead.
+** ATTENTION: \proof is deprecated (line 836). Use \IEEEproof instead.
 
-Underfull \hbox (badness 3635) in paragraph at lines 839--839
+Underfull \hbox (badness 3635) in paragraph at lines 842--842
  \OT1/phv/b/n/10 3.2 frame-work to i-den-ti-fy the min-i-mal fault-y
  []
 
 File: gp.eps Graphic file (type eps)
-<gp.eps>
+<gp.eps> [3]
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <10> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 847.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 850.
 Requested font "phvro7t" at 10.0pt
  -> phvro7t
- [3]
-** ATTENTION: \proof is deprecated (line 859). Use \IEEEproof instead.
+
+** ATTENTION: \proof is deprecated (line 862). Use \IEEEproof instead.
 [4]
 File: ch.eps Graphic file (type eps)
- <ch.eps>
+ <ch.eps> [5]
 File: ct.eps Graphic file (type eps)
- <ct.eps> [5]
-Overfull \hbox (32.25047pt too wide) detected at line 988
+ <ct.eps>
+Overfull \hbox (32.25047pt too wide) detected at line 991
 \OML/cmm/m/it/10 distance\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 S[]; S[]\OT1/cmr/m/n
 /10 ) = []
  []
 
 
-Overfull \hbox (6.0169pt too wide) in paragraph at lines 1003--1004
+Overfull \hbox (6.0169pt too wide) in paragraph at lines 1006--1007
 []$[] \OMS/cmsy/m/n/10   \OML/cmm/m/it/10 getDOWNS\OT1/cmr/m/n/10 (\OMS/cmsy/m/
 n/10 T\OML/cmm/m/it/10 ; []; []\OT1/cmr/m/n/10 )$ 
  []
 
 
-Overfull \hbox (24.29019pt too wide) in paragraph at lines 1034--1035
+Overfull \hbox (24.29019pt too wide) in paragraph at lines 1037--1038
 [] $\OML/cmm/m/it/10 longeset \OMS/cmsy/m/n/10   \OML/cmm/m/it/10 getLongest\OT
 1/cmr/m/n/10 (\OMS/cmsy/m/n/10 T\OML/cmm/m/it/10 ; []; []\OT1/cmr/m/n/10 )$ 
  []
 
 
-Overfull \hbox (42.17657pt too wide) in paragraph at lines 1042--1043
+Overfull \hbox (42.17657pt too wide) in paragraph at lines 1045--1046
 [] $\OML/cmm/m/it/10 generate a extra test configration [] contain []$ 
  []
 
 [6]
-Overfull \hbox (12.87297pt too wide) in paragraph at lines 1114--1115
+Overfull \hbox (12.87297pt too wide) in paragraph at lines 1117--1118
 [] $\OML/cmm/m/it/10 updateHealthySchemas\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 S[];
  MFS\OT1/cmr/m/n/10 )$ 
  []
@@ -506,14 +506,13 @@ Overfull \hbox (12.87297pt too wide) in paragraph at lines 1114--1115
 File: single.eps Graphic file (type eps)
  <single.eps>
 File: d-8-2.eps Graphic file (type eps)
- <d-8-2.eps>
-Underfull \hbox (badness 1383) in paragraph at lines 1221--1222
+ <d-8-2.eps> [10]
+Underfull \hbox (badness 1383) in paragraph at lines 1224--1225
 []\OT1/ppl/m/n/10 Second, even though, there are some al-go-rith-
  []
 
-[10]
 File: i-8-2.eps Graphic file (type eps)
- <i-8-2.eps>
+<i-8-2.eps>
 File: k-2-s.eps Graphic file (type eps)
  <k-2-s.eps>
 File: k-2-s-small.eps Graphic file (type eps)
@@ -526,156 +525,152 @@ Missing character: There is no 　 in font pplr7t!
 File: proceed.eps Graphic file (type eps)
 
 <proceed.eps> [12]
-Underfull \hbox (badness 10000) in paragraph at lines 1311--1312
+Underfull \hbox (badness 10000) in paragraph at lines 1314--1315
 []\OT1/ppl/m/n/8 sql.enforce[]strict[]size, sql.enforce[]names,sql.enforce[]ref
 s,
  []
 
 
-Underfull \hbox (badness 5316) in paragraph at lines 1311--1312
+Underfull \hbox (badness 5316) in paragraph at lines 1314--1315
 \OT1/ppl/m/n/8 sql.enforce[]size, sql.enforce[]types, sql.enforce[]tdc[]delete,
 
  []
 
 
-Overfull \hbox (3.39851pt too wide) in paragraph at lines 1314--1323
+Overfull \hbox (3.39851pt too wide) in paragraph at lines 1317--1326
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1328--1329
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1332
 []\OT1/ppl/m/n/8 SERVER, WEB-SERV-ER,
  []
 
 
-Overfull \hbox (76.5831pt too wide) in paragraph at lines 1336--1336
+Overfull \hbox (76.5831pt too wide) in paragraph at lines 1339--1339
 []\OT1/ppl/m/n/8 TYPE[]FORWARD[]ONLY,TYPE[]SCROLL[]INSENSITIVE,
  []
 
 
-Overfull \hbox (50.75906pt too wide) in paragraph at lines 1337--1338
+Overfull \hbox (50.75906pt too wide) in paragraph at lines 1340--1341
 []\OT1/ppl/m/n/8 CONCUR[]READ[]ONLY,CONCUR[]UPDATABLE| 
  []
 
 
-Overfull \hbox (4.49564pt too wide) in paragraph at lines 1338--1339
+Overfull \hbox (4.49564pt too wide) in paragraph at lines 1341--1342
 []\OT1/ppl/m/n/8 HOLD[]CURSORS[]OVER[]COMMIT,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1345--1346
+Underfull \hbox (badness 10000) in paragraph at lines 1348--1349
 []\OT1/ppl/m/n/8 STATEMENT, PRE-PARED-STATE-
  []
 
 
-Overfull \hbox (2.2806pt too wide) in paragraph at lines 1358--1367
+Overfull \hbox (2.2806pt too wide) in paragraph at lines 1361--1370
  [][] 
  []
 
-[13] [14]
-Underfull \vbox (badness 1527) has occurred while \output is active []
-
- [15]
-LaTeX Font Info:    Try loading font information for OMS+ppl on input line 1522
+[13] [14] [15] [16]
+LaTeX Font Info:    Try loading font information for OMS+ppl on input line 1525
 .
-
-(C:\CTEX\MiKTeX\tex\latex\psnfss\omsppl.fd
+ (C:\CTEX\MiKTeX\tex\latex\psnfss\omsppl.fd
 File: omsppl.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1522.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1525.
 
- [16]
-Overfull \hbox (44.64409pt too wide) in paragraph at lines 1553--1564
+
+Overfull \hbox (44.64409pt too wide) in paragraph at lines 1556--1567
  [][] 
  []
 
 Requested font "pplri7t" at 6.0pt
  -> pplri7t
 [17]
-Underfull \hbox (badness 2744) in paragraph at lines 1691--1693
+Underfull \hbox (badness 2744) in paragraph at lines 1694--1696
 \OT1/phv/b/n/8 John Doe \OT1/phv/m/n/8 Bi-og-ra-phy tex-t here.Biography tex-t 
 here.Biography
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1691--1693
+Underfull \hbox (badness 3029) in paragraph at lines 1694--1696
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1691--1693
+Underfull \hbox (badness 3029) in paragraph at lines 1694--1696
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1691--1693
+Underfull \hbox (badness 3029) in paragraph at lines 1694--1696
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1691--1693
+Underfull \hbox (badness 3029) in paragraph at lines 1694--1696
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1691--1693
+Underfull \hbox (badness 3029) in paragraph at lines 1694--1696
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1691--1693
+Underfull \hbox (badness 3029) in paragraph at lines 1694--1696
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1691--1693
+Underfull \hbox (badness 3029) in paragraph at lines 1694--1696
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1691--1693
+Underfull \hbox (badness 3029) in paragraph at lines 1694--1696
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3058) in paragraph at lines 1699--1701
+Underfull \hbox (badness 3058) in paragraph at lines 1702--1704
 \OT1/phv/b/n/8 Jane Doe \OT1/phv/m/n/8 Bi-og-ra-phy tex-t here.Biography tex-t 
 here.Biography
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1699--1701
+Underfull \hbox (badness 3029) in paragraph at lines 1702--1704
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1699--1701
+Underfull \hbox (badness 3029) in paragraph at lines 1702--1704
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1699--1701
+Underfull \hbox (badness 3029) in paragraph at lines 1702--1704
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1699--1701
+Underfull \hbox (badness 3029) in paragraph at lines 1702--1704
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1699--1701
+Underfull \hbox (badness 3029) in paragraph at lines 1702--1704
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1699--1701
+Underfull \hbox (badness 3029) in paragraph at lines 1702--1704
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1699--1701
+Underfull \hbox (badness 3029) in paragraph at lines 1702--1704
 \OT1/phv/m/n/8 t here.Biography tex-t here.Biography tex-t here.Biography tex-
  []
 
@@ -689,6 +684,6 @@ Here is how much of TeX's memory you used:
  5840 multiletter control sequences out of 15000+200000
  34333 words of font info for 88 fonts, out of 3000000 for 9000
  17 hyphenation exceptions out of 8191
- 28i,11n,28p,1337b,329s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 28i,11n,28p,1473b,329s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on bare_jrnl_compsoc.pdf (18 pages).

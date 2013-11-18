@@ -529,7 +529,7 @@ E-mail: see http://www.michaelshell.org/contact.html
 \IEEEcompsoctitleabstractindextext{%
 \begin{abstract}
 %\boldmath
-It is common that the software under test(SUT) fails during testing under some specific test configurations(we called failing configurations) and passes under the others. For these failing configurations,in the most general case,not all the options in this configuration is related to the failures. It is desirable to identify the specific options responsible for the failures,i.e., failure-inducing schemas,as by doing this it can reduce the debugging effort.
+Modern softwares is designed composed by many compenents and modlues. As it can give the benifet such as cusetomised, easy to transplantation. It also give us a huge pressure to test them. One challenge is to find the interaction fault between these components. Consider the scenoira . It is a large testing space, when exhastive is impossible. Combinatorial testing teachnique is a relief to this problem by design a small test suite to cover the interactions not exceed to a strength t. Nevertheless, most studies in CT focus on the generating suite, few report how to characterize the interaction fault. Thus, we can't determine which even when we detect them for there are many candidates interactions. publish. The behaviour of modern softwares is influenced by many factors. These factors can be the inputs of the system, configuration options , user events and so on. It is a big pressure to the testing when the factors increase rapidly and the interactions between these factors. It is common that the software under test(SUT) fails during testing under some specific test configurations(we called failing configurations) and passes under the others. For these failing configurations,in the most general case,not all the options in this configuration is related to the failures. It is desirable to identify the specific options responsible for the failures,i.e., failure-inducing schemas,as by doing this it can reduce the debugging effort.
 
 Combinatorial testing(CT) can effectively detect the errors in SUT which are triggered by interactions of options.However, it provide weak support for identifying them.In this paper, we propose an efficient approach which can aids the CT to locate them.Through using the notions of CMINFS(represent for candidate minimal faulty schemas) and CMAXHS(represent for candidate maximal healthy schemas), our approach can get an efficient performance when identifying the failure-inducing schemas compared to our prior work.Also we make an improvement on the approach to better handle the case where additional failure-inducing schemas may be introduced by newly generated test configurations.
 
@@ -763,9 +763,10 @@ A test configuration of the SUT is an array of \emph{n} values, one for each par
 \end{definition}
 \begin{definition}[test oracle]
 the test oracle is that whether it is a test configuration pass or fail. For a clear discuss, we didn't take the multiple output state into account, but we believe our method can easily extend to the multiple oracles.
+\end{definition}
 
 However, our discuss is based on the SUT is a deterministic software, i.e., will not pass this time and fail that time. We can run our approach multiple times to eliminate this problem, which, however is beyond the scope of this paper.
-\end{definition}
+
 
 \begin{definition}[faulty]
 
@@ -781,14 +782,16 @@ let $s_{l}$ be a \emph{l}-value schema, $s_{m}$ be an \emph{m}-value schema for 
 \end{definition}
 \begin{definition}[healthy,faulty and pending]
 A \emph{k}-value schema is called a \emph{faulty schema} if all the valid test configuration hit the schema trigger a failure. And a \emph{k}-value schema is called a \emph{healthy schema} when we find at least one passed valid test configuration that hits this schema. In addition, if we don't have enough information of a schema,i.e., we don't sure whether it is a healthy schema or faulty schema, we call it the pending schema.
+\end{definition}
 
 Note that, in real software context, there existed cases that a test configuration hit a faulty schema but passed. We call this case the \emph{coincidental correctness}, which may be caused by other factors which influence the execution result. We will not discuss this case in this paper.
-\end{definition}
+
 \begin{definition}[minimal faulty schema]
 If a schema is a faulty schema and all its subschemas are healthy schemas, we then call the schema a \emph{minimal faulty schema}(\emph{MINFS} for short).
+\end{definition}
 
 Note that this is the target to identify,for that this will give us the most precise while enough information to help the developers to inspect the scope of the source code.
-\end{definition}
+
 \begin{definition}[maximum healthy schema]
 If a schema is a healthy schema and all its parent-schemas are faulty schemas, we then call the schema a \emph{maximum healthy schema}(\emph{MAXHS} for short).
 \end{definition}
@@ -1155,7 +1158,7 @@ There are several algorithms aim to identify the MFS, they can be classified as 
 
 (1)OFOT, proposed by Nie[], it change one factor of a test configuration one time to generate a newly configuration and then analysis the MFSs according to the executed result of these generated configurations. (2)FIC-BS, proposed by Zhang, using a delta debugging strategy to isolate the MFSs (3) LG, proposed by Martine[], use a locatable graph to represent the faulty schema and adopt divide and conquer strategy to find the MFSs. (4) SP[], proposed by Ghandehari, they generate configurations for these mostly suspicious schemas and give a rank of these schemas at last based on the suspicious "degree" of them (5) CTA, proposed by Shakya[], it combine the OFOT strategy and the classified tree technique which first applied in characterize the MFS in [] to analysis the MFSs. (6)RI, proposed by Li[], it is also using delta debugging, but the factors needed to change in a iteration are different from FIC-BS at some conditions.(7)IterAIFL, proposed by Wang[], a mutant based on OFOT, which changes different number of factors instead of one each iteration for a test configuration. (8)TRT and TRT-NA, two approaches proposed in our previous work[], using a structured tree model to analysis the MFSs in a failing configurations.  More details of these algorithms will be discussed in the related works.
 
-Some parameters of these algorithm are assigned: for SP, the degree of MFSs we set is 4(we need change 2 later ), for CTA,the confidence factor of classified tree algorithm is 0.25 as same as [].
+Some parameters of these algorithm are assigned: for SP, the degree of MFSs we set is 2(except for the last group of experiment, which is 4 instead), for CTA,the confidence factor of classified tree algorithm is 0.25 as same as [].
 \subsection{evaluation metrics}
 There are three facts we care about each algorithm: 1)How many additional test configurations do an approach need to generate? 2)How many MFSs can an approach identify for a SUT? 3)Does all the schema identified by an approach are correctly? We will define two formula to represent the second and third facts respectively, i.e., recall and precise:
 $$recall =
@@ -1188,9 +1191,9 @@ We will discuss the results into five groups according to the experiment set up.
 
 1)The result of the experiment 1 is depicted in figure \ref{fig_single}. The y-axis report the number of configurations and the x-axis represent a SUT. Algorithms differs from each other in the signal of point and the line linking these points. For a particular algorithm, a point indicate the number of configurations corresponding to the y-axis needed for identifying the MFS in the SUT which corresponding to the x-axis of this point.
 
-There are some intuitive information we can learn from this figure. First, the configurations needed of some algorithms didn't change along with the change of SUT. These algorithms are AIFL, CTA, OFOT,LG, while others need different configurations according to the SUT they are facing. Second, some algorithms(sp, aifl, TTR-NA, OFOT, CTA) shows a obvious disparity in this figure, we can easily rank them according to the number of configurations, i.e., $ofot = cta < TRT-na < aifl < sp$. Besides, These algorithms needs more configurations than the remaining algorithms.
+There are some intuitive information we can learn from this figure. First, the configurations needed of some algorithms didn't change along with the change of SUT. These algorithms are AIFL, CTA, OFOT,LG, while others need different configurations according to the SUT they are facing. Second, some algorithms(sp, aifl, trtNA, OFOT, CTA) shows a obvious disparity in this figure, we can easily rank them according to the number of configurations, i.e., $ofot = cta < trtNA < sp< aifl $. Besides, These algorithms needs more configurations than the remaining algorithms.
 
-For the remaining algorithms, their results are tangled with each other. So in order to rank them, we give an average configurations each algorithms needed : Chain 9.25, FeedBack 11.25, fic 7.96, ri 8 ofot 16 lg 11 , sp .29, aifl 36, rtr 10.75 TRT-NA 23.75   CTA 16. Overall, we can conclude an initial rank in the number of configurations each algorithm needed as:  $FIC-BS<RI<LG<TRT<CHAIN<OFOT = CTA <TRT-NA<AIFL<SP$.
+For the remaining algorithms, their results are tangled with each other. So in order to rank them, we give an average configurations each algorithms needed : Chain 9.25, FeedBack 11.25, fic 7.96, ri 8 ofot 16 lg 11 , sp .29, aifl 36, trt 10.75 trt-NA 23.75   CTA 16. Overall, we can conclude an initial rank in the number of configurations each algorithm needed as:  $FIC-BS<RI<LG<TRT<CHAIN<OFOT = CTA <TRT-NA<AIFL<SP$.
 
 \begin{figure}
  \centering
