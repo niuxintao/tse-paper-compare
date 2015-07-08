@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2014.9.10)  8 JUL 2015 14:02
+This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2014.9.10)  8 JUL 2015 14:18
 entering extended mode
 **bare_jrnl_compsoc.tex
 (C:\Users\xintao\Desktop\tse-paper-compare\bare_jrnl_compsoc.tex
@@ -395,6 +395,11 @@ Requested font "pplr7t" at 28.8854pt
  -> pplr7t
 Requested font "pplrc7t" at 10.0pt
  -> pplrc7t
+
+Underfull \hbox (badness 3189) in paragraph at lines 627--630
+[]\OT1/ppl/m/sc/10 any \OT1/ppl/m/n/10 mod-ern soft-wares are high-ly con-fig-
+ []
+
 Requested font "cmex7" at 7.0pt
  -> cmex7
 
