@@ -464,14 +464,19 @@
 \author{Xintao~Niu,~
         Changhai~Nie,~\IEEEmembership{Member,~IEEE,}
         and~~% <-this % stops a space
-\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem M. Shell is with the Department
-of Electrical and Computer Engineering, Georgia Institute of Technology, Atlanta,
-GA, 30332.\protect\\
+\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem Xintao Niu and Changhai Nie are with the State Key Laboratory for Novel Software Technology, Nanjing University, China, 210023. \protect\\
 % note need leading \protect in front of \\ to get a newline within \thanks as
 % \\ is fragile and will error, could use \hfil\break instead.
-E-mail: see http://www.michaelshell.org/contact.html
-\IEEEcompsocthanksitem J. Doe and J. Doe are with Anonymous University.}% <-this % stops a space
-\thanks{}}
+E-mail: niuxintao@gmail.com, changhainie@nju.edu.cn
+% note need leading \protect in front of \\ to get a newline within \thanks as
+% \\ is fragile and will error, could use \hfil\break instead.
+\IEEEcompsocthanksitem Hareton Leung is with Department of computing, Hong Kong Polytechnic University, Kowloon, Hong Kong. \protect\\
+  E-mail: hareton.leung@polyu.edu.hk
+\IEEEcompsocthanksitem Jeff Y. Lei is with Department of Computer Science and Engineering, The University of Texas at Arlington, Arlington, Texas. \protect\\
+  E-mail: ylei@cse.uta.edu
+\IEEEcompsocthanksitem Xiaoyin Wang is with Department of Computer Science, University of Texas at San Antonio. \protect\\
+  E-mail: Xiaoyin.Wang@utsa.edu}% <-this % stops an unwanted space
+\thanks{Manuscript received April 19, 2005; revised September 17, 2014.}}
 
 % note the % following the last \IEEEmembership and also \thanks -
 % these prevent an unwanted space from occurring between the last author name
@@ -624,47 +629,35 @@ failure-inducing interactions, fault location, debugging aids, combinatorial tes
 %
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-\IEEEPARstart{T}he behavior of modern software are affected by many factors, such as input parameters, configuration options, and specific events. To test such software system is challenging, as in theory we should test all the possible interaction of these factors to ensure the correctness of the System Under Test (SUT). When the number of factors is large, the possible interactions under test increase exponentially. Hence it is, if possible, not practical to conduct such exhaustive testing. Combinatorial testing (CT) is a promising solution to handle the combinatorial explosion problem. Instead of testing all the possible interactions in a system, it focus on checking those interactions with number of involved factors no more than a prior number. Commonly when applying CT, a elaborate test suite (called covering array) will be generated to cover the valid interaction that needs to be checked. Although covering array is effective . In other word, it is far from with covering array alone.
-which is not feasible in practice. Combinatorial testing technique can handle this problem well. It design a relatively small test suite from the configuration spaces to test the SUT and can ensure to cover all the interactions of option values which not exceed t. When we find some configurations fail in this test suite, which means this suite detect some interaction fault, what we want to know next is to identify which specific interaction options and its values are the cause of these failures. To our best know, combinatorial testing provide week support to identify them.
+\IEEEPARstart{T}he behavior of modern software are affected by many factors, such as input parameters, configuration options, and specific events. To test such software system is challenging, as in theory we should test all the possible interaction of these factors to ensure the correctness of the System Under Test (SUT)\cite{song2012itree}. When the number of factors is large, the interactions that are needed to check increase exponentially. Hence it is, if possible, not practical to conduct such exhaustive testing. Combinatorial testing (CT) is a promising solution to handle the combinatorial explosion problem. Instead of testing all the possible interactions in a system, it focus on checking those interactions with number of involved factors no more than a prior number. Commonly when applying CT, a elaborate test suite (called covering array) will be generated to cover the valid interaction that needs to be checked. Although covering array is effective and efficient as a test suite, however, it provides weak support to distinguish the failure-inducing interactions from all the interactions.
+%This is mainly because  In other word, it is far from with covering array alone.
+%which is not feasible in practice. Combinatorial testing technique can handle this problem well. It design a relatively small test suite from the configuration spaces to test the SUT and can ensure to cover all the interactions of option values which not exceed t. When we find some configurations fail in this test suite, which means this suite detect some interaction fault, what we want to know next is to identify which specific interaction options and its values are the cause of these failures. To our best know, combinatorial testing provide week support to identify them.
 % You must have at least 2 lines in the paragraph with the drop letter
 % (should never be an issue)
 
- As an example, consider the database MYSQL and some of its configuration options list in Table \ref{table_example}. Assume we generate a test suite consists of available configurations using combinatorial testing technique, and find some test configurations failed, say, (). Then which specific is the cause, is it \textit{extra-charsets=NULL} and \textit{assembler} = \textit{Enabled} , or \textit{extra-charsets} = \textit{NULL} and \textit{assembler=Enabled}  and \textit{innodb-flush-log} = \textit{2} or other possible interactions . Generally, for a failed test configurations consists of n options  have $2^{n} - 1$  possibilities. To identify them is important, for they can help reduce the scope of source code need to be inspected.
-\begin{table}\renewcommand{\arraystretch}{1.3}
-  \caption{MySQL configuration options example} \centering
-  \label{table_example}
-  \begin{tabular}{p{0.9\columnwidth}}\hline
-  \hline
-  \bfseries Compile Time Options\\
-   \hline
-   \bfseries  Binary Options(Enabled/NULL)\\
-    \hline
-    assembler, local-infile, thread-safe-client, archive-storage-engine, big-tables, blackhole-storage-engine,client-dflags, csv-storage-engine, example-storage-engine, fast-mutexex, federated-storage-engine, libedit, mysqld-ldflags, ndbcluster, pic, readline, config-ssl, zilb-dir
-  \end{tabular}
+ Consider the following example \cite{bach2004pairwise}, Table \ref{MS_word} presents a pair-wise covering array for testing an MS-Word application in which we want to examine various pair-wise interactions of options for `Highlight', `Status Bar', `Bookmarks' and `Smart tags'. Assume the third test case failed. We can get five pair-wise suspicious interactions that may be responsible for this failure. They are respectively (Highlight: Off, Status Bar: On), (Highlight: Off, Bookmarks: Off), (Highlight: Off, Smart tags: Off), (Status Bar: On, Bookmarks: Off), (Status Bar: On, Smart tags: Off),  and (Bookmarks: Off, Smart tags: Off). Without additional information, it is difficult to figure out the specific interactions in this suspicious set that caused the failure. In fact, considering that the interactions consist of other number of factors could also be failure-inducing interactions, e.g., (Highlight: Off) and (Highlight: Off, Status Bar: On, Smart tags: Off), the problem becomes more complicated. Generally, to definitely determine the failure-inducing interactions in a failing test case of \emph{n} factors, we need to check all the $2^n - 1$ interactions in this test case, which is not possible when \emph{n} is a large number.
 
-  \begin{tabular}{c*{2}{p{0.53\columnwidth}}}
-  \hline
-  \bfseries Non-binary Options &   \bfseries values \\
-   \hline
-   extra-charsets & -with-extra-charsets=all, -with-extra-charsets=complex, NULL\\
-   innodb & -with-innodb, -without-innodb, NULL
+\begin{table}
+\caption{MS word example} \centering
+  \label{MS_word}
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{c|cccc|c}
+id& \emph{Highlight} & \emph{Status bar} & \emph{Bookmarks}& \emph{Smart tags} & \bfseries{Outcome} \\\hline
+1& On & On & On& On & PASS\\ \hline
+2& Off & Off & On & On & PASS\\ \hline
+3&Off&	On&	Off&Off & Fail\\ \hline
+4&On & Off & Off &On&  PASS\\ \hline
+5&On & Off &On & Off&  PASS\\ \hline
   \end{tabular}
-
-  \begin{tabular}{c*{2}{p{0.53\columnwidth}}}\hline
-  \hline
-  \bfseries Runtime options &   \bfseries values \\
-  \hline
-   transaction-isolation & READ-UNCOMMITTED, READ-COMMITTED, REPEATABLE-READ, SERIALIZABLE, NULL\\
-   innodb-flush-log & 0, 1, 2, NULL\\
-   sql-mode & ANSI, TRADITIONAL, STRICT\_ALL\_TABLES\\
-  \hline
-  \end{tabular}
-
 \end{table}
 
-We call the faulty interactions of option values the failure-inducing schemas, in effect, this notion is not limited in configurable software testing. The input testing may want to find the failure causing input interaction. The GUT testing may want to find the events interaction which makes the software down. The regression testing may want to find which change trigger the new failure. The html testing may want to isolate the minimal faulty related html source code. The Compatibility testing may want to test which some software run simultaneously will crash the system.
+To address this problem, prior work \cite{nie2011minimal} specifically studied the properties of the failure-inducing interactions in SUT, based on which additional test cases were generated to identify them. Other approaches to identify the failure-inducing interactions in SUT include building a tree model \cite{yilmaz2006covering}, adaptively generating additional test cases according to the outcome of the last test case \cite{zhang2011characterizing}, ranking suspicious interactions based on some rules \cite{ghandehari2012identifying}, and using graphic-based deduction \cite{martinez2008algorithms}, among others. These approaches can be partitioned into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests \cite{nie2011minimal,ghandehari2012identifying,niu2013identifying,zhang2011characterizing,shakya2012isolating,wang2010adaptive,li2012improved}or \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel \cite{yilmaz2006covering,colbourn2008locating,martinez2008algorithms,martinez2009locating}.
 
-How to identify them is not easy, in effect, there are two problems need to be solved: First, we just need to know the properties of the faulty schemas and healthy schemas, i.e., the differences between them. Figuring out that can help us to design approaches to identify a schema to be healthy or faulty. Second, we should find some strategy to check every possible schemas in a test configuration while using as small resources as possible. As the possible schemas in a test configurations can get to $2^n$(n is the number of options in a configuration), then we want the resources needed is logarithmic related to the number of schemas, which will result in the complexity of algorithm with O($n$)(n is the number of options in a configuration).
+These approaches, however, are essentially approximate solutions to failure-inducing identification (Theoretically, definite solution is of exponential computational complexity). Hence, many issues may affect their effectiveness when applied in practice.  Generally, \emph{nonadaptive} approaches can supply a , they are mainly based on some mathematical objects. The shortcomings of these approaches are they are very ad-hoc, that is, many limitations, such as. Moreover, these approaches needs many test cases. For example, for determine the 2-wise covering array is not enough.  \emph{adaptive} approaches are much more flexible, they mainly focus on one failing test case and . They are needs much less test cases than the statical ones, but it can , for example, cannot using less inforamtion, introdicoing , multiple MFS in one test case and so on. 
+
+%We call the faulty interactions of option values the failure-inducing schemas, in effect, this notion is not limited in configurable software testing. The input testing may want to find the failure causing input interaction. The GUT testing may want to find the events interaction which makes the software down. The regression testing may want to find which change trigger the new failure. The html testing may want to isolate the minimal faulty related html source code. The Compatibility testing may want to test which some software run simultaneously will crash the system.
+%
+%How to identify them is not easy, in effect, there are two problems need to be solved: First, we just need to know the properties of the faulty schemas and healthy schemas, i.e., the differences between them. Figuring out that can help us to design approaches to identify a schema to be healthy or faulty. Second, we should find some strategy to check every possible schemas in a test configuration while using as small resources as possible. As the possible schemas in a test configurations can get to $2^n$(n is the number of options in a configuration), then we want the resources needed is logarithmic related to the number of schemas, which will result in the complexity of algorithm with O($n$)(n is the number of options in a configuration).
 
 In this paper, we first give the properties of faulty schemas and healthy schemas. Furthermore, we propose the notion CMINFS(represent for candidate minimal faulty schemas) and CMAXHS(represent for candidate maximal healthy schemas). Through using them we can easily check whether some schemas are healthy or faulty according existed checked schemas. For these schemas can not be checked by exited checked schemas, we generate an newly configuration to test, (do we need to describe  it ?????)and the state pass or fail indicate that whether the schema is healthy or faulty. Note that if newly faulty schemas introduced from the extra test configurations, then the identify result is influenced. We take it into account and solve it by introduce the feedback machinery into our approach.
 
@@ -676,7 +669,7 @@ We studied existed works which also target this problem. To propose a clear view
 3)we classified existed works, and give an comprehensive comparison both on theoretical and empirical metrics.
 4)give an general identify framework when facing real failure-inducing problems, and give advices on when an which circumstances to choose which algorithm.
 
-The remainder of this paper is organized as follows: Section 2 introduce some preliminary definitions and propositions. Section 3 describe our approaches for identify failure-inducing schemas. Section 4 give the comparisons in theoretical metrics. Section 5 describe the experiments design. Section 6 list the result of the experiments. Section 7 summarize the related works. Section 8 conclude this paper and discuss the future works.
+The remainder of this paper is organized as follows: Section \ref{sec:back} introduce some preliminary definitions and propositions. Section \ref{sec:motiv} presents some limitations of exiting failure-inducing interactions identification approaches which motivate this paper. Section \ref{sec:app} describe our approaches for identify failure-inducing schemas. Section \ref{sec:simulateEx} give the comparisons in theoretical metrics. Section \ref{sec:realEx} describe the experiments design on real subjects. Section \ref{sec:related} summarize the related works. Section \ref{sec:conclusion} conclude this paper and discuss the future works.
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
 % For figures, \caption should occur after the \includegraphics.
@@ -762,10 +755,10 @@ The remainder of this paper is organized as follows: Section 2 introduce some pr
 % Note that, LaTeX2e, unlike IEEE journals, places footnotes above bottom
 % floats. This can be corrected via the \fnbelowfloat command of the
 % stfloats package.
-\section{Preliminary}
+\section{Preliminary} \label{sec:back}
 Before we talk about our approach, we will give some formal definitions and proposals first, which is helpful to understand the background of our description of our approach.
 
-\subsection{definitions}
+\subsection{Definitions}\label{sec:back:define}
 Assume that the SUT (software under test) is influenced by \emph{n} parameters, and each parameter $c_{i}$ has $a_{i}$ discrete values from the finite set $V_{i}$, i.e., $a_{i}$ = $|V_{i}|$ ($i$ = 1,2,..n). Some of the definitions and propositions below are originally defined in and .
 
 \newtheorem{definition}{Definition}
@@ -814,7 +807,8 @@ If a schema is a faulty schema and satisfy the followed condition:
 If a schema is a healthy schema and and satisfy the followed condition:
 1.none of its  parent-schemas are healthy schemas, 2. at least one subschema is pending schema. We then call the schema a \emph{candidate maximum healthy schema}(\emph{CMAXHS} for short).
 \end{definition}
-\subsection{propositions}
+
+\subsection{Propositions}\label{sec:back:propositinon}
 \newtheorem{proposition}{Propositions}
 \begin{proposition}
 All the schemas in a passed test configuration are healthy schemas.
@@ -830,7 +824,20 @@ All the parent-schemas of a faulty schema are faulty schemas.
 All the subschemas of a healthy schema are healthy schemas.
 \end{proposition}
 
-\section{The approach to identify the minimal failure-inducing schemas}
+
+\section{Motivation of the approach}\label{sec:motiv}
+
+\subsection{Multiple MFS}
+\subsubsection{Overlapping MFS}
+\subsection{High degree MFS}
+\subsection{Too many test cases}
+\subsection{Needs too many computing resources}
+\subsection{Introducing of newly MFS}
+
+A big table that consists of many
+
+
+\section{The approach to identify the minimal failure-inducing schemas}\label{sec:app}
 Based on these definitions and propositions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
 
 \subsection{additional failure-inducing not be introduced}
@@ -855,7 +862,7 @@ As we can identify a pending schema to be healthy schema or faulty schema by gen
 \begin{figure}
  \centering
  \includegraphics[width=2.7in]{gp.eps}
- \caption{overview of approach of identifying MFS}
+ \caption{Overview of approach of identifying MFS}
  \label{fig_overview}
 \end{figure}
 \subsubsection{Choosing a pending schema}
@@ -1160,7 +1167,7 @@ Table \ref{augment_example} illustrate this augment algorithm with an example.
 
 \end{table*}
 
-\section{Evaluation with simulated SUT}
+\section{Evaluation with simulated SUT} \label{sec:simulateEx}
 In this section, we designed a simulated SUT of which the number of parameters and the value of each parameter can both be customized. In addition, we can also manually inject faulty schemas in the simulated SUT. We will conduct a series of experiments with this simulated SUT in this section. The goal of our experiments is to evaluate the efficiency and effectiveness of our approach compared with other existed techniques. The main reason why we use simulated program is that we can easily run a bench of experiments with various states of a SUT, i.e., different parameters and different MFSs. By doing so we can thoroughly learn the performance of each algorithm without biases.
 
 As we discussed in the background section, the fault privilege properties just effect the way we determine a configuration is fail or pass. It doesn't effect the performance of each algorithm. So to be simple and clear, we omit the fault privilege in the simulated SUT , i.e., all the fault in the SUT has the same privilege. This is a ideal scenario which may not exist in real softwares, in the empirical studies of section 7 we will deal with the real faults in some open-source softwares with different privileges.
@@ -1289,7 +1296,7 @@ we will enlarge some of them to figure \ref{fig_free_d_small}
 \end{figure}
 
 
-\section{Empirical Case study}
+\section{Empirical Case study}\label{sec:realEx}
  While we got know that our approach have a better performance than others in several scenarios such as a failing test case contains multiple MFSs, the generated extra test case introduces newly MFS and so on from previous simulated experiments, it did not give us strong confidence in that our approach will also perform well in real software systems. One important reason of this is that we don't know whether these competitive scenarios for our approach existed in real software systems. So to eliminate the doubt we conduct a series empirical studies in this section. These empirical studies aimed to answer the following questions:
 
  Q1:Is there any test case that contain multiple MFSs, and if so, do they overlapped each other? Do any of these MFSs have high degree and how likely does it introduce newly MFS when generate extra test cases.
@@ -1544,12 +1551,12 @@ As we will take a large number of configurations to identify( 147472 for HSQLDB)
 
 The answer to Q3 is that: yes, it has promotion, but very little.
 
-\section{threats to validate}
+\subsection{threats to validate}
 how seeded bugs are representative
 auto oracle, if we don't have a correct version, or we can't determine a test case is faulty and wrong, then what can i do?
 timing result
 One worrying aspect of this research is that it seems to consider only the number of tests and number of faults uncovered. In the practice of testing, it is as important or more important to know testing times.
-\section{Related works and Discuss}
+\section{Related works and Discuss}\label{sec:related}
 Detail list the history. In the experiment section, we just give some brief introduction.
 
 Nie's approach in [3] and [6] first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
@@ -1581,7 +1588,7 @@ We list a comprehensive detail and comparison table \ref{comparison-metrics}as f
 But even we get the failure-inducing schemas, it is still having a gap to fetch the failure causing root from the code. Such as int the TCAS, we get the failure-inducing schemas, and this is caused by a code mutation in the code such as followed:.  So in the future, we will analysis the relationship between the failure-inducing schemas and the real code causing.
 
 
-\section{Conclusion}
+\section{Conclusion}\label{sec:conclusion}
 The conclusion goes here.
 
 
@@ -1659,32 +1666,20 @@ The authors would like to thank...The authors would like to thank...The authors 
 % http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
 % The IEEEtran BibTeX style support page is at:
 % http://www.michaelshell.org/tex/ieeetran/bibtex/
-%\bibliographystyle{IEEEtran}
-% argument is your BibTeX string definitions and bibliography database(s)
-%\bibliography{IEEEabrv,../bib/paper}
+\bibliographystyle{IEEEtran}
+
+\bibliography{sigproc}
 %
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-\begin{thebibliography}{1}
-
-\bibitem{IEEEhowto:kopka}
-%This is an example of a book reference
-H. Kopka and P.W. Daly, \emph{A Guide to {\LaTeX}}, third ed. Harlow, U.K.: Addison-Wesley, 1999.
-
-
-%This is an example of a Transactions article reference
-%D.S. Coming and O.G. Staadt, "Velocity-Aligned Discrete Oriented Polytopes for Dynamic Collision Detection," IEEE Trans. Visualization and Computer Graphics, vol.?4,?no.?,?pp. 1-12,?Jan/Feb?2008, doi:10.1109/TVCG.2007.70405.
-
-%This is an example of a article from a conference proceeding
-%H. Goto, Y. Hasegawa, and M. Tanaka, "Efficient Scheduling Focusing on the Duality of MPL Representation," Proc. IEEE Symp. Computational Intelligence in Scheduling (SCIS '07), pp. 57-64, Apr. 2007, doi:10.1109/SCIS.2007.367670.
-
-%This is an example of a PrePrint reference
-%J.M.P. Martinez, R.B. Llavori, M.J.A. Cabo, and T.B. Pedersen, "Integrating Data Warehouses with Web Data: A Survey," IEEE Trans. Knowledge and Data Eng., preprint, 21 Dec. 2007, doi:10.1109/TKDE.2007.190746.
-
-%Again, see the IEEEtrans_HOWTO.pdf for several more bibliographical examples. Also, more style examples
-%can be seen at http://www.computer.org/author/style/transref.htm
-\end{thebibliography}
+%\begin{thebibliography}{1}
+%
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+%
+%\end{thebibliography}
 
 % biography section
 %
@@ -1694,7 +1689,7 @@ H. Kopka and P.W. Daly, \emph{A Guide to {\LaTeX}}, third ed. Harlow, U.K.: Addi
 % \includegraphics command within an optional argument. (You could create
 % your own custom macro containing the \includegraphics command to make things
 % simpler here.)
-%\begin{biography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
+%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
 % or if you just want to reserve a space for a photo:
 
 \begin{IEEEbiography}{Michael Shell}
