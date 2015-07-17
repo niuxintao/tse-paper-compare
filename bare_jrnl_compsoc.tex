@@ -437,7 +437,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Beyond OFOT: A more efficient and effective MFS Identification method}
+\title{A more efficient and effective MFS Identification method}
 %
 %
 % author names and IEEE memberships
@@ -534,7 +534,7 @@ E-mail: niuxintao@gmail.com, changhainie@nju.edu.cn
 \IEEEcompsoctitleabstractindextext{%
 \begin{abstract}
 %\boldmath
-Combinatorial testing (CT) aims to detect the failures which are triggered by the interactions of various factors that can influence the behaviour of the system, such as input parameters, configuration options, and specific events. Many studies in CT focus on designing a elaborate test suite (called covering array) to reveal such failures. When a interaction failure is detected, it is desired to identify the root cause of that failure, i.e., the failure-inducing interactions. Although covering array can assist testers to systemically check each possible factor interactions (without masking effects), however, it provides weak support to locate the failure-inducing interactions. Hence, more auxiliary information are needed to filter out those failure-irrelevant interactions and obtain the failure-inducing ones. Recently some elementary researches are proposed to handle the failure-inducing interaction identification problem. However, some issues, such as unable to identify multiple failure-inducing interactions, and generating too many additional test cases, negatively influence the practicability of these approaches. In this paper, we propose a novel failure-inducing identification approach which aims to handle those issues. The key of our approach is to search for a proper factor interaction at each iteration to check whether it is failure-inducing or not until all the interactions in a failing test cases are checked. To reach this target, we maintain two data structures to guide the selection, i.e., CMINFS(represent for candidate minimal faulty schemas) and CMAXHS(represent for candidate maximal healthy schemas). With these two data set, an optimal interaction can be selected to check so that we can reduce as many additional test cases as possible, as well as not ignore any unchecked-interactions, e.g., the interactions with large number of factors. Our approach will repeat updating the interactions in these two set after a interaction is checked. Moreover, we conduct empirical studies on both widely-used real highly-configurable software systems and synthetic softwares. Results showed that our approach obtained a higher quality at the failure-inducing interaction identification, while just needed a smaller number of additional test cases.
+Combinatorial testing (CT) aims to detect the failures which are triggered by the interactions of various factors that can influence the behaviour of the system, such as input parameters, configuration options, and specific events. Many studies in CT focus on designing a elaborate test suite (called covering array) to reveal such failures. When a interaction failure is detected, it is desired to identify the root cause of that failure, i.e., the failure-inducing interactions. Although covering array can assist testers to systemically check each possible factor interactions (without masking effects), however, it provides weak support to locate the failure-inducing interactions. Hence, more auxiliary information are needed to filter out those failure-irrelevant interactions and obtain the failure-inducing ones. Recently some elementary researches are proposed to handle the failure-inducing interaction identification problem. However, some issues, such as unable to identify multiple failure-inducing interactions, and generating too many additional test cases, negatively influence the applicability of these approaches. In this paper, we propose a novel failure-inducing identification approach which aims to handle those issues. The key of our approach is to search for a proper factor interaction at each iteration to check whether it is failure-inducing or not until all the interactions in a failing test cases are checked. To reach this target, we maintain two data structures to guide the selection, i.e., CMINFS(represent for candidate minimal faulty schemas) and CMAXHS(represent for candidate maximal healthy schemas). With these two data set, an optimal interaction can be selected to check so that we can reduce as many additional test cases as possible, as well as not ignore any unchecked-interactions, e.g., the interactions with large number of factors. Our approach will repeat updating the interactions in these two set after a interaction is checked. Moreover, we conduct empirical studies on both widely-used real highly-configurable software systems and synthetic softwares. Results showed that our approach obtained a higher quality at the failure-inducing interaction identification, while just needed a smaller number of additional test cases.
 
 
 %at each iteraction.  Our approach works by checking each possible factor interaction in a failing test case, we check. With this ,  Our approach can ensure that each possible interaction in a failing test case is checked or onr. As a consequent, we can avoid many, such as mutliple, overlapping, hihger degree.
@@ -635,7 +635,7 @@ failure-inducing interactions, fault location, debugging aids, combinatorial tes
 % You must have at least 2 lines in the paragraph with the drop letter
 % (should never be an issue)
 
- Consider the following example \cite{bach2004pairwise}, Table \ref{MS_word} presents a pair-wise covering array for testing an MS-Word application in which we want to examine various pair-wise interactions of options for `Highlight', `Status Bar', `Bookmarks' and `Smart tags'. Assume the third test case failed. We can get five pair-wise suspicious interactions that may be responsible for this failure. They are respectively (Highlight: Off, Status Bar: On), (Highlight: Off, Bookmarks: Off), (Highlight: Off, Smart tags: Off), (Status Bar: On, Bookmarks: Off), (Status Bar: On, Smart tags: Off),  and (Bookmarks: Off, Smart tags: Off). Without additional information, it is difficult to figure out the specific interactions in this suspicious set that caused the failure. In fact, considering that the interactions consist of other number of factors could also be failure-inducing interactions, e.g., (Highlight: Off) and (Highlight: Off, Status Bar: On, Smart tags: Off), the problem becomes more complicated. Generally, to definitely determine the failure-inducing interactions in a failing test case of \emph{n} factors, we need to check all the $2^n - 1$ interactions in this test case, which is not possible when \emph{n} is a large number.
+Consider the following example \cite{bach2004pairwise}, Table \ref{MS_word} presents a pair-wise covering array for testing an MS-Word application in which we want to examine various pair-wise interactions of options for `Highlight', `Status Bar', `Bookmarks' and `Smart tags'. Assume the third test case failed. We can get five pair-wise suspicious interactions that may be responsible for this failure. They are respectively (Highlight: Off, Status Bar: On), (Highlight: Off, Bookmarks: Off), (Highlight: Off, Smart tags: Off), (Status Bar: On, Bookmarks: Off), (Status Bar: On, Smart tags: Off),  and (Bookmarks: Off, Smart tags: Off). Without additional information, it is difficult to figure out the specific interactions in this suspicious set that caused the failure. In fact, considering that the interactions consist of other number of factors could also be failure-inducing interactions, e.g., (Highlight: Off) and (Highlight: Off, Status Bar: On, Smart tags: Off), the problem becomes more complicated. Generally, to definitely determine the failure-inducing interactions in a failing test case of \emph{n} factors, we need to check all the $2^n - 1$ interactions in this test case, which is not possible when \emph{n} is a large number.
 
 \begin{table}
 \caption{MS word example} \centering
@@ -653,15 +653,23 @@ id& \emph{Highlight} & \emph{Status bar} & \emph{Bookmarks}& \emph{Smart tags} &
 
 To address this problem, prior work \cite{nie2011minimal} specifically studied the properties of the failure-inducing interactions in SUT, based on which additional test cases were generated to identify them. Other approaches to identify the failure-inducing interactions in SUT include building a tree model \cite{yilmaz2006covering}, adaptively generating additional test cases according to the outcome of the last test case \cite{zhang2011characterizing}, ranking suspicious interactions based on some rules \cite{ghandehari2012identifying}, and using graphic-based deduction \cite{martinez2008algorithms}, among others. These approaches can be partitioned into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests \cite{nie2011minimal,ghandehari2012identifying,niu2013identifying,zhang2011characterizing,shakya2012isolating,wang2010adaptive,li2012improved}or \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel \cite{yilmaz2006covering,colbourn2008locating,martinez2008algorithms,martinez2009locating}.
 
-These approaches, however, are essentially approximate solutions to failure-inducing identification (Theoretically, definite solution is of exponential computational complexity). Hence, many issues may affect their effectiveness when applied in practice.  Generally, \emph{non-adaptive} approaches usually can accurately identify the failure-inducing interactions, even when there are multiple ones in the SUT. Their effectiveness are based on some mathematical objects \cite{colbourn2008locating,martinez2008algorithms,martinez2009locating}. The shortcomings of these approaches are they are very ad-hoc, that is, they are restricted to many limitations, such as the number of failure-inducing interactions must be given as well as the number of the maximal factors involved in a failure-inducing interaction. Moreover, these approaches usually consume many test cases \cite{zhang2011characterizing}. \emph{Adaptive} approaches are much more flexible, and they mainly focus on one failing test case. Commonly they are needs much less test cases than \emph{non-adaptive} approaches. However, some problems, such as cannot handle multiple failure-inducing interactions (especially they are have overlapping factors), and cannot handle the newly introduced failure-interactions in the additional generated test cases, negatively affect their performance (both precise and recall). 
+These approaches, however, are essentially approximate solutions to failure-inducing identification (Theoretically, definite solution is of exponential computational complexity). Hence, many issues may affect their effectiveness when applied in practice.  Generally, \emph{non-adaptive} approaches usually can accurately identify the failure-inducing interactions, even when there are multiple ones in the SUT. Their effectiveness are based on some mathematical objects \cite{colbourn2008locating,martinez2008algorithms,martinez2009locating}. The shortcomings of these approaches are they are very ad-hoc, that is, they are restricted to many limitations, such as the number of failure-inducing interactions must be given as well as the number of the maximal factors involved in a failure-inducing interaction. Moreover, these approaches usually consume many test cases \cite{zhang2011characterizing}. \emph{Adaptive} approaches are much more flexible, and they mainly focus on one failing test case. Commonly they are needs much less test cases than \emph{non-adaptive} approaches. However, some problems, such as cannot handle multiple failure-inducing interactions (especially they are have overlapping factors), and cannot handle the newly introduced failure-interactions in the additional generated test cases, negatively affect their performance (both precise and recall).
 %but it can , for example, cannot using less information, introducing , multiple MFS in one test case and so on.
 
 %We call the faulty interactions of option values the failure-inducing schemas, in effect, this notion is not limited in configurable software testing. The input testing may want to find the failure causing input interaction. The GUT testing may want to find the events interaction which makes the software down. The regression testing may want to find which change trigger the new failure. The html testing may want to isolate the minimal faulty related html source code. The Compatibility testing may want to test which some software run simultaneously will crash the system.
 %
 %How to identify them is not easy, in effect, there are two problems need to be solved: First, we just need to know the properties of the faulty schemas and healthy schemas, i.e., the differences between them. Figuring out that can help us to design approaches to identify a schema to be healthy or faulty. Second, we should find some strategy to check every possible schemas in a test configuration while using as small resources as possible. As the possible schemas in a test configurations can get to $2^n$(n is the number of options in a configuration), then we want the resources needed is logarithmic related to the number of schemas, which will result in the complexity of algorithm with O($n$)(n is the number of options in a configuration).
 
-In this paper, we propose a novel failure-inducing interaction identification approach (\emph{adaptive}) which aims to alleviate these issues. 
-Our approach is based on the notions of we first give the properties of faulty schemas and healthy schemas. Furthermore, we propose the notion CMINFS(represent for candidate minimal faulty schemas) and CMAXHS(represent for candidate maximal healthy schemas). Through using them we can easily check whether some schemas are healthy or faulty according existed checked schemas. For these schemas can not be checked by exited checked schemas, we generate an newly configuration to test, (do we need to describe  it ?????)and the state pass or fail indicate that whether the schema is healthy or faulty. Note that if newly faulty schemas introduced from the extra test configurations, then the identify result is influenced. We take it into account and solve it by introduce the feedback machinery into our approach.
+In this paper, we propose a novel failure-inducing interaction identification approach (\emph{adaptive}) which aims to alleviate these issues.
+Our approach is based on the notions of \emph{faulty schemas} and \emph{healthy schemas} (A schema is equivalent to interaction), among which the former will result in a failure if a test case contain it while the latter will not. Furthermore, two important data structures are maintained in our approach, i.e., CMINFS(represent for candidate minimal faulty schemas) and CMAXHS(represent for candidate maximal healthy schemas). Through using the two data structures, some schemas in the failing test case can be determined to be healthy, or faulty. Those schemas that cannot be determined by these two data structures will be selected and checked. When an un-determined schema is checked, we will update these two structures. This process is repeated until all the schemas are determined to be healthy or faulty, and the failure-inducing schemas will be selected from those faulty schemas. By doing so, we will not omit any schema that can be candidate failure-inducing interaction in the failing test case. As a result, our approach can handle the cases such as a failing test case containing multiple failure-inducing interactions and interactions consisting of any different number of factors.
+
+The order of selecting un-determined schemas to be checked is important as it affects the update of CMINFS and CMAXHS. Specifically, with the same CMINFS and CMAXHS, choosing different schema to check will result in different number of remaining un-determined schemas, which is strongly correlated to the speed of convergence of our approach. In this paper, we give a selection strategy which tries to optimise the performance of our approach, i.e., makes the amount of generated additional test cases as small as possible. The selection of our approach consists of two steps: (1) We select a sequence of closely related unknown schemas from the remaining unknown combinations and sort them according to their relationships with each other. Generally, there is more than one such sequence. As such, we will select the one with the maximum number of combinations for that we can determine the combinations as much as possible in the iteration. (2) For the sequence we select in the first step, we use binary search to find the combination in the sequence as the one to be analyzed for this turn. Since the combinations in the sequence are closely related and sorted according to their relationships. The complexity of our approach can reach to $O(d\times t \times log k + t^{d})$, where $d$ is the number of failure-inducing interactions in a failing test case, t is the maximal factors a failure-inducing consists of, and $k$ is number of factors in a failing test case. This complexity is very efficient when compared to other approaches.
+
+Our approach also provide a variation of feedback .
+%Furthermore,  Based on this we optimise the chosen, so that . At last, we support .
+%We also give a feedback-check
+%
+%For these schemas can not be checked by exited checked schemas, we generate an newly configuration to test, (do we need to describe  it ?????)and the state pass or fail indicate that whether the schema is healthy or faulty. Note that if newly faulty schemas introduced from the extra test configurations, then the identify result is influenced. We take it into account and solve it by introduce the feedback machinery into our approach.
 
 We studied existed works which also target this problem. To propose a clear view of the characteristics of exited works and our work, we  summary a list of metrics include constraints, limitations, complexities and so on. Through an comprehensive analysis, we have list the results in our paper. Besides these theoretical metrics, we also conduct empirical studies of these approaches. These experiment objects consists of a group of simulated toy softwares, the Small-Scale and Medium-scale Siemens Software Sets and two large highly-configurable softwares: Apache and MySQL. Our results shows that the failure-inducing schemas do existed in software, and our approach can get the best performance when identify them compared with existed works.
 
@@ -801,16 +809,28 @@ Note that this is the target to identify,for that this will give us the most pre
 \begin{definition}[maximum healthy schema]
 If a schema is a healthy schema and all its parent-schemas are faulty schemas, we then call the schema a \emph{maximum healthy schema}(\emph{MAXHS} for short).
 \end{definition}
-\begin{definition}[candidate minimal faulty schema]
-If a schema is a faulty schema and satisfy the followed condition:
-1.none of its subschemas are faulty schemas, 2. at least one subschema is pending schema.(is need discuss!!!!!! one or none is okay?)We then call the schema a \emph{candidate minimal faulty schema}(\emph{CMINFS} for short).
-\end{definition}
-\begin{definition}[candidate maximum healthy schema]
-If a schema is a healthy schema and and satisfy the followed condition:
-1.none of its  parent-schemas are healthy schemas, 2. at least one subschema is pending schema. We then call the schema a \emph{candidate maximum healthy schema}(\emph{CMAXHS} for short).
-\end{definition}
 
-\subsection{Propositions}\label{sec:back:propositinon}
+
+\subsection{MFS identification approaches}
+\subsubsection{non-adaptive}
+\subsubsection{adaptive}
+\subsubsection{others}
+
+\section{Motivation of the approach}\label{sec:motiv}
+
+Take OFOT for example, then illustrate the problems, and other similar approaches problems.
+
+\subsection{Multiple MFS}
+\subsubsection{Overlapping MFS}
+\subsection{High degree MFS}
+\subsection{Too many test cases}
+\subsection{Needs too many computing resources}
+\subsection{Introducing of newly MFS}
+
+A big table that consists of many
+
+
+\section{Propositions}\label{sec:propositinon}
 \newtheorem{proposition}{Propositions}
 \begin{proposition}
 All the schemas in a passed test configuration are healthy schemas.
@@ -826,21 +846,19 @@ All the parent-schemas of a faulty schema are faulty schemas.
 All the subschemas of a healthy schema are healthy schemas.
 \end{proposition}
 
-
-\section{Motivation of the approach}\label{sec:motiv}
-
-\subsection{Multiple MFS}
-\subsubsection{Overlapping MFS}
-\subsection{High degree MFS}
-\subsection{Too many test cases}
-\subsection{Needs too many computing resources}
-\subsection{Introducing of newly MFS}
-
-A big table that consists of many
-
-
 \section{The approach to identify the minimal failure-inducing schemas}\label{sec:app}
 Based on these definitions and propositions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
+
+\begin{definition}[candidate minimal faulty schema]
+If a schema is a faulty schema and satisfy the followed condition:
+1.none of its subschemas are faulty schemas, 2. at least one subschema is pending schema.(is need discuss!!!!!! one or none is okay?)We then call the schema a \emph{candidate minimal faulty schema}(\emph{CMINFS} for short).
+\end{definition}
+\begin{definition}[candidate maximum healthy schema]
+If a schema is a healthy schema and and satisfy the followed condition:
+1.none of its  parent-schemas are healthy schemas, 2. at least one subschema is pending schema. We then call the schema a \emph{candidate maximum healthy schema}(\emph{CMAXHS} for short).
+\end{definition}
+
+
 
 \subsection{additional failure-inducing not be introduced}
 \newtheorem{assumption}{Assumption}
