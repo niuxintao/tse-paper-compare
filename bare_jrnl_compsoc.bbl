@@ -98,10 +98,8 @@ C.~Mart{\'\i}nez, L.~Moura, D.~Panario, and B.~Stevens, ``Locating errors using
   elas, covering arrays, and adaptive testing algorithms,'' \emph{SIAM Journal
   on Discrete Mathematics}, vol.~23, no.~4, pp. 1776--1799, 2009.
 
-\bibitem{fouche2009incremental}
-S.~Fouch{\'e}, M.~B. Cohen, and A.~Porter, ``Incremental covering array failure
-  characterization in large configuration spaces,'' in \emph{Proceedings of the
-  eighteenth international symposium on Software testing and analysis}.\hskip
-  1em plus 0.5em minus 0.4em\relax ACM, 2009, pp. 177--188.
+\bibitem{nie2011survey}
+C.~Nie and H.~Leung, ``A survey of combinatorial testing,'' \emph{ACM Computing
+  Surveys (CSUR)}, vol.~43, no.~2, p.~11, 2011.
 
 \end{thebibliography}

@@ -592,7 +592,7 @@ failure-inducing interactions, fault location, debugging aids, combinatorial tes
 
 
 
-\section{Introduction}
+\section{Introduction}\label{sec:intro}
 % Computer Society journal papers do something a tad strange with the very
 % first section heading (almost always called "Introduction"). They place it
 % ABOVE the main text! IEEEtran.cls currently does not do this for you.
@@ -676,7 +676,7 @@ we conducted several empirical studies to evaluate our approach. These experimen
 
 \textbf{Contributions of this paper}:
 \begin{itemize}
-  \item We studied the properties of failure-inducing schemas and showed the issues to identify them. 
+  \item We studied the properties of failure-inducing schemas and showed the issues to identify them.
   \item We proposed a novel adaptive approach which can identify the failure-inducing schemas effectively and efficiently.
 %  \item We classified existed works, and give an comprehensive comparison both on theoretical and empirical metrics.
   \item We conducted a series of empirically studies to evaluate the performance of our approach.
@@ -692,43 +692,60 @@ Assume that the behaviour of SUT is influenced by \emph{k} parameters, and each 
 
 
 \newtheorem{definition}{Definition}
-\begin{definition}[test case] \label{de:test}
-A test configuration of the SUT is an array of \emph{n} values, one for each parameter of the SUT, which is denoted as a \emph{n}-tuple ($v_{1}$, $v_{2}$...$v_{n}$), where $v_{1}\in V_{1}$, $v_{2} \in V_{2}$ ... $v_{n} \in V_{n}$.
-\end{definition}
-\begin{definition}[test oracle]
-the test oracle is that whether it is a test configuration pass or fail. For a clear discuss, we didn't take the multiple output state into account, but we believe our method can easily extend to the multiple oracles.
-\end{definition}
+\newtheorem{assumption}{Assumption}
 
-However, our discuss is based on the SUT is a deterministic software, i.e., will not pass this time and fail that time. We can run our approach multiple times to eliminate this problem, which, however is beyond the scope of this paper.
-
-
-\begin{definition}[faulty]
-
-by this definition, the constraints can also be a faulty, which didn't run as our expected, and it may have a high privilege than the fault caused by the functional code.
-
+\begin{definition}[Test Case]\label{de:test}
+A \emph{test case} of SUT is an array of \emph{k} values, one for each parameter of the SUT, which is denoted as a \emph{k}-tuple ($v_{1}$, $v_{2}$,...,$v_{k}$), where $v_{1}\in V_{1}$, $v_{2} \in V_{2}$ ... $v_{k} \in V_{k}$.
 \end{definition}
 
-\begin{definition}[schema]\label{de:tuple}
-For the SUT, the \emph{n}-tuple (-,$v_{n_{1}}$,...,$v_{n_{k}}$,...)is called a \emph{k}-value schema (k > 0) when some k parameters have fixed values and the others can take on their respective allowable values, represented as "-". In effect a test configuration its self is a k-value schema, which k is equal to n. Furthermore, if a test configuration contain a schema, i.e., every fixed value in this schema is also in this test configuration, we say this configuration hit this schema.
+Take Table \ref{MS_word} for example, ($Highlight = on$, $Status bar = false$, $Bookmarks = false$, $Smart tags = on$) is a test case, which is actually a group of values being assigned to each input parameter.
+%We need to execute the SUT with these test cases to ensure the correctness of its behaviour.
+
+\begin{definition}[Schema]\label{de:tuple}
+For the SUT, the \emph{n}-tuple (-,$v_{n_{1}}$,...,$v_{n_{k}}$,...)is called a \emph{k}-degree \emph{schema} ($0 < k \leq n $) when some k parameters have fixed values and other irrelevant parameters are represented as "-".
+
+In effect a test case itself is a k-degree \emph{schema}, when k = n. Furthermore, if a test case contains a \emph{schema}, i.e., every fixed value in the schema is in this test case, we say this test case \emph{contains} the \emph{schema}.
+%, which can be denoted as $k-value\  combination \in T$
 \end{definition}
-\begin{definition}[subsume relationship]
-let $s_{l}$ be a \emph{l}-value schema, $s_{m}$ be an \emph{m}-value schema for the SUT and $l \leq m$. If all the fixed parameter values in $s_{l}$ are also in $s_{m}$, then $s_{m}$ \emph{subsumes} $s_{l}$. In this case we can also say that $s_{l}$ is a \emph{subschema} of $s_{m}$ and $s_{m}$ is a \emph{parent-schema} of $s_{l}$. Additionally, if m = l + 1, then the relationship between $s_{l}$ and $s_{m}$ is direct.
-\end{definition}
-\begin{definition}[healthy,faulty and pending]
-A \emph{k}-value schema is called a \emph{faulty schema} if all the valid test configuration hit the schema trigger a failure. And a \emph{k}-value schema is called a \emph{healthy schema} when we find at least one passed valid test configuration that hits this schema. In addition, if we don't have enough information of a schema,i.e., we don't sure whether it is a healthy schema or faulty schema, we call it the pending schema.
+Note that the schema is a formal description of the interaction between parameter values we discussed before.
+
+\begin{definition}[Subsume]\label{de:sub}
+Let $c_{l}$ be a \emph{l}-degree schema, $c_{m}$ be an \emph{m}-degree schema in SUT and $l < m$. If all the fixed parameter values in $c_{l}$ are also in $c_{m}$, then $c_{m}$ \emph{subsumes} $c_{l}$. In this case we can also say that $c_{l}$ is a \emph{sub-schema} of $c_{m}$ and $c_{m}$ is a \emph{super-schema} of $c_{l}$, which can be denoted as $c_{l} \prec  c_{m}$.
 \end{definition}
 
-Note that, in real software context, there existed cases that a test configuration hit a faulty schema but passed. We call this case the \emph{coincidental correctness}, which may be caused by other factors which influence the execution result. We will not discuss this case in this paper.
+For example,  the 2-degree schema (-, 4, 4, -) is a sub-schema of the 3-degree schema (-, 4, 4, 5), that is, (-,4,4,-) $\prec$ (-,4,4,5).
 
-\begin{definition}[minimal faulty schema]
-If a schema is a faulty schema and all its subschemas are healthy schemas, we then call the schema a \emph{minimal faulty schema}(\emph{MINFS} for short).
+\begin{definition}[Faulty, MFS]\label{de:faulty:minimal}
+If all test cases that contain a schema, say $c$, trigger a particular fault, say $F$, then we call this schema $c$ the \emph{faulty schema} for $F$. Additionally, if none of sub-schema of $c$ is the \emph{faulty schema} for $F$, we then call the schema $c$ the \emph{minimal failure-causing schema (MFS)} \cite{nie2011minimal} for $F$.
+%Based on this, if a test case $t$ hit such a failure-inducing combination, say $c(F)$, it should trigger the fault $F$, for which the test case can be put as $t(F)$
 \end{definition}
 
-Note that this is the target to identify,for that this will give us the most precise while enough information to help the developers to inspect the scope of the source code.
+Note that MFS is identical to the failure-inducing interaction discussed previously. In this paper, the terms \emph{failure-inducing interactions} and \emph{MFS} are used interchangeably. Figuring the MFS out helps to identify the root cause of a failure and thus facilitate the debugging process.
 
-\begin{definition}[maximum healthy schema]
-If a schema is a healthy schema and all its parent-schemas are faulty schemas, we then call the schema a \emph{maximum healthy schema}(\emph{MAXHS} for short).
+\begin{definition}[Healthy, MHS]\label{de:healthy:maximal}
+A \emph{k}-value schema, say, $c$, is called a \emph{healthy schema} when we find at least one passed valid test case that contains this schema. In addition, if none of super-schema of $c$ is the \emph{healthy schema}, we then call the schema $c$ the \emph{maximal healthy schema (MHS)}
 \end{definition}
+
+\emph{MHS} is exactly the antithesis of \emph{MFS}. 
+
+\begin{definition}[Pending]\label{de:pending}
+A schema is called \emph{pending} schema, if it is not yet determined to be \emph{healthy} schema or \emph{faulty} schema.
+\end{definition}
+
+These \emph{pending} schema is actually the \emph{un-determined} schema discussed in Section \ref{intro}. In effect, to identify the MFS in a failing test case is to figure out all the \emph{pending} schemas, and then try to determine each of them to be \emph{healthy} or \emph{faulty} schema. After that, the MFS can be selected from those \emph{faulty} schemas by definition.
+
+%if we don't have enough information of a schema,i.e., we don't sure whether it is a healthy schema or faulty schema, we call it the pending schema.
+%Note that, in real software context, there existed cases that a test case contains a faulty schema but passed. We call this case the \emph{coincidental correctness}, which may be caused by other factors which influence the execution result. We will not discuss this case in this paper.
+
+%\begin{definition}[minimal faulty schema]
+%If a schema is a faulty schema and all its subschemas are healthy schemas, we then call the schema a \emph{minimal faulty schema}(\emph{MINFS} for short).
+%\end{definition}
+%
+%Note that this is the target to identify,for that this will give us the most precise while enough information to help the developers to inspect the scope of the source code.
+%
+%\begin{definition}[maximum healthy schema]
+%If a schema is a healthy schema and all its parent-schemas are faulty schemas, we then call the schema a \emph{maximum healthy schema}(\emph{MAXHS} for short).
+%\end{definition}
 
 
 \subsection{MFS identification approaches}
@@ -750,7 +767,14 @@ Take OFOT for example, then illustrate the problems, and other similar approache
 A big table that consists of many
 
 
-\section{Propositions}\label{sec:propositinon}
+\section{Theory foundation}\label{sec:propositinon}
+
+\begin{assumption}
+
+\end{assumption}
+
+
+
 \newtheorem{proposition}{Propositions}
 \begin{proposition}
 All the schemas in a passed test configuration are healthy schemas.
@@ -765,6 +789,8 @@ All the parent-schemas of a faulty schema are faulty schemas.
 \begin{proposition}
 All the subschemas of a healthy schema are healthy schemas.
 \end{proposition}
+
+\subsection{weaken of the assumptions}
 
 \section{The approach to identify the minimal failure-inducing schemas}\label{sec:app}
 Based on these definitions and propositions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
@@ -781,7 +807,6 @@ If a schema is a healthy schema and and satisfy the followed condition:
 
 
 \subsection{additional failure-inducing not be introduced}
-\newtheorem{assumption}{Assumption}
 \begin{assumption}
 Any newly generated test configuration will not introduce additional failure-inducing schemas.
 \end{assumption}

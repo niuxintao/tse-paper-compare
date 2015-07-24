@@ -676,10 +676,10 @@ we conducted several empirical studies to evaluate our approach. These experimen
 
 \textbf{Contributions of this paper}:
 \begin{itemize}
-    \item We studied the properties of failure-inducing schemas and provided a series of theories to assist to identify them.
-    \item We proposed a novel approach which can identify the failure-inducing schemas effectively and efficiently.
-    \item We classified existed works, and give an comprehensive comparison both on theoretical and empirical metrics.
-    \item We conducted a series of empirically studies to evaluate the performance of our approach.
+  \item We studied the properties of failure-inducing schemas and showed the issues to identify them. 
+  \item We proposed a novel adaptive approach which can identify the failure-inducing schemas effectively and efficiently.
+%  \item We classified existed works, and give an comprehensive comparison both on theoretical and empirical metrics.
+  \item We conducted a series of empirically studies to evaluate the performance of our approach.
 \end{itemize}
 
 The remainder of this paper is organized as follows: Section \ref{sec:back} introduce some preliminary definitions and propositions. Section \ref{sec:motiv} presents some limitations of exiting failure-inducing interactions identification approaches which motivate this paper. Section \ref{sec:app} describe our approaches for identify failure-inducing schemas. Section \ref{sec:simulateEx} give the comparisons in theoretical metrics. Section \ref{sec:realEx} describe the experiments design on real subjects. Section \ref{sec:related} summarize the related works. Section \ref{sec:conclusion} conclude this paper and discuss the future works.
@@ -688,31 +688,63 @@ The remainder of this paper is organized as follows: Section \ref{sec:back} intr
 Before we talk about our approach, we will give some formal definitions and proposals first, which is helpful to understand the background of our description of our approach.
 
 \subsection{Definitions}\label{sec:back:define}
-Assume that the SUT (software under test) is influenced by \emph{n} parameters, and each parameter $c_{i}$ has $a_{i}$ discrete values from the finite set $V_{i}$, i.e., $a_{i}$ = $|V_{i}|$ ($i$ = 1,2,..n). Some of the definitions and propositions below are originally defined in and .
+Assume that the behaviour of SUT is influenced by \emph{k} parameters, and each parameter $p_{i}$ has $a_{i}$ discrete values from the finite set $V_{i}$, i.e., $a_{i}$ = $|V_{i}|$ ($i$ = 1,2,...,\emph{k}). In practice, these parameters can represent many factors, such as input variables, run-time options, building options, etc. Next we will give some formal definitions, some of them (Definitions \ref{de:test}, \ref{de:tuple}, \ref{de:sub}) were originally defined in \cite{nie2011survey}.
+
 
 \newtheorem{definition}{Definition}
-\begin{definition}[test configuration]
-A test configuration of the SUT is an array of \emph{n} values, one for each parameter of the SUT, which is denoted as a \emph{n}-tuple ($v_{1}$, $v_{2}$...$v_{n}$), where $v_{1}\in V_{1}$, $v_{2} \in V_{2}$ ... $v_{n} \in V_{n}$.
-\end{definition}
-\begin{definition}[test oracle]
-the test oracle is that whether it is a test configuration pass or fail. For a clear discuss, we didn't take the multiple output state into account, but we believe our method can easily extend to the multiple oracles.
+\begin{definition}\label{de:test}
+A \emph{test case} of SUT is an array of \emph{k} values, one for each parameter of the SUT, which is denoted as a \emph{k}-tuple ($v_{1}$, $v_{2}$,...,$v_{k}$), where $v_{1}\in V_{1}$, $v_{2} \in V_{2}$ ... $v_{k} \in V_{k}$.
 \end{definition}
 
-However, our discuss is based on the SUT is a deterministic software, i.e., will not pass this time and fail that time. We can run our approach multiple times to eliminate this problem, which, however is beyond the scope of this paper.
+For the example in Section \ref{sec:motiv}, ($a = 7$, $b = 2$, $c = 4$, $d = 3$) is a test case, which is actually a group of values being assigned to each input parameter.
+%We need to execute the SUT with these test cases to ensure the correctness of its behaviour.
 
+\begin{definition}
+A \emph{failure} is an abnormal execution of a test case.
+\end{definition}
+In CT, such a \emph{failure} can be a thrown exception, compilation error, assertion failure or constraint violation. In this paper, we focus on studying the impact of multiple \emph{failures} on failure-inducing interactions identification. To facilitate our discussion, we introduce the following assumptions that will be used throughout this paper:
 
-\begin{definition}[faulty]
+\begin{assumption}
+The execution result of a test case is deterministic.
+\end{assumption}
+This assumption is the most common assumption of CT fault diagnosis. It indicates that the outcome of executing a test case is reproducible and will not be affected by some random events.
+\begin{assumption}
+Different failures in the SUT can be distinguished by various information such as exception traces, state conditions, or the like.
+\end{assumption}
+This assumption indicates that the testers can detect different failures during testing. As different failures will complicate fault diagnosis tasks, distinguishing them is the first step to resolve them.
 
-by this definition, the constraints can also be a faulty, which didn't run as our expected, and it may have a high privilege than the fault caused by the functional code.
+%In practice, these two assumptions will not always be satisfied. Elimination of them can introduce the probabilistic and clustering parts into our model, which will further complicate our analysis and so we will not discuss them in this paper.
+Now let us consider the condition that some failures are triggered by some test cases. It is then desirable to determine the cause of these failures and hence some parameter values of the failing test cases must be analysed.
+%\end{definition}
 
+%Figuring out the test case as well as the executing result is usually not enough to analyse the source of the bug, especially when there are too many parameters we need to care in this test case. In this circumstance, we need to study some subsets of this test case, so we need the following definition:
+
+%Figuring out the execution outcomes of test cases must reveal the presence of faulty interactions among those considered. However, the location and magnitude of the fault is still far from clear, especially when there are too many parameters we need to care in this test case. Hence, we need to study some subsets of this test case, which can help isolate the cause of failures.
+
+\begin{definition} \label{de:tuple}
+For the SUT, the $\tau$-tuple (-,$v_{k_{1}}$,...,$v_{k_{t}}$,...) is called a $\tau$-degree \emph{schema} ($0 < \tau \leq k $) when some $\tau$ parameters have fixed values and the others can take on their respective allowable values, represented as ``-".
+
+When $\tau = k$, $\tau$-degree \emph{schema} is actually a test case. Furthermore, if every fixed value in a schema is in a test case, we say this test case \emph{contains} the schema.
+%, which can be denoted as $k-degree\  combination \in T$
 \end{definition}
 
-\begin{definition}[schema]
-For the SUT, the \emph{n}-tuple (-,$v_{n_{1}}$,...,$v_{n_{k}}$,...)is called a \emph{k}-value schema (k > 0) when some k parameters have fixed values and the others can take on their respective allowable values, represented as "-". In effect a test configuration its self is a k-value schema, which k is equal to n. Furthermore, if a test configuration contain a schema, i.e., every fixed value in this schema is also in this test configuration, we say this configuration hit this schema.
+For example,  (-, 4, 4, -) in  Table \ref{identify-example} is a $2$-degree schema. And the test case (7, 4, 4, 3) contains this schema.
+
+\begin{definition} \label{de:sub}
+Let $c_{1}$ be a \emph{m}-degree schema, $c_{2}$ be an \emph{n}-degree schema in SUT, and $m < n$. If all the fixed parameter values in $c_{1}$ are also in $c_{2}$, then $c_{2}$ \emph{subsumes} $c_{1}$. In this case, we can also say that $c_{1}$ is a \emph{sub-schema} of $c_{2}$, and $c_{2}$ is a \emph{super-schema} of $c_{1}$, denoted as $c_{1} \prec  c_{2}$.
 \end{definition}
-\begin{definition}[subsume relationship]
-let $s_{l}$ be a \emph{l}-value schema, $s_{m}$ be an \emph{m}-value schema for the SUT and $l \leq m$. If all the fixed parameter values in $s_{l}$ are also in $s_{m}$, then $s_{m}$ \emph{subsumes} $s_{l}$. In this case we can also say that $s_{l}$ is a \emph{subschema} of $s_{m}$ and $s_{m}$ is a \emph{parent-schema} of $s_{l}$. Additionally, if m = l + 1, then the relationship between $s_{l}$ and $s_{m}$ is direct.
+
+For example, in the motivating example, the $2$-degree schema (-, 4, 4, -) is a sub-schema of the $3$-degree schema (-, 4, 4, 5), that is, (-,4,4,-) $\prec$ (-,4,4,5).
+
+According to definition 3.4, it is obvious that the subsuming relationship `$\prec$' is transitive, i.e., if $c_{1} \prec c_{2}, c_{2} \prec c_{3}$, then $c_{1} \prec c_{3}$.
+%Note that as a test case $t$ can be deemed as a $k$-degree schema, if it contains a schema $c$, then it can be regarded as $c \prec t$.
+
+\begin{definition} \label{de:mfs}
+If all test cases contain a schema $c$, and trigger a particular failure $F$, then we call $c$ the \emph{failure-causing schema} of $F$. Additionally, if none of the sub-schema of $c$ is the \emph{failure-causing schema} of $F$, we then call $c$ the \emph{Minimal Failure-causing Schema} (MFS) of $F$.
+%Based on this, if a test case $t$ contain such a failure-inducing combination, say $c(F)$, it should trigger the failure $F$, for which the test case can be put as $t(F)$
 \end{definition}
+
+In fact, MFS is identical to the failure-inducing interactions discussed previously. Identifying MFS helps to focus on the root cause of a failure and thus facilitates the debugging efforts.
 \begin{definition}[healthy,faulty and pending]
 A \emph{k}-value schema is called a \emph{faulty schema} if all the valid test configuration hit the schema trigger a failure. And a \emph{k}-value schema is called a \emph{healthy schema} when we find at least one passed valid test configuration that hits this schema. In addition, if we don't have enough information of a schema,i.e., we don't sure whether it is a healthy schema or faulty schema, we call it the pending schema.
 \end{definition}
