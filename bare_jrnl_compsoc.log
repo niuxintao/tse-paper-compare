@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2014.9.10)  24 JUL 2015 21:55
+This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2014.9.10)  27 JUL 2015 16:06
 entering extended mode
 **bare_jrnl_compsoc.tex
 (C:\Users\xintao\Desktop\tse-paper-compare\bare_jrnl_compsoc.tex
@@ -422,80 +422,71 @@ Underfull \hbox (badness 2119) in paragraph at lines 701--703
 OT1/cmr/m/n/10 = \OML/cmm/m/it/10 on$\OT1/ppl/m/n/10 ,
  []
 
-
-LaTeX Warning: Reference `intro' on page 3 undefined on input line 735.
-
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <10> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 752.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 754.
 Requested font "phvro7t" at 10.0pt
  -> phvro7t
-[3]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3]
 \c@proposition=\count115
 \c@lemma=\count116
 
-** ATTENTION: \proof is deprecated (line 819). Use \IEEEproof instead.
+** ATTENTION: \proof is deprecated (line 821). Use \IEEEproof instead.
 
-Underfull \hbox (badness 3635) in paragraph at lines 825--825
+Underfull \hbox (badness 3635) in paragraph at lines 827--827
  \OT1/phv/b/n/10 5.2 frame-work to i-den-ti-fy the min-i-mal fault-y
  []
 
 File: gp.eps Graphic file (type eps)
 <gp.eps> [4]
-** ATTENTION: \proof is deprecated (line 845). Use \IEEEproof instead.
+** ATTENTION: \proof is deprecated (line 847). Use \IEEEproof instead.
 [5]
 File: ch.eps Graphic file (type eps)
  <ch.eps>
 File: ct.eps Graphic file (type eps)
- <ct.eps> [6]
-Overfull \hbox (32.25047pt too wide) detected at line 974
+ <ct.eps>
+Overfull \hbox (32.25047pt too wide) detected at line 976
 \OML/cmm/m/it/10 distance\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 S[]; S[]\OT1/cmr/m/n
 /10 ) = []
  []
 
-
-Overfull \hbox (6.0169pt too wide) in paragraph at lines 989--990
+[6]
+Overfull \hbox (6.0169pt too wide) in paragraph at lines 991--992
 []$[] \OMS/cmsy/m/n/10   \OML/cmm/m/it/10 getDOWNS\OT1/cmr/m/n/10 (\OMS/cmsy/m/
 n/10 T\OML/cmm/m/it/10 ; []; []\OT1/cmr/m/n/10 )$ 
  []
 
 
-Overfull \hbox (24.29019pt too wide) in paragraph at lines 1020--1021
+Overfull \hbox (24.29019pt too wide) in paragraph at lines 1022--1023
 [] $\OML/cmm/m/it/10 longeset \OMS/cmsy/m/n/10   \OML/cmm/m/it/10 getLongest\OT
 1/cmr/m/n/10 (\OMS/cmsy/m/n/10 T\OML/cmm/m/it/10 ; []; []\OT1/cmr/m/n/10 )$ 
  []
 
 
-Overfull \hbox (42.17657pt too wide) in paragraph at lines 1028--1029
+Overfull \hbox (42.17657pt too wide) in paragraph at lines 1030--1031
 [] $\OML/cmm/m/it/10 generate a extra test configration [] contain []$ 
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [7]
-Overfull \hbox (12.87297pt too wide) in paragraph at lines 1100--1101
+[7]
+Overfull \hbox (12.87297pt too wide) in paragraph at lines 1102--1103
 [] $\OML/cmm/m/it/10 updateHealthySchemas\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 S[];
  MFS\OT1/cmr/m/n/10 )$ 
  []
 
-[8]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [9]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [10]
+[8] [9] [10]
 File: single.eps Graphic file (type eps)
-
-<single.eps>
+ <single.eps>
 File: d-8-2.eps Graphic file (type eps)
  <d-8-2.eps>
-Underfull \hbox (badness 1383) in paragraph at lines 1207--1208
+Underfull \hbox (badness 1383) in paragraph at lines 1209--1210
 []\OT1/ppl/m/n/10 Second, even though, there are some al-go-rith-
  []
 
+[11]
 File: i-8-2.eps Graphic file (type eps)
-<i-8-2.eps> [11]
+ <i-8-2.eps>
 File: k-2-s.eps Graphic file (type eps)
  <k-2-s.eps>
 File: k-2-s-small.eps Graphic file (type eps)
@@ -504,53 +495,55 @@ File: freeD.eps Graphic file (type eps)
  <freeD.eps>
 File: freeD2.eps Graphic file (type eps)
  <freeD2.eps>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 Missing character: There is no 　 in font pplr7t!
 File: proceed.eps Graphic file (type eps)
 
 <proceed.eps> [13]
-Underfull \hbox (badness 10000) in paragraph at lines 1297--1298
+Underfull \hbox (badness 10000) in paragraph at lines 1299--1300
 []\OT1/ppl/m/n/8 sql.enforce[]strict[]size, sql.enforce[]names,sql.enforce[]ref
 s,
  []
 
 
-Underfull \hbox (badness 5316) in paragraph at lines 1297--1298
+Underfull \hbox (badness 5316) in paragraph at lines 1299--1300
 \OT1/ppl/m/n/8 sql.enforce[]size, sql.enforce[]types, sql.enforce[]tdc[]delete,
 
  []
 
 
-Overfull \hbox (3.39851pt too wide) in paragraph at lines 1300--1309
+Overfull \hbox (3.39851pt too wide) in paragraph at lines 1302--1311
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1314--1315
+Underfull \hbox (badness 10000) in paragraph at lines 1316--1317
 []\OT1/ppl/m/n/8 SERVER, WEB-SERV-ER,
  []
 
 
-Overfull \hbox (76.5831pt too wide) in paragraph at lines 1322--1322
+Overfull \hbox (76.5831pt too wide) in paragraph at lines 1324--1324
 []\OT1/ppl/m/n/8 TYPE[]FORWARD[]ONLY,TYPE[]SCROLL[]INSENSITIVE,
  []
 
 
-Overfull \hbox (50.75906pt too wide) in paragraph at lines 1323--1324
+Overfull \hbox (50.75906pt too wide) in paragraph at lines 1325--1326
 []\OT1/ppl/m/n/8 CONCUR[]READ[]ONLY,CONCUR[]UPDATABLE| 
  []
 
 
-Overfull \hbox (4.49564pt too wide) in paragraph at lines 1324--1325
+Overfull \hbox (4.49564pt too wide) in paragraph at lines 1326--1327
 []\OT1/ppl/m/n/8 HOLD[]CURSORS[]OVER[]COMMIT,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1331--1332
+Underfull \hbox (badness 10000) in paragraph at lines 1333--1334
 []\OT1/ppl/m/n/8 STATEMENT, PRE-PARED-STATE-
  []
 
 
-Overfull \hbox (2.2806pt too wide) in paragraph at lines 1344--1353
+Overfull \hbox (2.2806pt too wide) in paragraph at lines 1346--1355
  [][] 
  []
 
@@ -558,17 +551,17 @@ Overfull \hbox (2.2806pt too wide) in paragraph at lines 1344--1353
 Underfull \vbox (badness 1527) has occurred while \output is active []
 
  [16]
-LaTeX Font Info:    Try loading font information for OMS+ppl on input line 1508
+LaTeX Font Info:    Try loading font information for OMS+ppl on input line 1510
 .
 
 (C:\CTEX\MiKTeX\tex\latex\psnfss\omsppl.fd
 File: omsppl.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1508.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1510.
 
  [17]
-Overfull \hbox (44.64409pt too wide) in paragraph at lines 1539--1550
+Overfull \hbox (44.64409pt too wide) in paragraph at lines 1541--1552
  [][] 
  []
 
@@ -579,75 +572,74 @@ File: niu.png Graphic file (type QTm)
 
 <use  "niu.png" >
 
-Package xetex.def Warning: No clipping support in XeTeX yet on input line 1659.
+Package xetex.def Warning: No clipping support in XeTeX yet on input line 1661.
 
 
 File: niu.png Graphic file (type QTm)
 <use  "niu.png" >
 
-Package xetex.def Warning: No clipping support in XeTeX yet on input line 1659.
+Package xetex.def Warning: No clipping support in XeTeX yet on input line 1661.
 
 
 File: nie.png Graphic file (type QTm)
 <use  "nie.png" >
 
-Package xetex.def Warning: No clipping support in XeTeX yet on input line 1666.
+Package xetex.def Warning: No clipping support in XeTeX yet on input line 1668.
 
 
 File: nie.png Graphic file (type QTm)
 <use  "nie.png" >
 
-Package xetex.def Warning: No clipping support in XeTeX yet on input line 1666.
+Package xetex.def Warning: No clipping support in XeTeX yet on input line 1668.
 
 
 File: hare.png Graphic file (type QTm)
 <use  "hare.png" >
 
-Package xetex.def Warning: No clipping support in XeTeX yet on input line 1670.
+Package xetex.def Warning: No clipping support in XeTeX yet on input line 1672.
 
 
 File: hare.png Graphic file (type QTm)
 <use  "hare.png" >
 
-Package xetex.def Warning: No clipping support in XeTeX yet on input line 1670.
+Package xetex.def Warning: No clipping support in XeTeX yet on input line 1672.
 
 
 File: lei.jpg Graphic file (type QTm)
 <use  "lei.jpg" >
 
-Package xetex.def Warning: No clipping support in XeTeX yet on input line 1674.
+Package xetex.def Warning: No clipping support in XeTeX yet on input line 1676.
 
 
 File: lei.jpg Graphic file (type QTm)
 <use  "lei.jpg" >
 
-Package xetex.def Warning: No clipping support in XeTeX yet on input line 1674.
+Package xetex.def Warning: No clipping support in XeTeX yet on input line 1676.
+
+
+[19]
+File: xy.png Graphic file (type QTm)
+ <use  "xy.png" >
+
+Package xetex.def Warning: No clipping support in XeTeX yet on input line 1680.
 
 
 File: xy.png Graphic file (type QTm)
 <use  "xy.png" >
 
-Package xetex.def Warning: No clipping support in XeTeX yet on input line 1678.
+Package xetex.def Warning: No clipping support in XeTeX yet on input line 1680.
 
 
-File: xy.png Graphic file (type QTm)
-<use  "xy.png" >
+[20
 
-Package xetex.def Warning: No clipping support in XeTeX yet on input line 1678.
-
-
-[19] (C:\Users\xintao\Desktop\tse-paper-compare\bare_jrnl_compsoc.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+] (C:\Users\xintao\Desktop\tse-paper-compare\bare_jrnl_compsoc.aux) ) 
 Here is how much of TeX's memory you used:
- 2769 strings out of 430478
- 38413 string characters out of 3191502
- 101036 words of memory out of 3000000
- 5882 multiletter control sequences out of 15000+200000
+ 2768 strings out of 430478
+ 38406 string characters out of 3191502
+ 102036 words of memory out of 3000000
+ 5881 multiletter control sequences out of 15000+200000
  33924 words of font info for 87 fonts, out of 3000000 for 9000
  17 hyphenation exceptions out of 8191
  28i,11n,38p,2303b,337s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on bare_jrnl_compsoc.pdf (19 pages).
+Output written on bare_jrnl_compsoc.pdf (20 pages).

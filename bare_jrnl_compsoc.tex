@@ -726,13 +726,15 @@ Note that MFS is identical to the failure-inducing interaction discussed previou
 A \emph{k}-value schema, say, $c$, is called a \emph{healthy schema} when we find at least one passed valid test case that contains this schema. In addition, if none of super-schema of $c$ is the \emph{healthy schema}, we then call the schema $c$ the \emph{maximal healthy schema (MHS)}
 \end{definition}
 
-\emph{MHS} is exactly the antithesis of \emph{MFS}. 
+\emph{MHS} is exactly the antithesis of \emph{MFS}. These two type of schemas, i.e., MFS and MHS, are the keys to our approach, as they are essentially representations of the healthy schemas and faulty schemas in a test case. As will be proven later, other schemas can be determined to be healthy or faulty by these two type of schemas. As a result, we just need to record these two types of schemas (normally a small amount) instead of recording all the schemas in a test case (reach to $2^{n}$, \emph{n} is the number of factors in a test case) when doing MFS identification.
+%
+% It is a very useful schema, as will discussed in the following sections, when combined with MFS, we can easily determined a schema is whether faulty or not.
 
 \begin{definition}[Pending]\label{de:pending}
 A schema is called \emph{pending} schema, if it is not yet determined to be \emph{healthy} schema or \emph{faulty} schema.
 \end{definition}
 
-These \emph{pending} schema is actually the \emph{un-determined} schema discussed in Section \ref{intro}. In effect, to identify the MFS in a failing test case is to figure out all the \emph{pending} schemas, and then try to determine each of them to be \emph{healthy} or \emph{faulty} schema. After that, the MFS can be selected from those \emph{faulty} schemas by definition.
+These \emph{pending} schema is actually the \emph{un-determined} schema discussed in Section \ref{sec:intro}. In effect, to identify the MFS in a failing test case is to figure out all the \emph{pending} schemas, and then try to determine each of them to be \emph{healthy} or \emph{faulty} schema. After that, the MFS can be selected from those \emph{faulty} schemas by definition.
 
 %if we don't have enough information of a schema,i.e., we don't sure whether it is a healthy schema or faulty schema, we call it the pending schema.
 %Note that, in real software context, there existed cases that a test case contains a faulty schema but passed. We call this case the \emph{coincidental correctness}, which may be caused by other factors which influence the execution result. We will not discuss this case in this paper.

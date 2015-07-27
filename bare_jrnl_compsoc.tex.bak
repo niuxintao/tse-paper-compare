@@ -592,7 +592,7 @@ failure-inducing interactions, fault location, debugging aids, combinatorial tes
 
 
 
-\section{Introduction}
+\section{Introduction}\label{sec:intro}
 % Computer Society journal papers do something a tad strange with the very
 % first section heading (almost always called "Introduction"). They place it
 % ABOVE the main text! IEEEtran.cls currently does not do this for you.
@@ -676,7 +676,7 @@ we conducted several empirical studies to evaluate our approach. These experimen
 
 \textbf{Contributions of this paper}:
 \begin{itemize}
-  \item We studied the properties of failure-inducing schemas and showed the issues to identify them. 
+  \item We studied the properties of failure-inducing schemas and showed the issues to identify them.
   \item We proposed a novel adaptive approach which can identify the failure-inducing schemas effectively and efficiently.
 %  \item We classified existed works, and give an comprehensive comparison both on theoretical and empirical metrics.
   \item We conducted a series of empirically studies to evaluate the performance of our approach.
@@ -692,74 +692,62 @@ Assume that the behaviour of SUT is influenced by \emph{k} parameters, and each 
 
 
 \newtheorem{definition}{Definition}
-\begin{definition}\label{de:test}
+\newtheorem{assumption}{Assumption}
+
+\begin{definition}[Test Case]\label{de:test}
 A \emph{test case} of SUT is an array of \emph{k} values, one for each parameter of the SUT, which is denoted as a \emph{k}-tuple ($v_{1}$, $v_{2}$,...,$v_{k}$), where $v_{1}\in V_{1}$, $v_{2} \in V_{2}$ ... $v_{k} \in V_{k}$.
 \end{definition}
 
-For the example in Section \ref{sec:motiv}, ($a = 7$, $b = 2$, $c = 4$, $d = 3$) is a test case, which is actually a group of values being assigned to each input parameter.
+Take Table \ref{MS_word} for example, ($Highlight = on$, $Status bar = false$, $Bookmarks = false$, $Smart tags = on$) is a test case, which is actually a group of values being assigned to each input parameter.
 %We need to execute the SUT with these test cases to ensure the correctness of its behaviour.
 
-\begin{definition}
-A \emph{failure} is an abnormal execution of a test case.
+\begin{definition}[Schema]\label{de:tuple}
+For the SUT, the \emph{n}-tuple (-,$v_{n_{1}}$,...,$v_{n_{k}}$,...)is called a \emph{k}-degree \emph{schema} ($0 < k \leq n $) when some k parameters have fixed values and other irrelevant parameters are represented as "-".
+
+In effect a test case itself is a k-degree \emph{schema}, when k = n. Furthermore, if a test case contains a \emph{schema}, i.e., every fixed value in the schema is in this test case, we say this test case \emph{contains} the \emph{schema}.
+%, which can be denoted as $k-value\  combination \in T$
 \end{definition}
-In CT, such a \emph{failure} can be a thrown exception, compilation error, assertion failure or constraint violation. In this paper, we focus on studying the impact of multiple \emph{failures} on failure-inducing interactions identification. To facilitate our discussion, we introduce the following assumptions that will be used throughout this paper:
+Note that the schema is a formal description of the interaction between parameter values we discussed before.
 
-\begin{assumption}
-The execution result of a test case is deterministic.
-\end{assumption}
-This assumption is the most common assumption of CT fault diagnosis. It indicates that the outcome of executing a test case is reproducible and will not be affected by some random events.
-\begin{assumption}
-Different failures in the SUT can be distinguished by various information such as exception traces, state conditions, or the like.
-\end{assumption}
-This assumption indicates that the testers can detect different failures during testing. As different failures will complicate fault diagnosis tasks, distinguishing them is the first step to resolve them.
+\begin{definition}[Subsume]\label{de:sub}
+Let $c_{l}$ be a \emph{l}-degree schema, $c_{m}$ be an \emph{m}-degree schema in SUT and $l < m$. If all the fixed parameter values in $c_{l}$ are also in $c_{m}$, then $c_{m}$ \emph{subsumes} $c_{l}$. In this case we can also say that $c_{l}$ is a \emph{sub-schema} of $c_{m}$ and $c_{m}$ is a \emph{super-schema} of $c_{l}$, which can be denoted as $c_{l} \prec  c_{m}$.
+\end{definition}
 
-%In practice, these two assumptions will not always be satisfied. Elimination of them can introduce the probabilistic and clustering parts into our model, which will further complicate our analysis and so we will not discuss them in this paper.
-Now let us consider the condition that some failures are triggered by some test cases. It is then desirable to determine the cause of these failures and hence some parameter values of the failing test cases must be analysed.
+For example,  the 2-degree schema (-, 4, 4, -) is a sub-schema of the 3-degree schema (-, 4, 4, 5), that is, (-,4,4,-) $\prec$ (-,4,4,5).
+
+\begin{definition}[Faulty, MFS]\label{de:faulty:minimal}
+If all test cases that contain a schema, say $c$, trigger a particular fault, say $F$, then we call this schema $c$ the \emph{faulty schema} for $F$. Additionally, if none of sub-schema of $c$ is the \emph{faulty schema} for $F$, we then call the schema $c$ the \emph{minimal failure-causing schema (MFS)} \cite{nie2011minimal} for $F$.
+%Based on this, if a test case $t$ hit such a failure-inducing combination, say $c(F)$, it should trigger the fault $F$, for which the test case can be put as $t(F)$
+\end{definition}
+
+Note that MFS is identical to the failure-inducing interaction discussed previously. In this paper, the terms \emph{failure-inducing interactions} and \emph{MFS} are used interchangeably. Figuring the MFS out helps to identify the root cause of a failure and thus facilitate the debugging process.
+
+\begin{definition}[Healthy, MHS]\label{de:healthy:maximal}
+A \emph{k}-value schema, say, $c$, is called a \emph{healthy schema} when we find at least one passed valid test case that contains this schema. In addition, if none of super-schema of $c$ is the \emph{healthy schema}, we then call the schema $c$ the \emph{maximal healthy schema (MHS)}
+\end{definition}
+
+\emph{MHS} is exactly the antithesis of \emph{MFS}. These two type of schemas, i.e., MFS and MHS, are the keys to our approach, as they are essentially representations of the healthy schemas and faulty schemas in a test case. As will be proven later, other schemas can be determined by these two type of schemas, and hence a large number of 
+%
+% It is a very useful schema, as will discussed in the following sections, when combined with MFS, we can easily determined a schema is whether faulty or not.
+
+\begin{definition}[Pending]\label{de:pending}
+A schema is called \emph{pending} schema, if it is not yet determined to be \emph{healthy} schema or \emph{faulty} schema.
+\end{definition}
+
+These \emph{pending} schema is actually the \emph{un-determined} schema discussed in Section \ref{sec:intro}. In effect, to identify the MFS in a failing test case is to figure out all the \emph{pending} schemas, and then try to determine each of them to be \emph{healthy} or \emph{faulty} schema. After that, the MFS can be selected from those \emph{faulty} schemas by definition.
+
+%if we don't have enough information of a schema,i.e., we don't sure whether it is a healthy schema or faulty schema, we call it the pending schema.
+%Note that, in real software context, there existed cases that a test case contains a faulty schema but passed. We call this case the \emph{coincidental correctness}, which may be caused by other factors which influence the execution result. We will not discuss this case in this paper.
+
+%\begin{definition}[minimal faulty schema]
+%If a schema is a faulty schema and all its subschemas are healthy schemas, we then call the schema a \emph{minimal faulty schema}(\emph{MINFS} for short).
 %\end{definition}
-
-%Figuring out the test case as well as the executing result is usually not enough to analyse the source of the bug, especially when there are too many parameters we need to care in this test case. In this circumstance, we need to study some subsets of this test case, so we need the following definition:
-
-%Figuring out the execution outcomes of test cases must reveal the presence of faulty interactions among those considered. However, the location and magnitude of the fault is still far from clear, especially when there are too many parameters we need to care in this test case. Hence, we need to study some subsets of this test case, which can help isolate the cause of failures.
-
-\begin{definition} \label{de:tuple}
-For the SUT, the $\tau$-tuple (-,$v_{k_{1}}$,...,$v_{k_{t}}$,...) is called a $\tau$-degree \emph{schema} ($0 < \tau \leq k $) when some $\tau$ parameters have fixed values and the others can take on their respective allowable values, represented as ``-".
-
-When $\tau = k$, $\tau$-degree \emph{schema} is actually a test case. Furthermore, if every fixed value in a schema is in a test case, we say this test case \emph{contains} the schema.
-%, which can be denoted as $k-degree\  combination \in T$
-\end{definition}
-
-For example,  (-, 4, 4, -) in  Table \ref{identify-example} is a $2$-degree schema. And the test case (7, 4, 4, 3) contains this schema.
-
-\begin{definition} \label{de:sub}
-Let $c_{1}$ be a \emph{m}-degree schema, $c_{2}$ be an \emph{n}-degree schema in SUT, and $m < n$. If all the fixed parameter values in $c_{1}$ are also in $c_{2}$, then $c_{2}$ \emph{subsumes} $c_{1}$. In this case, we can also say that $c_{1}$ is a \emph{sub-schema} of $c_{2}$, and $c_{2}$ is a \emph{super-schema} of $c_{1}$, denoted as $c_{1} \prec  c_{2}$.
-\end{definition}
-
-For example, in the motivating example, the $2$-degree schema (-, 4, 4, -) is a sub-schema of the $3$-degree schema (-, 4, 4, 5), that is, (-,4,4,-) $\prec$ (-,4,4,5).
-
-According to definition 3.4, it is obvious that the subsuming relationship `$\prec$' is transitive, i.e., if $c_{1} \prec c_{2}, c_{2} \prec c_{3}$, then $c_{1} \prec c_{3}$.
-%Note that as a test case $t$ can be deemed as a $k$-degree schema, if it contains a schema $c$, then it can be regarded as $c \prec t$.
-
-\begin{definition} \label{de:mfs}
-If all test cases contain a schema $c$, and trigger a particular failure $F$, then we call $c$ the \emph{failure-causing schema} of $F$. Additionally, if none of the sub-schema of $c$ is the \emph{failure-causing schema} of $F$, we then call $c$ the \emph{Minimal Failure-causing Schema} (MFS) of $F$.
-%Based on this, if a test case $t$ contain such a failure-inducing combination, say $c(F)$, it should trigger the failure $F$, for which the test case can be put as $t(F)$
-\end{definition}
-
-In fact, MFS is identical to the failure-inducing interactions discussed previously. Identifying MFS helps to focus on the root cause of a failure and thus facilitates the debugging efforts.
-\begin{definition}[healthy,faulty and pending]
-A \emph{k}-value schema is called a \emph{faulty schema} if all the valid test configuration hit the schema trigger a failure. And a \emph{k}-value schema is called a \emph{healthy schema} when we find at least one passed valid test configuration that hits this schema. In addition, if we don't have enough information of a schema,i.e., we don't sure whether it is a healthy schema or faulty schema, we call it the pending schema.
-\end{definition}
-
-Note that, in real software context, there existed cases that a test configuration hit a faulty schema but passed. We call this case the \emph{coincidental correctness}, which may be caused by other factors which influence the execution result. We will not discuss this case in this paper.
-
-\begin{definition}[minimal faulty schema]
-If a schema is a faulty schema and all its subschemas are healthy schemas, we then call the schema a \emph{minimal faulty schema}(\emph{MINFS} for short).
-\end{definition}
-
-Note that this is the target to identify,for that this will give us the most precise while enough information to help the developers to inspect the scope of the source code.
-
-\begin{definition}[maximum healthy schema]
-If a schema is a healthy schema and all its parent-schemas are faulty schemas, we then call the schema a \emph{maximum healthy schema}(\emph{MAXHS} for short).
-\end{definition}
+%
+%Note that this is the target to identify,for that this will give us the most precise while enough information to help the developers to inspect the scope of the source code.
+%
+%\begin{definition}[maximum healthy schema]
+%If a schema is a healthy schema and all its parent-schemas are faulty schemas, we then call the schema a \emph{maximum healthy schema}(\emph{MAXHS} for short).
+%\end{definition}
 
 
 \subsection{MFS identification approaches}
@@ -781,7 +769,14 @@ Take OFOT for example, then illustrate the problems, and other similar approache
 A big table that consists of many
 
 
-\section{Propositions}\label{sec:propositinon}
+\section{Theory foundation}\label{sec:propositinon}
+
+\begin{assumption}
+
+\end{assumption}
+
+
+
 \newtheorem{proposition}{Propositions}
 \begin{proposition}
 All the schemas in a passed test configuration are healthy schemas.
@@ -796,6 +791,8 @@ All the parent-schemas of a faulty schema are faulty schemas.
 \begin{proposition}
 All the subschemas of a healthy schema are healthy schemas.
 \end{proposition}
+
+\subsection{weaken of the assumptions}
 
 \section{The approach to identify the minimal failure-inducing schemas}\label{sec:app}
 Based on these definitions and propositions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
@@ -812,7 +809,6 @@ If a schema is a healthy schema and and satisfy the followed condition:
 
 
 \subsection{additional failure-inducing not be introduced}
-\newtheorem{assumption}{Assumption}
 \begin{assumption}
 Any newly generated test configuration will not introduce additional failure-inducing schemas.
 \end{assumption}
