@@ -693,6 +693,7 @@ Assume that the behaviour of SUT is influenced by \emph{k} parameters, and each 
 
 \newtheorem{definition}{Definition}
 \newtheorem{assumption}{Assumption}
+\newtheorem{proposition}{Proposition}
 
 \begin{definition}[Test Case]\label{de:test}
 A \emph{test case} of SUT is an array of \emph{k} values, one for each parameter of the SUT, which is denoted as a \emph{k}-tuple ($v_{1}$, $v_{2}$,...,$v_{k}$), where $v_{1}\in V_{1}$, $v_{2} \in V_{2}$ ... $v_{k} \in V_{k}$.
@@ -749,11 +750,115 @@ These \emph{pending} schema is actually the \emph{un-determined} schema discusse
 %If a schema is a healthy schema and all its parent-schemas are faulty schemas, we then call the schema a \emph{maximum healthy schema}(\emph{MAXHS} for short).
 %\end{definition}
 
+When applying CT, the most important work is to determine whether the SUT suffers from the interaction faults or not, i.e., to  detect the existence of the MFS. Rather than impractically executing exhaustive test cases, CT commonly design a relatively small set of test cases to cover all the schemas with the degree no more than a prior fixed number, $t$. Such a set of test cases is called the \emph{covering array}.  If some test cases in the covering array failed in execution, then the interaction faults is regard to be detected. Let us formally define the covering array.
+
+\begin{definition} $MCA(N; t, n,$ $(a_{1}, a_{2}, ..., a_{n})$) is a $t$-way \emph{covering array} in the form of $N \times n$ table, where each row represents a \emph{test case} and each column represents a parameter.  For any \emph{t} columns, each possible \emph{t}-degree schema must appear at least once. When $ a_{1} = a_{2} = ... = a_{n} = v $, a $t$-way covering array can be denoted as $CA(N; t, n, v)$.
+\end{definition}
+
+\begin{table}[!ht]
+\renewcommand{\arraystretch}{1.3}
+\caption{A covering array}
+\label{ca_example}
+\centering
+\begin{tabular}{l|llll}
+ \hline
+ID &\multicolumn{4}{c}{\bfseries Test case} \\  \hline
+$t_{1}$ &\multicolumn{4}{l}{0  \ \ \ \  0 \ \ \ \  0 \ \ \ \ 0} \\
+$t_{2}$ &\multicolumn{4}{l}{0  \ \ \ \  1 \ \ \ \  1 \ \ \ \ 1} \\
+$t_{3}$ &\multicolumn{4}{l}{1  \ \ \ \  0 \ \ \ \  1 \ \ \ \ 1} \\
+$t_{4}$ &\multicolumn{4}{l}{1  \ \ \ \  1 \ \ \ \  0 \ \ \ \ 1} \\
+$t_{5}$ &\multicolumn{4}{l}{1  \ \ \ \  1 \ \ \ \  1 \ \ \ \ 0} \\
+ \hline
+\end{tabular}
+\end{table}
+
+For example, Table \ref{ca_example} shows a 2-way covering array CA(5; 2, 4, 2) for the SUT with 4 boolean parameters. For any two columns, any 2-degree schema is covered. Covering array has proven to be effective in detecting the failures caused by interactions of parameters of the SUT. Many existing algorithms focus on constructing covering arrays such that the number of test cases, i.e., $N$, can be as small as possible.
 
 \subsection{MFS identification approaches}
+Let $\mathcal{I}(t)$ denotes all the schemas that are contained in the test case $t$, e.g., $\mathcal{I}(\ (1 1 1)\ )= \{(1 - -)(- 1 -)(- - 1)(1 1 -)(1 - 1)(- 1 1) (1 1 1)\}$. Additionally, let $\mathcal{I}(T)$ denotes all the schemas that are contained in test set $T$, i.e., $\mathcal{I}(T) = \bigcup_{t\in T} \mathcal{I}(t)$. By the definition of \emph{faulty schema} (Definition \ref{de:faulty:minimal}), it can easily get that all the faulty schemas in the SUT, i.e., $S_{faulty}$, can be computed by the following formula 
+\begin{displaymath} S_{faulty} = \mathcal{I}(T_{F}) - \mathcal{I}(T_{P}) \tag{EQ1} \label{eq-s-faulty} \end{displaymath}
+where $T_{F}$ indicates all the failing test cases in the SUT, and $T_{P}$ indicates all the passing test cases (Note that $T_{P} \bigcup T_{F}$ represents all the possible test cases in the SUT, and $T_{F} \bigcap T_{P} = \emptyset $ ).
+
+Based on \ref{eq-s-faulty}, to compute the MFS can be described as following:
+\begin{displaymath} MFS = \mathcal{I}(T_{F}) - \mathcal{I}(T_{P}) \tag{EQ2} \label{eq-s-mfs} \end{displaymath}
+
+An example of shows the faulty schemas and MFS are in Table .
+
+
+In practice, this formula to compute MFS is not possible, as all the test cases increases expotentailly. Hence, some body. are approaeximate results. These methods can be partiioned into two main classes, i.e., 
+ Two classifies, and each can be paritice twice.
+
+
+And hence, we 
+
+%Some notations used later are listed below for convenient reference:
+%\begin{itemize}
+%\item $k$ : The number of parameters that influence the SUT.
+%\item $V_{i}$ : The set of discrete values that the $i$th parameter of SUT can take.
+%\item $T^{*}$ :  The exhaustive set of test cases for the SUT. For a SUT with $k$ parameters, and each parameter can take $|V_{i}|$ values, the number of test cases in $T^{*}$ is $\prod_{i = 1}^{i <= k} |V_{i}|$. Note that some test cases may be invalid if there exists constraints among the parameters.
+%\item $T$ : A set of test cases. (Similarly for $T_{i},\ T_{j}, ...$. )
+%\item $\bar{T}$ : The complementary test set of T, i.e., $\bar{T} \bigcup T = T^{*},\ \bar{T} \bigcap T = \emptyset$.
+%\item $A \backslash B$ :  The set of elements that belong to set $A$ but not to $B$. For example $T_{i} \backslash T_{j}$ indicates the set of test cases that belong to set $T_{i}$, but not to $T_{j}$.
+%\item $\mathcal{T}(c)$ :  All the test cases that contain the schema $c$ in the SUT. Based on the definition of MFS, we know that if schema $c$ is an MFS of $F_{m}$, then $\mathcal{T}(c) \subseteq T_{F_{m}}$.
+%%\item $T_{mask(F_{m})}$ :  All the test cases that contain the
+%%\item $T_{mask(F_{m})}$ :
+%%\item $T_{mask(F_{m})}$ :
+%
+%\item $\mathcal{I}(t)$ :  All the schemas that are contained in the test case $t$, e.g., $\mathcal{I}(\ (1 1 1)\ )= \{(1 - -)(- 1 -)(- - 1)(1 1 -)(1 - 1)(- 1 1) (1 1 1)\} $.
+%\item $\mathcal{I}(T)$ :  All the schemas that are contained in test set $T$, i.e., $\mathcal{I}(T) = \bigcup_{t\in T} \mathcal{I}(t)$.
+%\item  $\mathcal{S}(T)$:  All the schemas that are only contained in test set $T$ (Referred to as \emph{Special schemas}); $\mathcal{S}(T) =  \mathcal{I}(T) \backslash \mathcal{I}(\bar{T}) $.
+%\item  $\mathcal{C}(T)$ : A set of the minimal schemas that are only contained in test set $T$ (Referred to as \emph{Minimal schemas}); $\mathcal{C}(T) =  \{c | c \in \mathcal{S}(T)\ and\ \not\exists c' \prec c, s.t., c' \in \mathcal{S}(T)\}$.
+%
+%\end{itemize}
+
+%\begin{proposition}[{smaller schema $c$ has a larger $\mathcal{T}(c)$}] \label{pro:shl}
+%For schemas $c_{1}$, $c_{2}$, if $c_{1} \prec c_{2}$, then all the test cases that contain $c_{2}$ must also contain $c_{1}$, i.e., $\mathcal{T}(c_{2}) \subseteq \mathcal{T}(c_{1})$.
+%\end{proposition}
+%
+%\begin{proof}
+%  $ \forall t \in \mathcal{T}(c_{2})$,  $t$ contains $c_{2}$. As $t$ is a $k$-degree schema, then it has $c_{2} \prec t$ .  As $c_{1} \prec c_{2}$, then $c_{1} \prec t$, indicating that $t$ contains $c_{1}$. Therefore, $t \in \mathcal{T}(c_{1})$. So it follows that $\mathcal{T}(c_{2}) \subseteq \mathcal{T}(c_{1})$.
+%\end{proof}
+%
+%Suppose a SUT with four binary parameters, which can be denoted as SUT($2^4$). Table \ref{example_subsume} illustrates an example of the Proposition \ref{pro:shl}. The left column lists the schema $c_{2}$ = (0,0,-,-) as well as all the test cases in $\mathcal{T}(c_{2})$, while the right column lists the schema $c_{1}$ = (0,-,-,-) and $\mathcal{T}(c_{1})$. We can see that when $c_{1} \prec c_{2}$, $\mathcal{T}(c_{2}) \subseteq \mathcal{T}(c_{1})$.
+%
+%\begin{proposition}[Special schema set of test Set T]\label{pro:stct}
+%For any test set $T$ of the SUT,  $\bigcup_{c \in \mathcal{S}(T)}\mathcal{T}(c) = T$.
+%\end{proposition}
+%\begin{proof}
+%As $\mathcal{S}(T) =  \mathcal{I}(T) \backslash \mathcal{I}(\bar{T}) $,  $\forall c \in \mathcal{S}(T),\ c \in \mathcal{I}(T)\ and\ c \not\in \mathcal{I}(\bar{T})$. Then $\forall t \in \mathcal{T}(c), t \ contains\ c$, indicating that $t \in T$.  Hence, $\mathcal{T}(c) \subseteq T$.  Then $\bigcup_{c \in \mathcal{S}(T)}\mathcal{T}(c) \subseteq T$.
+%
+%On the other hand, $\forall t \in T$,  $\exists c' \in \mathcal{I}(t)$, such that $c' \not\in \mathcal{I}(\bar{T})$ (at least it holds when $c' = t$). Hence, $c' \in \mathcal{S}(T)$.  Obviously $t \in \mathcal{T}(c') \subseteq \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c)$. Therefore,  $ T \subseteq \bigcup_{c \in \mathcal{S}(T)}\mathcal{T}(c)$.
+%\end{proof}
+%
+%
+%\begin{proposition}[Minimal schema set of test Set T]\label{pro:ash}
+%For any test set $T$ of the SUT, $\bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c) = T$.
+%\end{proposition}
+%
+%\begin{proof}
+%As $\mathcal{C}(T) = \{c | c \in \mathcal{S}(T)\ and\ \not\exists c' \prec c, s.t., c' \in \mathcal{S}(T)\}$, indicating that $\mathcal{C}(T) \subseteq \mathcal{S}(T)$.  It is then obviously $\bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c) \subseteq \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c)$. Hence, we just need to prove that $\bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c) \subseteq \bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c)$.
+%
+%$\forall t \in \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c) $, $\exists c \in \mathcal{S}(T),\ s.t., t \in \mathcal{T}(c)$. According to the definition of $\mathcal{C}(T)$, $\exists c' \in \mathcal{C}(T), s.t.,\ c' = c \ or\ c' \prec c$. Correspondingly $\mathcal{T}(c') = \mathcal{T}(c),\ or\ \mathcal{T}(c) \subseteq \mathcal{T}(c')$ by Proposition \ref{pro:shl}. Hence, $t \in \mathcal{T}(c') \subseteq \bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c)$.
+%
+%Therefore, $\bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c) = \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c) = T$.
+%\end{proof}
+%
+%Table \ref{example_minimal_schemas} gives an example of $T^{*}$, $T$, $\bar{T}$, $\mathcal{S}(T)$ and $\mathcal{C}(T)$ in SUT($2^3$). We can find that all the schemas in $\mathcal{S}(T)$ and $\mathcal{C}(T)$ are only contained in test set $T$, and for any $t \in T$, it contains at least one schema in $\mathcal{S}(T)$ and $\mathcal{C}(T)$. Additionally, $\mathcal{C}(T)$ is a minimal schema set which filters those super schemas in $\mathcal{S}(T)$.
+
+
+
 \subsubsection{non-adaptive}
 \subsubsection{adaptive}
 \subsubsection{others}
+
+
+\begin{figure*}
+ \centering
+ \includegraphics[width=5.6in]{MFSpartition.eps}
+ \caption{A simple conclusion of the relationships between these MFS identification appraoches}
+ \label{figch}
+\end{figure*}
+
 
 \section{Motivation of the approach}\label{sec:motiv}
 
@@ -777,7 +882,7 @@ A big table that consists of many
 
 
 
-\newtheorem{proposition}{Propositions}
+
 \begin{proposition}
 All the schemas in a passed test configuration are healthy schemas.
 All the subschemas of a healthy schemas are healthy schemas.

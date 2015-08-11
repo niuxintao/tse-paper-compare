@@ -38,7 +38,11 @@
 \newlabel{de:faulty:minimal}{{4}{3}}
 \newlabel{de:healthy:maximal}{{5}{3}}
 \newlabel{de:pending}{{6}{3}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces A covering array}}{4}}
+\newlabel{ca_example}{{2}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}MFS identification approaches}{4}}
+\newlabel{eq-s-faulty}{{{EQ1}}{4}}
+\newlabel{eq-s-mfs}{{{EQ2}}{4}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}non-adaptive}{4}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}adaptive}{4}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}others}{4}}
@@ -55,106 +59,108 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}weaken of the assumptions}{4}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}The approach to identify the minimal failure-inducing schemas}{4}}
 \newlabel{sec:app}{{5}{4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Overview of approach of identifying MFS}}{4}}
-\newlabel{fig_overview}{{1}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}additional failure-inducing not be introduced}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}framework to identify the minimal faulty schema}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces A simple conclusion of the relationships between these MFS identification appraoches}}{5}}
+\newlabel{figch}{{1}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}additional failure-inducing not be introduced}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}framework to identify the minimal faulty schema}{5}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Choosing a pending schema}{5}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces getting up pending schema}}{6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces example of getting up pending schemas}}{6}}
-\newlabel{figch}{{2}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Overview of approach of identifying MFS}}{5}}
+\newlabel{fig_overview}{{2}{5}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces getting up pending schema}}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces example of getting up pending schemas}}{7}}
+\newlabel{figch}{{3}{7}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces getting down pending schema}}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces example of getting down pending schemas}}{7}}
-\newlabel{figct}{{3}{7}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Finding the longest pending schema}}{7}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}generate a new test configuration}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces example of getting down pending schemas}}{8}}
+\newlabel{figct}{{4}{8}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Finding the longest pending schema}}{8}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces identify process}}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.3}execute SUT under the test configuration}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.4}update information}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.5}stop criteria}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.6}report the reuslt}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.7}new ideas}{8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}example}{8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Without Safe Values Assumption}{8}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Evaluation with simulated SUT}{8}}
-\newlabel{sec:simulateEx}{{6}{8}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces An example of identifying}}{9}}
-\newlabel{identifying_example}{{2}{9}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces An example of augment identifying}}{9}}
-\newlabel{augment_example}{{3}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}generate a new test configuration}{8}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.3}execute SUT under the test configuration}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.4}update information}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.5}stop criteria}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.6}report the reuslt}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.7}new ideas}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}example}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Without Safe Values Assumption}{9}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {5}{\ignorespaces augment identify process}}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}comparison algorithms}{9}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces An example of identifying}}{10}}
+\newlabel{identifying_example}{{3}{10}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces An example of augment identifying}}{10}}
+\newlabel{augment_example}{{4}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Evaluation with simulated SUT}{10}}
+\newlabel{sec:simulateEx}{{6}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}comparison algorithms}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}evaluation metrics}{10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}experiment setups}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces k = 8, t = 2,single, additional test suites}}{11}}
-\newlabel{fig_single}{{4}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}experiment setups}{11}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.4}results and discuss}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces k = 8, t = 2,double, additional test suites}}{11}}
-\newlabel{fig_double}{{5}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces k = 8, t = 2,import, additional test suites}}{12}}
-\newlabel{fig_import}{{6}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces k is free, t = 2,single, additional test suites}}{12}}
-\newlabel{fig_free_k}{{7}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces k is free, t = 2,single, additional test suites for some algorithms}}{12}}
-\newlabel{fig_free_k_small}{{8}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces k = 8, t is free,single, additional test suites}}{13}}
-\newlabel{fig_free_d}{{9}{13}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces k = 8, t is free,single, additional test suites for some algorithms}}{13}}
-\newlabel{fig_free_d_small}{{10}{13}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces proceeding}}{13}}
-\newlabel{proceeding}{{11}{13}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Empirical Case study}{13}}
-\newlabel{sec:realEx}{{7}{13}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}experimental setup}{13}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces input model of HSQLDB}}{14}}
-\newlabel{modelHSQLDB}{{4}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces k = 8, t = 2,single, additional test suites}}{12}}
+\newlabel{fig_single}{{5}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces k = 8, t = 2,double, additional test suites}}{12}}
+\newlabel{fig_double}{{6}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces k = 8, t = 2,import, additional test suites}}{13}}
+\newlabel{fig_import}{{7}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces k is free, t = 2,single, additional test suites}}{13}}
+\newlabel{fig_free_k}{{8}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces k is free, t = 2,single, additional test suites for some algorithms}}{13}}
+\newlabel{fig_free_k_small}{{9}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces k = 8, t is free,single, additional test suites}}{14}}
+\newlabel{fig_free_d}{{10}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces k = 8, t is free,single, additional test suites for some algorithms}}{14}}
+\newlabel{fig_free_d_small}{{11}{14}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Empirical Case study}{14}}
+\newlabel{sec:realEx}{{7}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces proceeding}}{14}}
+\newlabel{proceeding}{{12}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}experimental setup}{14}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.1}HSQLDB}{14}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces faulty and Priority}}{14}}
-\newlabel{faultyPriority}{{5}{14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Study 1: what the schemas like in practice}{14}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.1}Measure the MFSs in the softwares}{14}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.2}result and analysis}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Study 2: how these algorithms behave when applied in real softwares}{15}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces MFSs information of each exception}}{16}}
-\newlabel{mfs-exp}{{6}{16}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces input model of HSQLDB}}{15}}
+\newlabel{modelHSQLDB}{{5}{15}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Study 1: what the schemas like in practice}{15}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces faulty and Priority}}{15}}
+\newlabel{faultyPriority}{{6}{15}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.1}Measure the MFSs in the softwares}{15}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.2}result and analysis}{16}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Study 2: how these algorithms behave when applied in real softwares}{16}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.1}Study setup}{16}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.2}result and analysis}{16}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces comparison in real softwares}}{17}}
-\newlabel{compare-casestudy}{{7}{17}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces MFSs information of each exception}}{17}}
+\newlabel{mfs-exp}{{7}{17}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.2}result and analysis}{17}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Study 3: Is combination useful?}{17}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.4.1}Study setup}{17}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.4.2}result and analysis}{17}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces comparison in real softwares}}{18}}
+\newlabel{compare-casestudy}{{8}{18}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.4.1}Study setup}{18}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.4.2}result and analysis}{18}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}threats to validate}{18}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Related works and Discuss}{18}}
+\newlabel{sec:related}{{8}{18}}
 \bibstyle{IEEEtran}
 \bibdata{sigproc}
 \bibcite{song2012itree}{1}
 \bibcite{bach2004pairwise}{2}
 \bibcite{nie2011minimal}{3}
 \bibcite{yilmaz2006covering}{4}
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces the combination of algorithms}}{18}}
-\newlabel{case-study3}{{8}{18}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}threats to validate}{18}}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Related works and Discuss}{18}}
-\newlabel{sec:related}{{8}{18}}
-\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{18}}
-\newlabel{sec:conclusion}{{9}{18}}
-\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  {}A: Proof of the First Zonklar Equation}{18}}
-\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  {}B}{18}}
 \bibcite{zhang2011characterizing}{5}
 \bibcite{ghandehari2012identifying}{6}
 \bibcite{martinez2008algorithms}{7}
 \bibcite{colbourn2008locating}{8}
 \bibcite{niu2013identifying}{9}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces the combination of algorithms}}{19}}
+\newlabel{case-study3}{{9}{19}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{19}}
+\newlabel{sec:conclusion}{{9}{19}}
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  {}A: Proof of the First Zonklar Equation}{19}}
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  {}B}{19}}
+\@writefile{toc}{\contentsline {section}{References}{19}}
 \bibcite{shakya2012isolating}{10}
 \bibcite{wang2010adaptive}{11}
 \bibcite{li2012improved}{12}
 \bibcite{martinez2009locating}{13}
 \bibcite{nie2011survey}{14}
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces The comparison of each algorithms}}{19}}
-\newlabel{comparison-metrics}{{9}{19}}
-\@writefile{toc}{\contentsline {section}{References}{19}}
-\@writefile{toc}{\contentsline {section}{Biographies}{19}}
-\@writefile{toc}{\contentsline {subsection}{Xintao Niu}{19}}
-\@writefile{toc}{\contentsline {subsection}{Changhai Nie}{19}}
-\@writefile{toc}{\contentsline {subsection}{Hareton Leung}{19}}
-\@writefile{toc}{\contentsline {subsection}{Jeff Y. Lei}{19}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces The comparison of each algorithms}}{20}}
+\newlabel{comparison-metrics}{{10}{20}}
+\@writefile{toc}{\contentsline {section}{Biographies}{20}}
+\@writefile{toc}{\contentsline {subsection}{Xintao Niu}{20}}
+\@writefile{toc}{\contentsline {subsection}{Changhai Nie}{20}}
+\@writefile{toc}{\contentsline {subsection}{Hareton Leung}{20}}
+\@writefile{toc}{\contentsline {subsection}{Jeff Y. Lei}{20}}
 \@writefile{toc}{\contentsline {subsection}{Xiaoyin Wang}{20}}
