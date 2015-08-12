@@ -67,6 +67,11 @@ C.~J. Colbourn and D.~W. McClary, ``Locating and detecting arrays for
   interaction faults,'' \emph{Journal of combinatorial optimization}, vol.~15,
   no.~1, pp. 17--48, 2008.
 
+\bibitem{shi2005software}
+L.~Shi, C.~Nie, and B.~Xu, ``A software debugging method based on pairwise
+  testing,'' in \emph{Computational Science--ICCS 2005}.\hskip 1em plus 0.5em
+  minus 0.4em\relax Springer, 2005, pp. 1088--1091.
+
 \bibitem{niu2013identifying}
 X.~Niu, C.~Nie, Y.~Lei, and A.~T. Chan, ``Identifying failure-inducing
   combinations using tuple relationship,'' in \emph{Software Testing,
@@ -97,6 +102,12 @@ J.~Li, C.~Nie, and Y.~Lei, ``Improved delta debugging based on combinatorial
 C.~Mart{\'\i}nez, L.~Moura, D.~Panario, and B.~Stevens, ``Locating errors using
   elas, covering arrays, and adaptive testing algorithms,'' \emph{SIAM Journal
   on Discrete Mathematics}, vol.~23, no.~4, pp. 1776--1799, 2009.
+
+\bibitem{zhang2012faulty}
+J.~Zhang, F.~Ma, and Z.~Zhang, ``Faulty interaction identification via
+  constraint solving and optimization,'' in \emph{Theory and Applications of
+  Satisfiability Testing--SAT 2012}.\hskip 1em plus 0.5em minus 0.4em\relax
+  Springer, 2012, pp. 186--199.
 
 \bibitem{nie2011survey}
 C.~Nie and H.~Leung, ``A survey of combinatorial testing,'' \emph{ACM Computing

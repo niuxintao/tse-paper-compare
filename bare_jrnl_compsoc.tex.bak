@@ -651,7 +651,7 @@ id& \emph{Highlight} & \emph{Status bar} & \emph{Bookmarks}& \emph{Smart tags} &
   \end{tabular}
 \end{table}
 
-To address this problem, prior work \cite{nie2011minimal} specifically studied the properties of the failure-inducing interactions in SUT, based on which additional test cases were generated to identify them. Other approaches to identify the failure-inducing interactions in SUT include building a tree model \cite{yilmaz2006covering}, adaptively generating additional test cases according to the outcome of the last test case \cite{zhang2011characterizing}, ranking suspicious interactions based on some rules \cite{ghandehari2012identifying}, and using graphic-based deduction \cite{martinez2008algorithms}, among others. These approaches can be partitioned into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests \cite{nie2011minimal,ghandehari2012identifying,niu2013identifying,zhang2011characterizing,shakya2012isolating,wang2010adaptive,li2012improved}or \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel \cite{yilmaz2006covering,colbourn2008locating,martinez2008algorithms,martinez2009locating}.
+To address this problem, prior work \cite{nie2011minimal} specifically studied the properties of the failure-inducing interactions in SUT, based on which additional test cases were generated to identify them. Other approaches to identify the failure-inducing interactions in SUT include building a tree model \cite{yilmaz2006covering}, adaptively generating additional test cases according to the outcome of the last test case \cite{zhang2011characterizing}, ranking suspicious interactions based on some rules \cite{ghandehari2012identifying}, and using graphic-based deduction \cite{martinez2008algorithms}, among others. These approaches can be partitioned into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests \cite{nie2011minimal,ghandehari2012identifying,niu2013identifying,zhang2011characterizing,shakya2012isolating,wang2010adaptive,li2012improved}or \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel \cite{yilmaz2006covering,colbourn2008locating,martinez2008algorithms,martinez2009locating,zhang2012faulty}.
 
 These approaches, however, are essentially approximate solutions to failure-inducing identification (Theoretically, definite solution is of exponential computational complexity). Hence, many issues may affect their effectiveness when applied in practice.  Generally, \emph{non-adaptive} approaches usually can accurately identify the failure-inducing interactions, even when there are multiple ones in the SUT. Their effectiveness are based on some mathematical objects \cite{colbourn2008locating,martinez2008algorithms,martinez2009locating}. The shortcomings of these approaches are they are very ad-hoc, that is, they are restricted to many limitations, such as the number of failure-inducing interactions must be given as well as the number of the maximal factors involved in a failure-inducing interaction. Moreover, these approaches usually consume many test cases \cite{zhang2011characterizing}. \emph{Adaptive} approaches are much more flexible, and they mainly focus on one failing test case. Commonly they are needs much less test cases than \emph{non-adaptive} approaches. However, some problems, such as cannot handle multiple failure-inducing interactions (especially they are have overlapping factors), and cannot handle the newly introduced failure-interactions in the additional generated test cases, negatively affect their performance (both precise and recall).
 %but it can , for example, cannot using less information, introducing , multiple MFS in one test case and so on.
@@ -775,78 +775,62 @@ $t_{5}$ &\multicolumn{4}{l}{1  \ \ \ \  1 \ \ \ \  1 \ \ \ \ 0} \\
 For example, Table \ref{ca_example} shows a 2-way covering array CA(5; 2, 4, 2) for the SUT with 4 boolean parameters. For any two columns, any 2-degree schema is covered. Covering array has proven to be effective in detecting the failures caused by interactions of parameters of the SUT. Many existing algorithms focus on constructing covering arrays such that the number of test cases, i.e., $N$, can be as small as possible.
 
 \subsection{MFS identification approaches}
-Let $\mathcal{I}(t)$ denotes all the schemas that are contained in the test case $t$, e.g., $\mathcal{I}(\ (1 1 1)\ )= \{(1 - -)(- 1 -)(- - 1)(1 1 -)(1 - 1)(- 1 1) (1 1 1)\}$. Additionally, let $\mathcal{I}(T)$ denotes all the schemas that are contained in test set $T$, i.e., $\mathcal{I}(T) = \bigcup_{t\in T} \mathcal{I}(t)$. By definition of faulty schema, it can easily get that $$ S_{faulty} = \mathcal{I}(T_{F}) - \mathcal{I}(T_{P}) $$, where $T_{F}$ indidates all the failing test cases in the SUT, and $T_{P}$ indicates all the passing test cases (Note that $T_{P} \bigcup T_{F}$ indicates all the possible test cases in the SUT, and $T_{F} \bigcap T_{P} = \emptyset $ ).
+Let $\mathcal{I}(t)$ denotes all the schemas that are contained in the test case $t$, e.g., $\mathcal{I}(\ (1 1 1)\ )= \{(1 - -)(- 1 -)(- - 1)(1 1 -)(1 - 1)(- 1 1) (1 1 1)\}$. Additionally, let $\mathcal{I}(T)$ denotes all the schemas that are contained in test set $T$, i.e., $\mathcal{I}(T) = \bigcup_{t\in T} \mathcal{I}(t)$. By the definition of \emph{faulty schema} (Definition \ref{de:faulty:minimal}), it can easily get that all the faulty schemas in the SUT, i.e., $S_{faulty}$, can be computed by the following formula
+\begin{displaymath} S_{faulty} = \mathcal{I}(T_{F}) - \mathcal{I}(T_{P}) \tag{EQ1} \label{eq-s-faulty} \end{displaymath}
+where $T_{F}$ indicates all the failing test cases in the SUT, and $T_{P}$ indicates all the passing test cases (Note that $T_{P} \bigcup T_{F}$ represents all the possible test cases, i.e., $T_{all}$, in the SUT, and $T_{F} \bigcap T_{P} = \emptyset $ ).
 
-Based on this the formula to compute the MFS can be described as following:
+With \ref{eq-s-faulty} to compute faulty schemas, the formula to compute the MFS can be described as following:
+\begin{displaymath} MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\}. \tag{EQ2} \label{eq-s-mfs} \end{displaymath}
 
+An example of shows the faulty schemas and MFS are in Table \ref{example_minimal_schemas}.  We can find that all the schemas in $S_{faulty}$ are only contained in test set $T_{F}$ (Those schemas that appear in $T_{P}$ are filtered out). Additionally, $MFS$ is a minimal schema set which filters those super schemas in $S_{faulty}$.
 
-An example of shows the faulty schemas and MFS are in Table .
+\begin{table}
+\centering
+\caption{Example of the minimal schemas}
+\label{example_minimal_schemas}
+  \begin{tabular}{c| c | c | c | c }
+  \hline
+  $T_{all}$ & $T_{F}$ & $T_{P}$ & $S_{faulty}$ & $MFS$ \\ \hline
+(0, 0, 0) & (0, 0, 0) &           & (0, 0, -) & (0, 0, -)\\
+(0, 0, 1) & (0, 0, 1) &           & (0, -, 0) & (0, -, 0)\\
+(0, 1, 0) & (0, 1, 0) &           & (0, 0, 0) & \\
+(0, 1, 1) &           & (0, 1, 1) & (0, 0, 1) &\\
+(1, 0, 0) &           & (1, 0, 0) & (0, 1, 0) &\\
+(1, 0, 1) &           & (1, 0, 1) &           &\\
+(1, 1, 0) &           & (1, 1, 0) &           &\\
+(1, 1, 1) &           & (1, 1, 1) &           &\\\hline
+  \end{tabular}
+  \end{table}
 
-
-In practice, this formula to compute MFS is not possible, as all the test cases increases expotentailly. Hence, some body. are approaeximate results. These methods can be partiioned into two main classes, i.e., 
- Two classifies, and each can be paritice twice.
-
-
-And hence, we 
-
-%Some notations used later are listed below for convenient reference:
-%\begin{itemize}
-%\item $k$ : The number of parameters that influence the SUT.
-%\item $V_{i}$ : The set of discrete values that the $i$th parameter of SUT can take.
-%\item $T^{*}$ :  The exhaustive set of test cases for the SUT. For a SUT with $k$ parameters, and each parameter can take $|V_{i}|$ values, the number of test cases in $T^{*}$ is $\prod_{i = 1}^{i <= k} |V_{i}|$. Note that some test cases may be invalid if there exists constraints among the parameters.
-%\item $T$ : A set of test cases. (Similarly for $T_{i},\ T_{j}, ...$. )
-%\item $\bar{T}$ : The complementary test set of T, i.e., $\bar{T} \bigcup T = T^{*},\ \bar{T} \bigcap T = \emptyset$.
-%\item $A \backslash B$ :  The set of elements that belong to set $A$ but not to $B$. For example $T_{i} \backslash T_{j}$ indicates the set of test cases that belong to set $T_{i}$, but not to $T_{j}$.
-%\item $\mathcal{T}(c)$ :  All the test cases that contain the schema $c$ in the SUT. Based on the definition of MFS, we know that if schema $c$ is an MFS of $F_{m}$, then $\mathcal{T}(c) \subseteq T_{F_{m}}$.
-%%\item $T_{mask(F_{m})}$ :  All the test cases that contain the
-%%\item $T_{mask(F_{m})}$ :
-%%\item $T_{mask(F_{m})}$ :
-%
-%\item $\mathcal{I}(t)$ :  All the schemas that are contained in the test case $t$, e.g., $\mathcal{I}(\ (1 1 1)\ )= \{(1 - -)(- 1 -)(- - 1)(1 1 -)(1 - 1)(- 1 1) (1 1 1)\} $.
-%\item $\mathcal{I}(T)$ :  All the schemas that are contained in test set $T$, i.e., $\mathcal{I}(T) = \bigcup_{t\in T} \mathcal{I}(t)$.
-%\item  $\mathcal{S}(T)$:  All the schemas that are only contained in test set $T$ (Referred to as \emph{Special schemas}); $\mathcal{S}(T) =  \mathcal{I}(T) \backslash \mathcal{I}(\bar{T}) $.
-%\item  $\mathcal{C}(T)$ : A set of the minimal schemas that are only contained in test set $T$ (Referred to as \emph{Minimal schemas}); $\mathcal{C}(T) =  \{c | c \in \mathcal{S}(T)\ and\ \not\exists c' \prec c, s.t., c' \in \mathcal{S}(T)\}$.
-%
-%\end{itemize}
-
-%\begin{proposition}[{smaller schema $c$ has a larger $\mathcal{T}(c)$}] \label{pro:shl}
-%For schemas $c_{1}$, $c_{2}$, if $c_{1} \prec c_{2}$, then all the test cases that contain $c_{2}$ must also contain $c_{1}$, i.e., $\mathcal{T}(c_{2}) \subseteq \mathcal{T}(c_{1})$.
-%\end{proposition}
-%
-%\begin{proof}
-%  $ \forall t \in \mathcal{T}(c_{2})$,  $t$ contains $c_{2}$. As $t$ is a $k$-degree schema, then it has $c_{2} \prec t$ .  As $c_{1} \prec c_{2}$, then $c_{1} \prec t$, indicating that $t$ contains $c_{1}$. Therefore, $t \in \mathcal{T}(c_{1})$. So it follows that $\mathcal{T}(c_{2}) \subseteq \mathcal{T}(c_{1})$.
-%\end{proof}
-%
-%Suppose a SUT with four binary parameters, which can be denoted as SUT($2^4$). Table \ref{example_subsume} illustrates an example of the Proposition \ref{pro:shl}. The left column lists the schema $c_{2}$ = (0,0,-,-) as well as all the test cases in $\mathcal{T}(c_{2})$, while the right column lists the schema $c_{1}$ = (0,-,-,-) and $\mathcal{T}(c_{1})$. We can see that when $c_{1} \prec c_{2}$, $\mathcal{T}(c_{2}) \subseteq \mathcal{T}(c_{1})$.
-%
-%\begin{proposition}[Special schema set of test Set T]\label{pro:stct}
-%For any test set $T$ of the SUT,  $\bigcup_{c \in \mathcal{S}(T)}\mathcal{T}(c) = T$.
-%\end{proposition}
-%\begin{proof}
-%As $\mathcal{S}(T) =  \mathcal{I}(T) \backslash \mathcal{I}(\bar{T}) $,  $\forall c \in \mathcal{S}(T),\ c \in \mathcal{I}(T)\ and\ c \not\in \mathcal{I}(\bar{T})$. Then $\forall t \in \mathcal{T}(c), t \ contains\ c$, indicating that $t \in T$.  Hence, $\mathcal{T}(c) \subseteq T$.  Then $\bigcup_{c \in \mathcal{S}(T)}\mathcal{T}(c) \subseteq T$.
-%
-%On the other hand, $\forall t \in T$,  $\exists c' \in \mathcal{I}(t)$, such that $c' \not\in \mathcal{I}(\bar{T})$ (at least it holds when $c' = t$). Hence, $c' \in \mathcal{S}(T)$.  Obviously $t \in \mathcal{T}(c') \subseteq \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c)$. Therefore,  $ T \subseteq \bigcup_{c \in \mathcal{S}(T)}\mathcal{T}(c)$.
-%\end{proof}
-%
-%
-%\begin{proposition}[Minimal schema set of test Set T]\label{pro:ash}
-%For any test set $T$ of the SUT, $\bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c) = T$.
-%\end{proposition}
-%
-%\begin{proof}
-%As $\mathcal{C}(T) = \{c | c \in \mathcal{S}(T)\ and\ \not\exists c' \prec c, s.t., c' \in \mathcal{S}(T)\}$, indicating that $\mathcal{C}(T) \subseteq \mathcal{S}(T)$.  It is then obviously $\bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c) \subseteq \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c)$. Hence, we just need to prove that $\bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c) \subseteq \bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c)$.
-%
-%$\forall t \in \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c) $, $\exists c \in \mathcal{S}(T),\ s.t., t \in \mathcal{T}(c)$. According to the definition of $\mathcal{C}(T)$, $\exists c' \in \mathcal{C}(T), s.t.,\ c' = c \ or\ c' \prec c$. Correspondingly $\mathcal{T}(c') = \mathcal{T}(c),\ or\ \mathcal{T}(c) \subseteq \mathcal{T}(c')$ by Proposition \ref{pro:shl}. Hence, $t \in \mathcal{T}(c') \subseteq \bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c)$.
-%
-%Therefore, $\bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c) = \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c) = T$.
-%\end{proof}
-%
-%Table \ref{example_minimal_schemas} gives an example of $T^{*}$, $T$, $\bar{T}$, $\mathcal{S}(T)$ and $\mathcal{C}(T)$ in SUT($2^3$). We can find that all the schemas in $\mathcal{S}(T)$ and $\mathcal{C}(T)$ are only contained in test set $T$, and for any $t \in T$, it contains at least one schema in $\mathcal{S}(T)$ and $\mathcal{C}(T)$. Additionally, $\mathcal{C}(T)$ is a minimal schema set which filters those super schemas in $\mathcal{S}(T)$.
-
-
+In practice, using \ref{eq-s-mfs} to compute MFS is not possible, as we should execute all the possible test cases of the SUT, which obviously has exponential complexity ($\prod_{i = 1} ^{k} |V_{i}| $). Hence, MFS identification approaches are essentially approximation to \ref{eq-s-mfs}, taking into account the tradeoffs between the computing cost and the quality of the MFS identification result. Existing MFS approaches can be classified into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel or \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests.
 
 \subsubsection{non-adaptive}
+The simplest idea is to sample some test cases instead of all the possible test cases for MFS identification. Covering array is a good sampling mechanism candidate, as it can systematically cover all the schemas with degrees no more than a prior fixed number $t$, as a result, those MFS with degrees no more than \emph{t} can be guaranteed to be detected. With covering array, the formula to compute MFS will be revised. Let $T_{f}$ denotes those failing test cases in a covering array, and $T_{p}$ denotes those passing test cases. Obviously,  the MFS identification can be described as the following formula.
+\begin{displaymath} S_{faulty} = \mathcal{I}(T_{f}) - \mathcal{I}(T_{p}) \tag{EQ3} \label{eq-s-ca-identi}  \\
+ MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\}
+\end{displaymath}
+
+\begin{table}
+\centering
+\caption{MFS identification using covering array}
+\label{mfs-coveing-array}
+  \begin{tabular}{c| c | c | c | c }
+  \hline
+  $T_{all}$ & $T_{F}$ & $T_{P}$ & $S_{faulty}$ & $MFS$ \\ \hline
+(0, 0, 0) & (0, 0, 0) &           & (0, 0, -) & (0, 0, -)\\
+(0, 0, 1) & (0, 0, 1) &           & (0, -, 0) & (0, -, 0)\\
+(0, 1, 0) & (0, 1, 0) &           & (0, 0, 0) & \\
+(0, 1, 1) &           & (0, 1, 1) & (0, 0, 1) &\\
+(1, 0, 0) &           & (1, 0, 0) & (0, 1, 0) &\\
+(1, 0, 1) &           & (1, 0, 1) &           &\\
+(1, 1, 0) &           & (1, 1, 0) &           &\\
+(1, 1, 1) &           & (1, 1, 1) &           &\\\hline
+  \end{tabular}
+  \end{table}
+
+
 \subsubsection{adaptive}
+
 \subsubsection{others}
 
 
