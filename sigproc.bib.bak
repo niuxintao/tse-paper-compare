@@ -517,19 +517,3 @@ ISSN={0098-5589}
   year={2004},
   publisher={Elsevier}
 }
-@inproceedings{Zhang:2012:FII:2352219.2352239,
- author = {Zhang, Jian and Ma, Feifei and Zhang, Zhiqiang},
- title = {Faulty Interaction Identification via Constraint Solving and Optimization},
- booktitle = {Proceedings of the 15th International Conference on Theory and Applications of Satisfiability Testing},
- series = {SAT'12},
- year = {2012},
- isbn = {978-3-642-31611-1},
- location = {Trento, Italy},
- pages = {186--199},
- numpages = {14},
- url = {http://dx.doi.org/10.1007/978-3-642-31612-8_15},
- doi = {10.1007/978-3-642-31612-8_15},
- acmid = {2352239},
- publisher = {Springer-Verlag},
- address = {Berlin, Heidelberg},
-}

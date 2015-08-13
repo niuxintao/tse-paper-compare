@@ -113,4 +113,14 @@ J.~Zhang, F.~Ma, and Z.~Zhang, ``Faulty interaction identification via
 C.~Nie and H.~Leung, ``A survey of combinatorial testing,'' \emph{ACM Computing
   Surveys (CSUR)}, vol.~43, no.~2, p.~11, 2011.
 
+\bibitem{hall2009weka}
+M.~Hall, E.~Frank, G.~Holmes, B.~Pfahringer, P.~Reutemann, and I.~H. Witten,
+  ``The weka data mining software: An update; sigkdd explorations, volume 11,
+  issue 1,'' 2009.
+
+\bibitem{rokach2005top}
+L.~Rokach and O.~Maimon, ``Top-down induction of decision trees classifiers-a
+  survey,'' \emph{Systems, Man, and Cybernetics, Part C: Applications and
+  Reviews, IEEE Transactions on}, vol.~35, no.~4, pp. 476--487, 2005.
+
 \end{thebibliography}

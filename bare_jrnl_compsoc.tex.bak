@@ -651,7 +651,7 @@ id& \emph{Highlight} & \emph{Status bar} & \emph{Bookmarks}& \emph{Smart tags} &
   \end{tabular}
 \end{table}
 
-To address this problem, prior work \cite{nie2011minimal} specifically studied the properties of the failure-inducing interactions in SUT, based on which additional test cases were generated to identify them. Other approaches to identify the failure-inducing interactions in SUT include building a tree model \cite{yilmaz2006covering}, adaptively generating additional test cases according to the outcome of the last test case \cite{zhang2011characterizing}, ranking suspicious interactions based on some rules \cite{ghandehari2012identifying}, and using graphic-based deduction \cite{martinez2008algorithms}, among others. These approaches can be partitioned into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests \cite{nie2011minimal,ghandehari2012identifying,niu2013identifying,zhang2011characterizing,shakya2012isolating,wang2010adaptive,li2012improved}or \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel \cite{yilmaz2006covering,colbourn2008locating,martinez2008algorithms,martinez2009locating,zhang2012faulty}.
+To address this problem, prior work \cite{nie2011minimal} specifically studied the properties of the failure-inducing interactions in SUT, based on which additional test cases were generated to identify them. Other approaches to identify the failure-inducing interactions in SUT include building a tree model \cite{yilmaz2006covering}, adaptively generating additional test cases according to the outcome of the last test case \cite{zhang2011characterizing}, ranking suspicious interactions based on some rules \cite{ghandehari2012identifying}, and using graphic-based deduction \cite{martinez2008algorithms}, among others. These approaches can be partitioned into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests \cite{shi2005software,nie2011minimal,ghandehari2012identifying,niu2013identifying,zhang2011characterizing,shakya2012isolating,wang2010adaptive,li2012improved}or \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel \cite{yilmaz2006covering,colbourn2008locating,martinez2008algorithms,martinez2009locating,zhang2012faulty}.
 
 These approaches, however, are essentially approximate solutions to failure-inducing identification (Theoretically, definite solution is of exponential computational complexity). Hence, many issues may affect their effectiveness when applied in practice.  Generally, \emph{non-adaptive} approaches usually can accurately identify the failure-inducing interactions, even when there are multiple ones in the SUT. Their effectiveness are based on some mathematical objects \cite{colbourn2008locating,martinez2008algorithms,martinez2009locating}. The shortcomings of these approaches are they are very ad-hoc, that is, they are restricted to many limitations, such as the number of failure-inducing interactions must be given as well as the number of the maximal factors involved in a failure-inducing interaction. Moreover, these approaches usually consume many test cases \cite{zhang2011characterizing}. \emph{Adaptive} approaches are much more flexible, and they mainly focus on one failing test case. Commonly they are needs much less test cases than \emph{non-adaptive} approaches. However, some problems, such as cannot handle multiple failure-inducing interactions (especially they are have overlapping factors), and cannot handle the newly introduced failure-interactions in the additional generated test cases, negatively affect their performance (both precise and recall).
 %but it can , for example, cannot using less information, introducing , multiple MFS in one test case and so on.
@@ -660,8 +660,10 @@ These approaches, however, are essentially approximate solutions to failure-indu
 %
 %How to identify them is not easy, in effect, there are two problems need to be solved: First, we just need to know the properties of the faulty schemas and healthy schemas, i.e., the differences between them. Figuring out that can help us to design approaches to identify a schema to be healthy or faulty. Second, we should find some strategy to check every possible schemas in a test configuration while using as small resources as possible. As the possible schemas in a test configurations can get to $2^n$(n is the number of options in a configuration), then we want the resources needed is logarithmic related to the number of schemas, which will result in the complexity of algorithm with O($n$)(n is the number of options in a configuration).
 
-In this paper, we propose a novel failure-inducing interaction identification approach (\emph{adaptive}) which aims to alleviate these issues.
-Our approach is based on the notions of \emph{faulty schemas} and \emph{healthy schemas} (A schema is equivalent to interaction), among which the former will result in a failure if a test case contain it while the latter will not. Furthermore, two important data structures are maintained in our approach, i.e., CMINFS(represent for candidate minimal faulty schemas) and CMAXHS(represent for candidate maximal healthy schemas). Through using the two data structures, some schemas in the failing test case can be determined to be healthy, or faulty. Those schemas that cannot be determined by these two data structures will be selected and checked. When an un-determined schema is checked, we will update these two structures. This process is repeated until all the schemas are determined to be healthy or faulty, and the failure-inducing schemas will be selected from those faulty schemas. By doing so, we will not omit any schema that can be candidate failure-inducing interaction in the failing test case. As a result, our approach can handle the cases such as a failing test case containing multiple failure-inducing interactions and interactions consisting of any different number of factors.
+
+%we give an comprehensive analysis of existing  failure-inducing interaction identification approaches, which formally describe the mechanism of each approach, as well as its characteristics and shortcomings. Based on which,
+
+In this paper, we propose a novel failure-inducing interaction identification approach (\emph{adaptive}) which aims to alleviate these issues. Our approach is based on the notions of \emph{faulty schemas} and \emph{healthy schemas} (A schema is equivalent to interaction), among which the former will result in a failure if a test case contain it while the latter will not. Furthermore, two important data structures are maintained in our approach, i.e., CMINFS(represent for candidate minimal faulty schemas) and CMAXHS(represent for candidate maximal healthy schemas). Through using the two data structures, some schemas in the failing test case can be determined to be healthy, or faulty. Those schemas that cannot be determined by these two data structures will be selected and checked. When an un-determined schema is checked, we will update these two structures. This process is repeated until all the schemas are determined to be healthy or faulty, and the failure-inducing schemas will be selected from those faulty schemas. By doing so, we will not omit any schema that can be candidate failure-inducing interaction in the failing test case. As a result, our approach can handle the cases such as a failing test case containing multiple failure-inducing interactions and interactions consisting of any different number of factors.
 
 The order of selecting un-determined schemas to be checked is important as it affects the update of CMINFS and CMAXHS. Particularly, with the same CMINFS and CMAXHS, choosing different schema to check will result in different number of remaining un-determined schemas, which is strongly correlated to cost of our approach, i.e., the number of additional generated test cases. In this paper, we give a selection strategy which tries to optimise the performance of our approach, i.e., makes the amount of generated additional test cases as small as possible. The selection consists of two steps: (1) We select a sequence of closely related un-determined schemas from the remaining un-determined schemas and sort them according to their relationships with each other. Generally, there is more than one such sequence. As such, we will select the one with the maximum number of schemas for that we can determine the schemas as much as possible in the iteration. (2) For the sequence we select in the first step, we use binary search to find the schema in the sequence as the one to be analyzed each turn, and after a schema is determined, about half of the schemas which are correlated to this schema in the sequence will be determined. At last, the complexity of our approach can reach to $O(d\times t \times log k + t^{d})$, where $d$ is the number of failure-inducing interactions in a failing test case, t is the maximal factors a failure-inducing consists of, and $k$ is number of factors in a failing test case. This complexity is very efficient when compared to other approaches. Besides this, we also provide a variation of our approach which support a feedback mechanism, aiming at handling the newly introduced failure-inducing schemas.
 
@@ -687,7 +689,7 @@ The remainder of this paper is organized as follows: Section \ref{sec:back} intr
 \section{Preliminary} \label{sec:back}
 Before we talk about our approach, we will give some formal definitions and proposals first, which is helpful to understand the background of our description of our approach.
 
-\subsection{Definitions}\label{sec:back:define}
+%\subsection{Definitions}\label{sec:back:define}
 Assume that the behaviour of SUT is influenced by \emph{k} parameters, and each parameter $p_{i}$ has $a_{i}$ discrete values from the finite set $V_{i}$, i.e., $a_{i}$ = $|V_{i}|$ ($i$ = 1,2,...,\emph{k}). In practice, these parameters can represent many factors, such as input variables, run-time options, building options, etc. Next we will give some formal definitions, some of them (Definitions \ref{de:test}, \ref{de:tuple}, \ref{de:sub}) were originally defined in \cite{nie2011survey}.
 
 
@@ -774,7 +776,9 @@ $t_{5}$ &\multicolumn{4}{l}{1  \ \ \ \  1 \ \ \ \  1 \ \ \ \ 0} \\
 
 For example, Table \ref{ca_example} shows a 2-way covering array CA(5; 2, 4, 2) for the SUT with 4 boolean parameters. For any two columns, any 2-degree schema is covered. Covering array has proven to be effective in detecting the failures caused by interactions of parameters of the SUT. Many existing algorithms focus on constructing covering arrays such that the number of test cases, i.e., $N$, can be as small as possible.
 
-\subsection{MFS identification approaches}
+\section{An analyze of existing MFS identification approaches}\label{sec:existing_MFS_identification}
+In this section, we will give a comprehensive analysis of existing  failure-inducing interaction identification approaches, which formally describe the mechanism of each approach, as well as its characteristics and shortcomings.
+
 Let $\mathcal{I}(t)$ denotes all the schemas that are contained in the test case $t$, e.g., $\mathcal{I}(\ (1 1 1)\ )= \{(1 - -)(- 1 -)(- - 1)(1 1 -)(1 - 1)(- 1 1) (1 1 1)\}$. Additionally, let $\mathcal{I}(T)$ denotes all the schemas that are contained in test set $T$, i.e., $\mathcal{I}(T) = \bigcup_{t\in T} \mathcal{I}(t)$. By the definition of \emph{faulty schema} (Definition \ref{de:faulty:minimal}), it can easily get that all the faulty schemas in the SUT, i.e., $S_{faulty}$, can be computed by the following formula
 \begin{displaymath} S_{faulty} = \mathcal{I}(T_{F}) - \mathcal{I}(T_{P}) \tag{EQ1} \label{eq-s-faulty} \end{displaymath}
 where $T_{F}$ indicates all the failing test cases in the SUT, and $T_{P}$ indicates all the passing test cases (Note that $T_{P} \bigcup T_{F}$ represents all the possible test cases, i.e., $T_{all}$, in the SUT, and $T_{F} \bigcap T_{P} = \emptyset $ ).
@@ -782,7 +786,7 @@ where $T_{F}$ indicates all the failing test cases in the SUT, and $T_{P}$ indic
 With \ref{eq-s-faulty} to compute faulty schemas, the formula to compute the MFS can be described as following:
 \begin{displaymath} MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\}. \tag{EQ2} \label{eq-s-mfs} \end{displaymath}
 
-An example of shows the faulty schemas and MFS are in Table \ref{example_minimal_schemas}.  We can find that all the schemas in $S_{faulty}$ are only contained in test set $T_{F}$ (Those schemas that appear in $T_{P}$ are filtered out). Additionally, $MFS$ is a minimal schema set which filters those super schemas in $S_{faulty}$.
+An example of shows the faulty schemas and MFS are in Table \ref{example_minimal_schemas}. Suppose a SUT with three binary parameters, which can be denoted as SUT($2^3$). We can find that all the schemas in $S_{faulty}$ are only contained in test set $T_{F}$ (Those schemas that appear in $T_{P}$ are filtered out). Additionally, $MFS$ is a minimal schema set which filters those super schemas in $S_{faulty}$.
 
 \begin{table}
 \centering
@@ -804,11 +808,14 @@ An example of shows the faulty schemas and MFS are in Table \ref{example_minimal
 
 In practice, using \ref{eq-s-mfs} to compute MFS is not possible, as we should execute all the possible test cases of the SUT, which obviously has exponential complexity ($\prod_{i = 1} ^{k} |V_{i}| $). Hence, MFS identification approaches are essentially approximation to \ref{eq-s-mfs}, taking into account the tradeoffs between the computing cost and the quality of the MFS identification result. Existing MFS approaches can be classified into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel or \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests.
 
-\subsubsection{non-adaptive}
-The simplest idea is to sample some test cases instead of all the possible test cases for MFS identification. Covering array is a good sampling mechanism candidate, as it can systematically cover all the schemas with degrees no more than a prior fixed number $t$, as a result, those MFS with degrees no more than \emph{t} can be guaranteed to be detected. With covering array, the formula to compute MFS will be revised. Let $T_{f}$ denotes those failing test cases in a covering array, and $T_{p}$ denotes those passing test cases. Obviously,  the MFS identification can be described as the following formula.
-\begin{displaymath} S_{faulty} = \mathcal{I}(T_{f}) - \mathcal{I}(T_{p}) \tag{EQ3} \label{eq-s-ca-identi}  \\
- MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\}
-\end{displaymath}
+\subsection{Non-adaptive appraoches}
+The simplest idea is to sample some test cases instead of all the possible test cases for MFS identification. Covering array is a good sampling mechanism candidate, as it can systematically cover all the schemas with degrees no more than a prior fixed number $t$, as a result, those MFS with degrees no more than \emph{t} can be guaranteed to be detected. With covering array, the formula to compute MFS will be revised. Formally, let $T_{f}$ denotes those failing test cases in a covering array, and $T_{p}$ denotes those passing test cases. Obviously, $T_{f} \subseteq T_{F}$ and $T_{p} \subseteq T_{P}$. Furthermore, $ \mathcal{I}(T_{f}) \bigcup \mathcal{I}(T_{p}) \supset S_{\hat{t}}$, where $S_{\hat{t}}$ represents all the schemas with degrees no more than \emph{t}. Then the formula to describe the MFS identification using covering array can be shown as \ref{eq-s-ca-identi}.
+\begin{alignat}{2}
+ &  S_{faulty} = \mathcal{I}(T_{f}) - \mathcal{I}(T_{p})  &{}&   \nonumber \\
+& MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ3} \label{eq-s-ca-identi} \nonumber
+\end{alignat}
+
+As  $\mathcal{I}(T_{f}) - \mathcal{I}(T_{p})$ is normally not equal to  $\mathcal{I}(T_{F}) - \mathcal{I}(T_{P})$, \ref{eq-s-ca-identi} may not get an accurate result. For example,  Table \ref{mfs-coveing-array} shows the result which directly using covering array to compute MFS. This example using the same SUT as Table \ref{example_minimal_schemas}, i.e., SUT($2^{3}$) with MFS (0, - ,0) and (0, 0, -). In this example, a $2$-way covering array consists of one failing test case (0, 0, 0) and three passing test cases (0, 1, 1), (1, 0, 1) and (1, 1, 0). Using \ref{eq-s-ca-identi}, we can finally obtain the MFS (0, 0, -), (0, -, 0) and (-, 0, 0), which is different from the correct result in Table \ref{example_minimal_schemas}. Besides this, the complexity of \ref{eq-s-ca-identi} is exponential. This is because we should list all the possible schemas in each test case of $T_{f}$, which is $|T_{f}| * 2 ^ {k - 1}$. As directly utilizing covering array cannot give an ideal result, more efforts are desired to improve this result.
 
 \begin{table}
 \centering
@@ -816,22 +823,39 @@ The simplest idea is to sample some test cases instead of all the possible test 
 \label{mfs-coveing-array}
   \begin{tabular}{c| c | c | c | c }
   \hline
-  $T_{all}$ & $T_{F}$ & $T_{P}$ & $S_{faulty}$ & $MFS$ \\ \hline
+  $T_{all}$ & $T_{f}$ & $T_{p}$ & $S_{faulty}$ & $MFS$ \\ \hline
 (0, 0, 0) & (0, 0, 0) &           & (0, 0, -) & (0, 0, -)\\
-(0, 0, 1) & (0, 0, 1) &           & (0, -, 0) & (0, -, 0)\\
-(0, 1, 0) & (0, 1, 0) &           & (0, 0, 0) & \\
-(0, 1, 1) &           & (0, 1, 1) & (0, 0, 1) &\\
-(1, 0, 0) &           & (1, 0, 0) & (0, 1, 0) &\\
+(0, 0, 1) &           &           & (0, -, 0) & (0, -, 0)\\
+(0, 1, 0) &           &           & (-, 0, 0) & (-, 0, 0)\\
+(0, 1, 1) &           & (0, 1, 1) & (0, 0, 0) &\\
+(1, 0, 0) &           &           &           &\\
 (1, 0, 1) &           & (1, 0, 1) &           &\\
 (1, 1, 0) &           & (1, 1, 0) &           &\\
-(1, 1, 1) &           & (1, 1, 1) &           &\\\hline
+(1, 1, 1) &           &           &           &\\\hline
   \end{tabular}
   \end{table}
 
+\subsubsection{Original Covering array}
+Yilmaz \cite{yilmaz2006covering} proposed an MFS identification approach, which can quickly characterize the MFS based on a covering array. It uses classification tree analysis (CTA) on the executed test cases of covering array to derive a tree structure. The conjunction from the root to a leaf node represents a MFS. For example, when using CTA (Implemented by Weka\cite{hall2009weka}), a tree will be built like Fig \ref{figcta}.
 
-\subsubsection{adaptive}
+In this figure, only $p_{1} = 0$ and $p_{3} = 0$ will result in a failure, indicating that (0, -, 0) is MFS. Note that 
+ Note that CTA can only identify the MFS with tree structure, which means that all the MFS should share the same root node. As a result, MFS (0, - , 0) cannot be identified.
 
-\subsubsection{others}
+\begin{figure}
+ \centering
+ \includegraphics[width=2.7in]{cta_example.eps}
+ \caption{CTA example}
+ \label{figcta}
+\end{figure}
+
+and Zhang \cite{zhang2012faulty} proposed approaches that are based on covering array, but with different techniques. The first one is using classification tree techniques, and the second one using sat solver.
+
+
+\subsubsection{Higher covering array}
+
+
+\subsection{Adaptive approaches}
+
 
 
 \begin{figure*}

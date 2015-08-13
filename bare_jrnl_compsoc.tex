@@ -777,8 +777,8 @@ $t_{5}$ &\multicolumn{4}{l}{1  \ \ \ \  1 \ \ \ \  1 \ \ \ \ 0} \\
 For example, Table \ref{ca_example} shows a 2-way covering array CA(5; 2, 4, 2) for the SUT with 4 boolean parameters. For any two columns, any 2-degree schema is covered. Covering array has proven to be effective in detecting the failures caused by interactions of parameters of the SUT. Many existing algorithms focus on constructing covering arrays such that the number of test cases, i.e., $N$, can be as small as possible.
 
 \section{An analyze of existing MFS identification approaches}\label{sec:existing_MFS_identification}
-In this section, we will describe , give them.
- 
+In this section, we will give a comprehensive analysis of existing  failure-inducing interaction identification approaches, which formally describe the mechanism of each approach, as well as its characteristics and shortcomings.
+
 Let $\mathcal{I}(t)$ denotes all the schemas that are contained in the test case $t$, e.g., $\mathcal{I}(\ (1 1 1)\ )= \{(1 - -)(- 1 -)(- - 1)(1 1 -)(1 - 1)(- 1 1) (1 1 1)\}$. Additionally, let $\mathcal{I}(T)$ denotes all the schemas that are contained in test set $T$, i.e., $\mathcal{I}(T) = \bigcup_{t\in T} \mathcal{I}(t)$. By the definition of \emph{faulty schema} (Definition \ref{de:faulty:minimal}), it can easily get that all the faulty schemas in the SUT, i.e., $S_{faulty}$, can be computed by the following formula
 \begin{displaymath} S_{faulty} = \mathcal{I}(T_{F}) - \mathcal{I}(T_{P}) \tag{EQ1} \label{eq-s-faulty} \end{displaymath}
 where $T_{F}$ indicates all the failing test cases in the SUT, and $T_{P}$ indicates all the passing test cases (Note that $T_{P} \bigcup T_{F}$ represents all the possible test cases, i.e., $T_{all}$, in the SUT, and $T_{F} \bigcap T_{P} = \emptyset $ ).
@@ -815,7 +815,7 @@ The simplest idea is to sample some test cases instead of all the possible test 
 & MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ3} \label{eq-s-ca-identi} \nonumber
 \end{alignat}
 
-As normally $\mathcal{I}(T_{f}) - \mathcal{I}(T_{p})$ is not equal to  $\mathcal{I}(T_{F}) - \mathcal{I}(T_{P})$, \ref{eq-s-ca-identi} may not get an accurate result. For example,  Table \ref{mfs-coveing-array} shows the result which directly using covering array to compute MFS. This example using the same SUT as Table \ref{example_minimal_schemas}, i.e., SUT($2^{3}$) with MFS (0, - ,0) and (0, 0, -). In this example, a $2$-way covering array consists of one failing test case (0, 0, 0) and three passing test cases (0, 1, 1), (1, 0, 1) and (1, 1, 0). Using \ref{eq-s-ca-identi}, we can finally obtain the MFS (0, 0, -), (0, -, 0) and (-, 0, 0), which is different from the correct result in Table \ref{example_minimal_schemas}. As directly utilizing covering array cannot give a ideal result, more efforts are desired to improve this result.
+As  $\mathcal{I}(T_{f}) - \mathcal{I}(T_{p})$ is normally not equal to  $\mathcal{I}(T_{F}) - \mathcal{I}(T_{P})$, \ref{eq-s-ca-identi} may not get an accurate result. For example,  Table \ref{mfs-coveing-array} shows the result which directly using covering array to compute MFS. This example using the same SUT as Table \ref{example_minimal_schemas}, i.e., SUT($2^{3}$) with MFS (0, - ,0) and (0, 0, -). In this example, a $2$-way covering array consists of one failing test case (0, 0, 0) and three passing test cases (0, 1, 1), (1, 0, 1) and (1, 1, 0). Using \ref{eq-s-ca-identi}, we can finally obtain the MFS (0, 0, -), (0, -, 0) and (-, 0, 0), which is different from the correct result in Table \ref{example_minimal_schemas}. Besides this, the complexity of \ref{eq-s-ca-identi} is exponential. This is because we should list all the possible schemas in each test case of $T_{f}$, which is $|T_{f}| * 2 ^ {k - 1}$. As directly utilizing covering array cannot give an ideal result, more efforts are desired to improve this result.
 
 \begin{table}
 \centering
@@ -834,13 +834,33 @@ As normally $\mathcal{I}(T_{f}) - \mathcal{I}(T_{p})$ is not equal to  $\mathcal
 (1, 1, 1) &           &           &           &\\\hline
   \end{tabular}
   \end{table}
-  
+
 \subsubsection{Original Covering array}
-Yilmaz \cite{yilmaz2006covering} and Zhang \cite{zhang2012faulty} proposed approaches that are based on coveing array, but with different teachniques. The first one is using classification tree teahniques, and the second one using sat solver. 
+Yilmaz \cite{yilmaz2006covering} proposed an MFS identification approach, which can quickly characterize the MFS based on a covering array. It uses classification tree analysis (CTA) on the executed test cases of covering array to derive a tree structure. The conjunction from the root to a leaf node represents a MFS. For example, when using CTA (Implemented by Weka\cite{hall2009weka}), a tree will be built like Fig \ref{figcta}.
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.7in]{cta_example.eps}
+ \caption{CTA example}
+ \label{figcta}
+\end{figure}
+
+
+In this figure, only $p_{1} = 0$ and $p_{3} = 0$ will result in a failure, indicating that (0, -, 0) is MFS. Note that the way that CTA constructing decision trees usually work top-down, by choosing a parameter at each step that best splits the set of test cases \cite{rokach2005top}. Consequently, after choosing the first parameter $p_{1}$ (three parameters have equal chances at the first step), only one of $p_{3}$ and $p_{2}$ can be selected. Hence CTA will identify only one of (0, -, 0) and (0, 0, -), while ignore another. Another point that needs to note is that only identify the MFS with tree structure. Hence, even if CTA find two MFS in this SUT, these MFS can only be identified as Figure \ref{figcta2}, which means that (0, 0, -) and (0, 1, 0)  which is still not correct.
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.7in]{cta-example2.eps}
+ \caption{Another CTA example}
+ \label{figcta2}
+\end{figure}
+
+
+Another approach that are directly based on covering array is proposed by Zhang \cite{zhang2012faulty}. proposed approaches that are based on covering array, but with different techniques. The first one is using classification tree techniques, and the second one using sat solver.
 
 
 \subsubsection{Higher covering array}
-  
+
 
 \subsection{Adaptive approaches}
 
