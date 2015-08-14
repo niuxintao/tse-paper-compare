@@ -838,9 +838,6 @@ As  $\mathcal{I}(T_{f}) - \mathcal{I}(T_{p})$ is normally not equal to  $\mathca
 \subsubsection{Original Covering array}
 Yilmaz \cite{yilmaz2006covering} proposed an MFS identification approach, which can quickly characterize the MFS based on a covering array. It uses classification tree analysis (CTA) on the executed test cases of covering array to derive a tree structure. The conjunction from the root to a leaf node represents a MFS. For example, when using CTA (Implemented by Weka\cite{hall2009weka}), a tree will be built like Fig \ref{figcta}.
 
-In this figure, only $p_{1} = 0$ and $p_{3} = 0$ will result in a failure, indicating that (0, -, 0) is MFS. Note that 
- Note that CTA can only identify the MFS with tree structure, which means that all the MFS should share the same root node. As a result, MFS (0, - , 0) cannot be identified.
-
 \begin{figure}
  \centering
  \includegraphics[width=2.7in]{cta_example.eps}
@@ -848,7 +845,18 @@ In this figure, only $p_{1} = 0$ and $p_{3} = 0$ will result in a failure, indic
  \label{figcta}
 \end{figure}
 
-and Zhang \cite{zhang2012faulty} proposed approaches that are based on covering array, but with different techniques. The first one is using classification tree techniques, and the second one using sat solver.
+
+In this figure, only $p_{1} = 0$ and $p_{3} = 0$ will result in a failure, indicating that (0, -, 0) is MFS. Note that the way that CTA constructing decision trees usually work top-down, by choosing a parameter at each step that best splits the set of test cases \cite{rokach2005top}. Consequently, after choosing the first parameter $p_{1}$ (three parameters have equal chances at the first step), only one of $p_{3}$ and $p_{2}$ can be selected. Hence CTA will identify only one of (0, -, 0) and (0, 0, -), while ignore another.  In fact, even if CTA find two MFS in this SUT, these MFS can only be identified as Figure \ref{figcta2}, i.e., (0, 0, -) and (0, 1, 0), respectively,  which is still not correct. Therefore, the quality of the MFS identification for CTA depends on the executed test cases and the characteristics of MFS.
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.7in]{cta-example2.eps}
+ \caption{Another CTA example}
+ \label{figcta2}
+\end{figure}
+
+
+Another approach that are directly based on covering array is proposed by Zhang \cite{zhang2012faulty}. Different from CTA, this approcah translate the  The second one using sat solver.
 
 
 \subsubsection{Higher covering array}

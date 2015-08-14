@@ -846,7 +846,7 @@ Yilmaz \cite{yilmaz2006covering} proposed an MFS identification approach, which 
 \end{figure}
 
 
-In this figure, only $p_{1} = 0$ and $p_{3} = 0$ will result in a failure, indicating that (0, -, 0) is MFS. Note that the way that CTA constructing decision trees usually work top-down, by choosing a parameter at each step that best splits the set of test cases \cite{rokach2005top}. Consequently, after choosing the first parameter $p_{1}$ (three parameters have equal chances at the first step), only one of $p_{3}$ and $p_{2}$ can be selected. Hence CTA will identify only one of (0, -, 0) and (0, 0, -), while ignore another. Another point that needs to note is that only identify the MFS with tree structure. Hence, even if CTA find two MFS in this SUT, these MFS can only be identified as Figure \ref{figcta2}, which means that (0, 0, -) and (0, 1, 0)  which is still not correct.
+In this figure, only $p_{1} = 0$ and $p_{3} = 0$ will result in a failure, indicating that (0, -, 0) is MFS. Note that the way that CTA constructing decision trees usually work top-down, by choosing a parameter at each step that best splits the set of test cases \cite{rokach2005top}. Consequently, after choosing the first parameter $p_{1}$ (three parameters have equal chances at the first step), only one of $p_{3}$ and $p_{2}$ can be selected. Hence CTA will identify only one of (0, -, 0) and (0, 0, -), while ignore another.  In fact, even if CTA find two MFS in this SUT, these MFS can only be identified as Figure \ref{figcta2}, i.e., (0, 0, -) and (0, 1, 0), respectively,  which is still not correct. Therefore, the quality of the MFS identification for CTA depends on the executed test cases and the characteristics of MFS.
 
 \begin{figure}
  \centering
@@ -856,10 +856,20 @@ In this figure, only $p_{1} = 0$ and $p_{3} = 0$ will result in a failure, indic
 \end{figure}
 
 
-Another approach that are directly based on covering array is proposed by Zhang \cite{zhang2012faulty}. proposed approaches that are based on covering array, but with different techniques. The first one is using classification tree techniques, and the second one using sat solver.
+Another approach that are directly based on covering array is proposed by Zhang \cite{zhang2012faulty}. Different from CTA, this approach translate MFS identification to constraints satisfaction and optimal problem. In a high level, it can be described as following:
 
+\begin{alignat}{2}
+\min\quad &  S_{faulty} &{}& \tag{EQ4} \label{eq-zhang-constriants}\\
+\mbox{s.t.}\quad
+& \forall t \in T_{p}, s \in S_{faulty}, s \not\in t &\quad& {}\nonumber \\
+& \forall t \in T_{f}, \exists s \in S_{faulty}, s.t., s \in T_{f} &\quad& {}\nonumber
+\end{alignat}
+
+\ref{eq-zhang-constriants} shows that the MFS should not be contained in any passing test case, and for each failing test case, it at least contain one MFS. This formula is essentially equal to \ref{eq-s-ca-identi}, however, by using constraints salification and optimal solver can greatly speed up the the MFS identification.
 
 \subsubsection{Higher covering array}
+
+As just using covering array to identify the MFS normally cannot get an ideal result. Other approaches are proposed to solve this problem.
 
 
 \subsection{Adaptive approaches}
