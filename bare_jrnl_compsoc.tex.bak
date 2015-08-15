@@ -856,10 +856,21 @@ In this figure, only $p_{1} = 0$ and $p_{3} = 0$ will result in a failure, indic
 \end{figure}
 
 
-Another approach that are directly based on covering array is proposed by Zhang \cite{zhang2012faulty}. Different from CTA, this approcah translate the  The second one using sat solver.
+Another approach that are directly based on covering array is proposed by Zhang \cite{zhang2012faulty}. Different from CTA, this approach translate MFS identification to constraints satisfaction and optimal problem. In a high level, it can be described as following:
 
+\begin{alignat}{2}
+\min\quad &  S_{faulty} &{}& \tag{EQ4} \label{eq-zhang-constriants}\\
+\mbox{s.t.}\quad
+& \forall t \in T_{p}, s \in S_{faulty}, s \not\in t &\quad& {}\nonumber \\
+& \forall t \in T_{f}, \exists s \in S_{faulty}, s.t., s \in T_{f} &\quad& {}\nonumber
+\end{alignat}
+
+\ref{eq-zhang-constriants} shows that the MFS should not be contained in any passing test case, and for each failing test case, it at least contain one MFS. This formula is essentially equal to \ref{eq-s-ca-identi}, however, by using constraints salification and optimal solver, it can greatly speed up the the MFS identification.
 
 \subsubsection{Higher covering array}
+As just using covering array is far from sufficient to accurately identify MFS,  Charles \cite{colbourn2008locating} and Mart{\'\i}nez \cite{martinez2008algorithms,martinez2009locating} separately proposed approaches to enhancement the MFS identification. Specifically,
+
+Two way, to restrict the possible MFS, such that the scope to seach is reduced. second, to increase the size of covering array, such that it can support . Based on this two idea,    first studies the , i.e.,.  Mart{\'\i}nez then by hyber-graphic.
 
 
 \subsection{Adaptive approaches}
