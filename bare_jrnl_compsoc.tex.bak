@@ -867,12 +867,16 @@ Another approach that are directly based on covering array is proposed by Zhang 
 
 \ref{eq-zhang-constriants} shows that the MFS should not be contained in any passing test case, and for each failing test case, it at least contain one MFS. This formula is essentially equal to \ref{eq-s-ca-identi}, however, by using constraints salification and optimal solver, it can greatly speed up the the MFS identification.
 
-\subsubsection{Higher covering array}
-As just using covering array is far from sufficient to accurately identify MFS,  Charles \cite{colbourn2008locating} and Mart{\'\i}nez \cite{martinez2008algorithms,martinez2009locating} separately proposed approaches to enhancement the MFS identification. Specifically,
+\subsubsection{Higher-way covering array}
+As discussed previously, just using covering array is far from sufficient to accurately identify MFS, even if taking some optimization measures \cite{yilmaz2006covering,zhang2012faulty}. Generally, there are two methods that can improve the MFS quality over directly using covering array. First, to limit the MFS that needs to be identified. Instead of considering all the possible MFS in the SUT, limiting the MFS with particular characteristics, e.g., only those schemas with degrees under a fixed number \emph{t}, can largely reduce the scope of schemas to be checked. Second, to increase the size of covering array. It is obviously that more test cases will give more information to filter those schemas that are not faulty schemas.
+
+Based on these two points,  Charles \cite{colbourn2008locating} proposed the notion of (d,t)-detecting array, which corresponds to test cases that permit the determintaion of faulty schemas, provides there are d faulty t-degre scheams. They later define (d, t)-detecting arrays which are (d, t)-locating arrays that can additionally detect whether the hypothesis of d faykty t-degree schemas is valid,  which ensures to identify d t-degree MFS.
+and Mart{\'\i}nez \cite{martinez2008algorithms,martinez2009locating} separately proposed approaches to enhancement the MFS identification. Specifically,
 
 Two way, to restrict the possible MFS, such that the scope to seach is reduced. second, to increase the size of covering array, such that it can support . Based on this two idea,    first studies the , i.e.,.  Mart{\'\i}nez then by hyber-graphic.
 
 
+But this method, however, have its . In fact, fautly schemas or MFS is a in SUT , i.e., to increase. To
 \subsection{Adaptive approaches}
 
 
