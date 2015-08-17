@@ -808,7 +808,7 @@ An example of shows the faulty schemas and MFS are in Table \ref{example_minimal
 
 In practice, using \ref{eq-s-mfs} to compute MFS is not possible, as we should execute all the possible test cases of the SUT, which obviously has exponential complexity ($\prod_{i = 1} ^{k} |V_{i}| $). Hence, MFS identification approaches are essentially approximation to \ref{eq-s-mfs}, taking into account the tradeoffs between the computing cost and the quality of the MFS identification result. Existing MFS approaches can be classified into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel or \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests.
 
-\subsection{Non-adaptive appraoches}
+\subsection{Non-adaptive approaches}
 The simplest idea is to sample some test cases instead of all the possible test cases for MFS identification. Covering array is a good sampling mechanism candidate, as it can systematically cover all the schemas with degrees no more than a prior fixed number $t$, as a result, those MFS with degrees no more than \emph{t} can be guaranteed to be detected. With covering array, the formula to compute MFS will be revised. Formally, let $T_{f}$ denotes those failing test cases in a covering array, and $T_{p}$ denotes those passing test cases. Obviously, $T_{f} \subseteq T_{F}$ and $T_{p} \subseteq T_{P}$. Furthermore, $ \mathcal{I}(T_{f}) \bigcup \mathcal{I}(T_{p}) \supset S_{\hat{t}}$, where $S_{\hat{t}}$ represents all the schemas with degrees no more than \emph{t}. Then the formula to describe the MFS identification using covering array can be shown as \ref{eq-s-ca-identi}.
 \begin{alignat}{2}
  &  S_{faulty} = \mathcal{I}(T_{f}) - \mathcal{I}(T_{p})  &{}&   \nonumber \\
@@ -870,13 +870,24 @@ Another approach that are directly based on covering array is proposed by Zhang 
 \subsubsection{Higher-way covering array}
 As discussed previously, just using covering array is far from sufficient to accurately identify MFS, even if taking some optimization measures \cite{yilmaz2006covering,zhang2012faulty}. Generally, there are two methods that can improve the MFS quality over directly using covering array. First, to limit the MFS that needs to be identified. Instead of considering all the possible MFS in the SUT, limiting the MFS with particular characteristics, e.g., only those schemas with degrees under a fixed number \emph{t}, can largely reduce the scope of schemas to be checked. Second, to increase the size of covering array. It is obviously that more test cases will give more information to filter those schemas that are not faulty schemas.
 
-Based on these two points,  Charles \cite{colbourn2008locating} proposed the notion of (d,t)-detecting array, which corresponds to test cases that permit the determintaion of faulty schemas, provides there are d faulty t-degre scheams. They later define (d, t)-detecting arrays which are (d, t)-locating arrays that can additionally detect whether the hypothesis of d faykty t-degree schemas is valid,  which ensures to identify d t-degree MFS.
-and Mart{\'\i}nez \cite{martinez2008algorithms,martinez2009locating} separately proposed approaches to enhancement the MFS identification. Specifically,
+Based on these two points, Charles \cite{colbourn2008locating} proposed the notion of ($d$,$t$)-detecting array, which corresponds to test cases that permit the determination of MFS in the SUT, if the number of MFS $d$ and degree of MFS $t$ are known in prior. They  later proved that if the number of values of any parameter, i.e., $|V_{i}|$, is larger than $d$, then covering array MCA(N; t + d, n, $(a_{1}, a_{2}, ..., a_{n})$) is a ($d$,$t$)-detecting array. We can 
 
-Two way, to restrict the possible MFS, such that the scope to seach is reduced. second, to increase the size of covering array, such that it can support . Based on this two idea,    first studies the , i.e.,.  Mart{\'\i}nez then by hyber-graphic.
+\begin{alignat}{2}
+ &  S_{faulty} = \{ s | s \in \mathcal{I}(T_{f}') - \mathcal{I}(T_{p}'), \ degree(s) < t  \}  &{}&   \nonumber \\
+& MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ5} \label{eq-s-highca-identi-cha} \nonumber
+\end{alignat}
 
 
-But this method, however, have its . In fact, fautly schemas or MFS is a in SUT , i.e., to increase. To
+and Mart{\'\i}nez \cite{martinez2008algorithms,martinez2009locating} has proved that their error locating array is essentially equal to (d,t) covering array. Addtionally, they proposed that  hyber-graphic.. separately proposed approaches to enhancement the MFS identification. Specifically,
+
+\begin{alignat}{2}
+ &  S_{faulty} = \{ s | s \in \mathcal{I}(T_{f}') - \mathcal{I}(T_{p}'), \ degree(s) < t  \}  &{}&   \nonumber \\
+& MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ6} \label{eq-s-highca-identi} \nonumber
+\end{alignat}
+
+Compared to \ref{eq-s-ca-identi}, this formula has a smaller complexity (only computing those schemas that have t, i.e., (N * $ \sum_{i = 1}^{t} \binom{k}{i}$)). And can ensure that it can accuraqtely identify MFS with degress less than t and number less than d. But this formula may produce too many test cases. In fact, fautly schemas or MFS is a small number in SUT. This method may produce too many unnecessary test cases.
+
+%But this method, however, have its .
 \subsection{Adaptive approaches}
 
 
@@ -884,7 +895,7 @@ But this method, however, have its . In fact, fautly schemas or MFS is a in SUT 
 \begin{figure*}
  \centering
  \includegraphics[width=5.6in]{MFSpartition.eps}
- \caption{A simple conclusion of the relationships between these MFS identification appraoches}
+ \caption{A simple conclusion of the relationships between these MFS identification approaches}
  \label{figch}
 \end{figure*}
 
@@ -1658,14 +1669,26 @@ auto oracle, if we don't have a correct version, or we can't determine a test ca
 timing result
 One worrying aspect of this research is that it seems to consider only the number of tests and number of faults uncovered. In the practice of testing, it is as important or more important to know testing times.
 \section{Related works and Discuss}\label{sec:related}
+Combinatorial testing has been widely applied in industry \cite{nie2011survey}. 
+
 Detail list the history. In the experiment section, we just give some brief introduction.
 
-Nie's approach in [3] and [6] first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
-Delta debugging [5] proposed by Zeller is an adaptive divide-and-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. [4] also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently,
-Colbourn and McClary [7] proposed a non-adaptive method. Their approach extends the covering array to the locating array to detect and locate interaction faults.
-C. Martiez [8-9] proposed two adaptive algorithms. The first one needs safe value as their assumption and the second one remove the assumption when the number of values of each parameter is equal to 2. Their algorithms focus on identifying the faulty tuples that have no more than 2 parameters.
-Ghandehari.etc [10] defines the suspiciousness of tuple and suspiciousness of the environment of a tuple. Based on this, they rank the possible tuples and generate the test cases. Although their approach imposes minimal assumption, it does not ensure that the tuples ranked in the top are the faulty tuples.
-Yilmaz [11] proposed a machine learning method to identify inducing combinations from a combinatorial testing set. They construct a classified tree to analyze the covering arrays and detect potential faulty combinations. Beside this, Fouch?[12] and Shakya [13] made some improvements in identifying failure-inducing combinations based on Yilmaz' work.
+Shi first \cite{shi2005software} .
+
+Nie's approach in \cite {nie2011minimal} first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
+Wang then \cite{wang2010adaptive}.
+
+Delta debugging \cite{zeller2002simplifying} proposed by Zeller is an adaptive divide-and-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. \cite{zhang2011characterizing} also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently.  JieLi proposed a simliar appraoch \cite{li2012improved}. 
+
+Charles \cite{colbourn2008locating} proposed,
+
+Colbourn and McClary \cite{martinez2008algorithms} proposed a non-adaptive method. Their approach extends the covering array to the locating array to detect and locate interaction faults. They \cite{martinez2009locating} then extend this non-adaptive method to any degree with the theory of hyber-graphic.  C. Martiez \cite{martinez2008algorithms,martinez2009locating}proposed two adaptive algorithms. The first one needs safe value as their assumption and the second one remove the assumption when the number of values of each parameter is equal to 2. Their algorithms focus on identifying the faulty tuples that have no more than 2 parameters.
+
+Ghandehari.etc \cite{ghandehari2012identifying} defines the suspiciousness of tuple and suspiciousness of the environment of a tuple. Based on this, they rank the possible tuples and generate the test cases. Although their approach imposes minimal assumption, it does not ensure that the tuples ranked in the top are the faulty tuples. They further utilized the test cases generated from the inducing interaction to locate the fault \cite{ghandehari2013fault}.
+
+Yilmaz \cite{yilmaz2004covering} proposed a machine learning method to identify inducing combinations from a combinatorial testing set. They construct a classified tree to analyze the covering arrays and detect potential faulty combinations. They \cite{yilmaz2006covering} additionally extend their work on variable covering array. Beside this, Fouch?\cite{fouche2009incremental} and Shakya \cite{shakya2012isolating} made some improvements in identifying failure-inducing combinations based on Yilmaz' work.
+
+Zhangjian \cite{zhang2012faulty}. 
 
 We list a comprehensive detail and comparison table \ref{comparison-metrics}as followed.
 

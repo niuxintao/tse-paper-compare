@@ -123,4 +123,27 @@ L.~Rokach and O.~Maimon, ``Top-down induction of decision trees classifiers-a
   survey,'' \emph{Systems, Man, and Cybernetics, Part C: Applications and
   Reviews, IEEE Transactions on}, vol.~35, no.~4, pp. 476--487, 2005.
 
+\bibitem{zeller2002simplifying}
+A.~Zeller and R.~Hildebrandt, ``Simplifying and isolating failure-inducing
+  input,'' \emph{Software Engineering, IEEE Transactions on}, vol.~28, no.~2,
+  pp. 183--200, 2002.
+
+\bibitem{ghandehari2013fault}
+L.~S. Ghandehari, Y.~Lei, D.~Kung, R.~Kacker, and R.~Kuhn, ``Fault localization
+  based on failure-inducing combinations,'' in \emph{Software Reliability
+  Engineering (ISSRE), 2013 IEEE 24th International Symposium on}.\hskip 1em
+  plus 0.5em minus 0.4em\relax IEEE, 2013, pp. 168--177.
+
+\bibitem{yilmaz2004covering}
+C.~Yilmaz, M.~B. Cohen, and A.~Porter, ``Covering arrays for efficient fault
+  characterization in complex configuration spaces,'' in \emph{ACM SIGSOFT
+  Software Engineering Notes}, vol.~29, no.~4.\hskip 1em plus 0.5em minus
+  0.4em\relax ACM, 2004, pp. 45--54.
+
+\bibitem{fouche2009incremental}
+S.~Fouch{\'e}, M.~B. Cohen, and A.~Porter, ``Incremental covering array failure
+  characterization in large configuration spaces,'' in \emph{Proceedings of the
+  eighteenth international symposium on Software testing and analysis}.\hskip
+  1em plus 0.5em minus 0.4em\relax ACM, 2009, pp. 177--188.
+
 \end{thebibliography}
