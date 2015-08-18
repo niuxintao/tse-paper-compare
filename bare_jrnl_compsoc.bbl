@@ -123,6 +123,11 @@ L.~Rokach and O.~Maimon, ``Top-down induction of decision trees classifiers-a
   survey,'' \emph{Systems, Man, and Cybernetics, Part C: Applications and
   Reviews, IEEE Transactions on}, vol.~35, no.~4, pp. 476--487, 2005.
 
+\bibitem{bryce2009density}
+R.~C. Bryce and C.~J. Colbourn, ``A density-based greedy algorithm for higher
+  strength covering arrays,'' \emph{Software Testing, Verification and
+  Reliability}, vol.~19, no.~1, pp. 37--53, 2009.
+
 \bibitem{zeller2002simplifying}
 A.~Zeller and R.~Hildebrandt, ``Simplifying and isolating failure-inducing
   input,'' \emph{Software Engineering, IEEE Transactions on}, vol.~28, no.~2,

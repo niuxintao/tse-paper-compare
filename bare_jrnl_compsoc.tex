@@ -754,7 +754,7 @@ These \emph{pending} schema is actually the \emph{un-determined} schema discusse
 
 When applying CT, the most important work is to determine whether the SUT suffers from the interaction faults or not, i.e., to  detect the existence of the MFS. Rather than impractically executing exhaustive test cases, CT commonly design a relatively small set of test cases to cover all the schemas with the degree no more than a prior fixed number, $t$. Such a set of test cases is called the \emph{covering array}.  If some test cases in the covering array failed in execution, then the interaction faults is regard to be detected. Let us formally define the covering array.
 
-\begin{definition} $MCA(N; t, n,$ $(a_{1}, a_{2}, ..., a_{n})$) is a $t$-way \emph{covering array} in the form of $N \times n$ table, where each row represents a \emph{test case} and each column represents a parameter.  For any \emph{t} columns, each possible \emph{t}-degree schema must appear at least once. When $ a_{1} = a_{2} = ... = a_{n} = v $, a $t$-way covering array can be denoted as $CA(N; t, n, v)$.
+\begin{definition} $MCA(N; t, k,$ $(a_{1}, a_{2}, ..., a_{k})$) is a $t$-way \emph{covering array} in the form of $N \times k$ table, where each row represents a \emph{test case} and each column represents a parameter.  For any \emph{t} columns, each possible \emph{t}-degree schema must appear at least once. When $ a_{1} = a_{2} = ... = a_{k} = v $, a $t$-way covering array can be denoted as $CA(N; t, k, v)$.
 \end{definition}
 
 \begin{table}[!ht]
@@ -867,35 +867,67 @@ Another approach that are directly based on covering array is proposed by Zhang 
 
 \ref{eq-zhang-constriants} shows that the MFS should not be contained in any passing test case, and for each failing test case, it at least contain one MFS. This formula is essentially equal to \ref{eq-s-ca-identi}, however, by using constraints salification and optimal solver, it can greatly speed up the the MFS identification.
 
+
 \subsubsection{Higher-way covering array}
 As discussed previously, just using covering array is far from sufficient to accurately identify MFS, even if taking some optimization measures \cite{yilmaz2006covering,zhang2012faulty}. Generally, there are two methods that can improve the MFS quality over directly using covering array. First, to limit the MFS that needs to be identified. Instead of considering all the possible MFS in the SUT, limiting the MFS with particular characteristics, e.g., only those schemas with degrees under a fixed number \emph{t}, can largely reduce the scope of schemas to be checked. Second, to increase the size of covering array. It is obviously that more test cases will give more information to filter those schemas that are not faulty schemas.
 
-Based on these two points, Charles \cite{colbourn2008locating} proposed the notion of ($d$,$t$)-detecting array, which corresponds to test cases that permit the determination of MFS in the SUT, if the number of MFS $d$ and degree of MFS $t$ are known in prior. They  later proved that if the number of values of any parameter, i.e., $|V_{i}|$, is larger than $d$, then covering array MCA(N; t + d, n, $(a_{1}, a_{2}, ..., a_{n})$) is a ($d$,$t$)-detecting array. Formally, using ($d$,$t$)-detecting array to identify MFS can be described as following:
+Based on these two points, Charles \cite{colbourn2008locating} proposed the notion of ($d$,$t$)-detecting array, which corresponds to test cases that permit the determination of MFS in the SUT, if the number of MFS $d$ and degree of MFS $t$ are known in prior. They  later proved that if the number of values of any parameter, i.e., $|V_{i}|$, is larger than $d$, then covering array MCA(N; t + d, k, $(a_{1}, a_{2}, ..., a_{k})$) is a ($d$,$t$)-detecting array. Formally, using ($d$,$t$)-detecting array to identify MFS can be described as following:
 
 \begin{alignat}{2}
- &  S_{faulty} = \{ s | s \in \mathcal{I}(T_{f}') - \mathcal{I}(T_{p}'), \& s \in S_{\hat{t}}  \}  &{}&   \nonumber \\
+ &  S_{faulty} = \{ s | s \in \mathcal{I}(T_{f}') - \mathcal{I}(T_{p}'), \& s \in S_{t}  \}  &{}&   \nonumber \\
 & MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ5} \label{eq-s-highca-identi-cha} \nonumber
 \end{alignat}
 
-In this formula, $T_{f}'$ and $T_{p}'$ are test cases in a covering array MCA(N; t + d, n, $(a_{1}, a_{2}, ..., a_{n})$), satisfying that $ \mathcal{I}(T_{f}') \bigcup \mathcal{I}(T_{p}') \supset S_{\hat{t+d}}$, where $S_{\hat{t+d}}$ represents all the schemas with degrees no more than \emph{t+d}. The first equation in \ref{eq-s-highca-identi-cha} shows only those schemas with degrees less than \emph{t} will be selected to be checked whether they are faulty schemas are not. 
+In this formula, $T_{f}'$ and $T_{p}'$ are test cases in a covering array MCA(N; t + d, k, $(a_{1}, a_{2}, ..., a_{k})$), satisfying that $ \mathcal{I}(T_{f}') \bigcup \mathcal{I}(T_{p}') \supset S_{\hat{t+d}}$, where $S_{\hat{t+d}}$ represents all the schemas with degrees no more than \emph{t+d}. $S_{t}$ indicates those $t$-degree schemas. The first equation in \ref{eq-s-highca-identi-cha} shows only those schemas with degree equal to \emph{t} will be selected to be checked whether they are faulty schemas are not.
 
-Compared to \ref{eq-s-ca-identi}, only a small number of schemas will be checked  (N * $ \sum_{i = 1}^{t} \binom{k}{i}$), N is the number of test cases in the covering array). When the hypotheses, i.e., the number of MFS is \emph{d}, degree of MFS is \emph{t}, and $|V_{i}| > d$, are satisfied, \ref{eq-s-highca-identi-cha} ensures that it can accurately identify these MFS.
+Compared to \ref{eq-s-ca-identi}, it takes a higher-way ($t+d$) covering array, which consists more test cases. Furthermore,  only a small number of schemas will be checked  (N * $ \binom{k}{t}$), N is the number of test cases in the covering array). When the hypotheses, i.e., the number of MFS is \emph{d}, degree of MFS is \emph{t}, and $|V_{i}| > d$, are satisfied, \ref{eq-s-highca-identi-cha} ensures that it can accurately identify these MFS.
 
 %with degress less than t and number less than d. But this formula may produce too many test cases. In fact, fautly schemas or MFS is a small number in SUT. This method may produce too many unnecessary test cases.
 
 
-Mart{\'\i}nez \cite{martinez2008algorithms,martinez2009locating} has proposed the notion of error locating array (ELA), which has been proved to be the generations of ($d$,$t$)-detecting array. Addtionally, they proposed that  hyber-graphic.. separately proposed approaches to enhancement the MFS identification. Specifically,
+Mart{\'\i}nez \cite{martinez2008algorithms,martinez2009locating} has proposed the notion of error locating array (ELA), which has been proved to be the generations of ($d$,$t$)-detecting array. Compared to ($d$,$t$)-detecting array, ELA works on MFS with degrees no more than $t$ (not only those $t$-degree schemas).  There are two kinds of constructions of ELA. The first one is based on the hypothesis that each parameter in SUT has \emph{safe value}, i.e., the value that is not the part of any MFS. Based on this, it has proved that MCA(N; t + d, n, $(a_{1}, a_{2}, ..., a_{n})$) is a ELA, if the number of MFS \emph{d} and maximal degree of MFS \emph{t} are given. Hence the formula to compute MFS (\ref{eq-s-highca-identi-1}) is similar as \ref{eq-s-highca-identi-cha}, except that schemas can be selected in those with degrees smaller than $t$ ($s \in S_{\hat{t}}$).
 
 \begin{alignat}{2}
- &  S_{faulty} = \{ s | s \in \mathcal{I}(T_{f}') - \mathcal{I}(T_{p}'), \ degree(s) < t  \}  &{}&   \nonumber \\
-& MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ6} \label{eq-s-highca-identi} \nonumber
+&  S_{faulty} = \{ s | s \in \mathcal{I}(T_{f}') - \mathcal{I}(T_{p}'), \& s \in S_{\hat{t}}  \}  &{}&   \nonumber \\
+& MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ6} \label{eq-s-highca-identi-1} \nonumber
 \end{alignat}
 
+The second construction of ELA is without the hypothesis of \emph{safe value}. This is a more general scenario than ($d$,$t$)-detecting array (Note that ($d$,$t$)-detecting array needs that $|V_{i}| > d$). Under this circumstance, they proved that MCA(N; t * (d + 1), k, $(a_{1}, a_{2}, ..., a_{k})$) is a ELA. Formally, it can be described as \ref{eq-s-highca-identi}
 
-But this formula may produce too many test cases. In fact, fautly schemas or MFS is a small number in SUT. This method may produce too many unnecessary test cases.
+
+\begin{alignat}{2}
+ &  S_{faulty} = \{ s | s \in \mathcal{I}(T_{f}'') - \mathcal{I}(T_{p}''), \& s \in S_{\hat{t}}  \}  &{}&   \nonumber \\
+& MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ7} \label{eq-s-highca-identi} \nonumber
+\end{alignat}
+
+Where $T_{f}''$ and $T_{p}''$ are test cases in a covering array MCA(N; t * (d + 1), k, $(a_{1}, a_{2}, ..., a_{k})$). Note that the computing complexity of \ref{eq-s-highca-identi-1} and \ref{eq-s-highca-identi} is (N * $\sum_{i = 1}^{i = t} \binom{k}{i}$), as they take into account of all these schemas with degrees smaller or equal to $t$.
+
+Table \ref{non-adaptive-conclusion}  gives a conclusion of these non-adaptive approaches. Column $Limitations$ shows the conditions under which the approach can properly work. Column $Needs$ presents the covering array the approach needs to identify the MFS. Column $Test\ Cases$ presents the complexity of the number of test cases, which are based on \cite{bryce2009density}.  Column $Compute\ complexity$ shows the computing complexity for that approach to identify the MFS. In this column, the first two approaches, i.e, CTA and SAT, using CTA and SAT solver, respectively, to compute the MFS, hence, the complexity depends on the implementation of this two techniques.  Column $Ability$ indicates what MFS can be identified by the corresponding approach.
+
+\begin{table*}[htbp]
+\centering
+\caption{A conclusion for non-adaptive approach}
+\label{non-adaptive-conclusion}
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+         & Approach     & Limitations          & Needs                    & Test cases         & Compute complexity           & Ability                      \\ \hline
+Origin & CTA          & -                      & CA(N, t, k, v)           & O($tv^{t}log k$)           & depends on CTA & not ensure accurate         \\
+         & SAT          & -                         & CA(N, t, k, v)           & O($tv^{t}log k$)           & depends on SAT       & not ensure accurate         \\ \hline
+Higher   & (d,t) detect & v \textless d \& d, t given & CA(N, d+t, k, v)      & O($dv^{d}log k$)           & N * $ \binom{k}{t}$                        & all  MFS  \\
+         & ELA-safe     & safe value \& d, t given    & CA(N, d+t, k, v)        & O($dv^{d}log k$)           & N * $\sum_{i = 1}^{i = t} \binom{k}{i}$                        & all  MFS  \\
+         & ELA-non-safe & d, t given                & CA(N, d*(t+1), k, v ) & O($d(v^{t})^{d}log k$)          & N * $\sum_{i = 1}^{i = t} \binom{k}{i}$                        & all  MFS \\ \hline
+\end{tabular}
+\end{table*}
+
+Formula are proposed :
+
+
+
 
 %But this method, however, have its .
 \subsection{Adaptive approaches}
+Non-adaptive approach, simple, one for all. But Either not accurate, either using too many test cases.
+But this formula may produce too many test cases. In fact, fautly schemas or MFS is a small number in SUT. This method may produce too many unnecessary test cases.
 
 
 
@@ -907,18 +939,18 @@ But this formula may produce too many test cases. In fact, fautly schemas or MFS
 \end{figure*}
 
 
-\section{Motivation of the approach}\label{sec:motiv}
-
-Take OFOT for example, then illustrate the problems, and other similar approaches problems.
-
-\subsection{Multiple MFS}
-\subsubsection{Overlapping MFS}
-\subsection{High degree MFS}
-\subsection{Too many test cases}
-\subsection{Needs too many computing resources}
-\subsection{Introducing of newly MFS}
-
-A big table that consists of many
+%\section{Motivation of the approach}\label{sec:motiv}
+%
+%Take OFOT for example, then illustrate the problems, and other similar approaches problems.
+%
+%\subsection{Multiple MFS}
+%\subsubsection{Overlapping MFS}
+%\subsection{High degree MFS}
+%\subsection{Too many test cases}
+%\subsection{Needs too many computing resources}
+%\subsection{Introducing of newly MFS}
+%
+%A big table that consists of many
 
 
 \section{Theory foundation}\label{sec:propositinon}
@@ -1676,7 +1708,7 @@ auto oracle, if we don't have a correct version, or we can't determine a test ca
 timing result
 One worrying aspect of this research is that it seems to consider only the number of tests and number of faults uncovered. In the practice of testing, it is as important or more important to know testing times.
 \section{Related works and Discuss}\label{sec:related}
-Combinatorial testing has been widely applied in industry \cite{nie2011survey}. 
+Combinatorial testing has been widely applied in industry \cite{nie2011survey}.
 
 Detail list the history. In the experiment section, we just give some brief introduction.
 
@@ -1685,7 +1717,7 @@ Shi first \cite{shi2005software} .
 Nie's approach in \cite {nie2011minimal} first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
 Wang then \cite{wang2010adaptive}.
 
-Delta debugging \cite{zeller2002simplifying} proposed by Zeller is an adaptive divide-and-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. \cite{zhang2011characterizing} also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently.  JieLi proposed a simliar appraoch \cite{li2012improved}. 
+Delta debugging \cite{zeller2002simplifying} proposed by Zeller is an adaptive divide-and-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. \cite{zhang2011characterizing} also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently.  JieLi proposed a simliar appraoch \cite{li2012improved}.
 
 Charles \cite{colbourn2008locating} proposed,
 
@@ -1695,7 +1727,7 @@ Ghandehari.etc \cite{ghandehari2012identifying} defines the suspiciousness of tu
 
 Yilmaz \cite{yilmaz2004covering} proposed a machine learning method to identify inducing combinations from a combinatorial testing set. They construct a classified tree to analyze the covering arrays and detect potential faulty combinations. They \cite{yilmaz2006covering} additionally extend their work on variable covering array. Beside this, Fouch?\cite{fouche2009incremental} and Shakya \cite{shakya2012isolating} made some improvements in identifying failure-inducing combinations based on Yilmaz' work.
 
-Zhangjian \cite{zhang2012faulty}. 
+Zhangjian \cite{zhang2012faulty}.
 
 We list a comprehensive detail and comparison table \ref{comparison-metrics}as followed.
 

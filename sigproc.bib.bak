@@ -527,4 +527,13 @@ ISSN={0098-5589}
   year={2005},
   publisher={IEEE}
 }
-covering array for efficient fault
+@inproceedings{yilmaz2004covering,
+  title={Covering arrays for efficient fault characterization in complex configuration spaces},
+  author={Yilmaz, Cemal and Cohen, Myra B and Porter, Adam},
+  booktitle={ACM SIGSOFT Software Engineering Notes},
+  volume={29},
+  number={4},
+  pages={45--54},
+  year={2004},
+  organization={ACM}
+}
