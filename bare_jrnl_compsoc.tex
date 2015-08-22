@@ -815,6 +815,8 @@ The simplest idea is to sample some test cases instead of all the possible test 
 & MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ3} \label{eq-s-ca-identi} \nonumber
 \end{alignat}
 
+More precisely, it can be reprsented as $MFS = \mathcal{M}(\mathcal{I}(T_{f}) - \mathcal{I}(T_{p}))$
+
 As  $\mathcal{I}(T_{f}) - \mathcal{I}(T_{p})$ is normally not equal to  $\mathcal{I}(T_{F}) - \mathcal{I}(T_{P})$, \ref{eq-s-ca-identi} may not get an accurate result. For example,  Table \ref{mfs-coveing-array} shows the result which directly using covering array to compute MFS. This example using the same SUT as Table \ref{example_minimal_schemas}, i.e., SUT($2^{3}$) with MFS (0, - ,0) and (0, 0, -). In this example, a $2$-way covering array consists of one failing test case (0, 0, 0) and three passing test cases (0, 1, 1), (1, 0, 1) and (1, 1, 0). Using \ref{eq-s-ca-identi}, we can finally obtain the MFS (0, 0, -), (0, -, 0) and (-, 0, 0), which is different from the correct result in Table \ref{example_minimal_schemas}. Besides this, the complexity of \ref{eq-s-ca-identi} is exponential. This is because we should list all the possible schemas in each test case of $T_{f}$, which is $|T_{f}| * 2 ^ {k - 1}$. As directly utilizing covering array cannot give an ideal result, more efforts are desired to improve this result.
 
 \begin{table}
@@ -878,7 +880,7 @@ Based on these two points, Charles \cite{colbourn2008locating} proposed the noti
 & MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ5} \label{eq-s-highca-identi-cha} \nonumber
 \end{alignat}
 
-In this formula, $T_{f}'$ and $T_{p}'$ are test cases in a covering array MCA(N; t + d, k, $(a_{1}, a_{2}, ..., a_{k})$), satisfying that $ \mathcal{I}(T_{f}') \bigcup \mathcal{I}(T_{p}') \supset S_{\hat{t+d}}$, where $S_{\hat{t+d}}$ represents all the schemas with degrees no more than \emph{t+d}. $S_{t}$ indicates those $t$-degree schemas. The first equation in \ref{eq-s-highca-identi-cha} shows only those schemas with degree equal to \emph{t} will be selected to be checked whether they are faulty schemas are not.
+In this formula, $T_{f}'$ and $T_{p}'$ are test cases in a covering array MCA(N; t + d, k, $(a_{1}, a_{2}, ..., a_{k})$), satisfying that $ \mathcal{I}(T_{f}') \bigcup \mathcal{I}(T_{p}') \supset S_{\hat{t+d}}$, where $S_{\hat{t+d}}$ represents all the schemas with degrees no more than \emph{t+d}. $S_{t}$ indicates those $t$-degree schemas. The first equation in \ref{eq-s-highca-identi-cha} shows only those schemas with degree equal to \emph{t} \footnote{Charles also proposed the notion of ($d$,$\hat{t}$)-detecting array, which allows for identifying MFS with degrees smaller than $t$, but they have not give construction method for this array} will be selected to be checked whether they are faulty schemas are not.
 
 Compared to \ref{eq-s-ca-identi}, it takes a higher-way ($t+d$) covering array, which consists more test cases. Furthermore,  only a small number of schemas will be checked  (N * $ \binom{k}{t}$), N is the number of test cases in the covering array). When the hypotheses, i.e., the number of MFS is \emph{d}, degree of MFS is \emph{t}, and $|V_{i}| > d$, are satisfied, \ref{eq-s-highca-identi-cha} ensures that it can accurately identify these MFS.
 
@@ -908,14 +910,14 @@ Table \ref{non-adaptive-conclusion}  gives a conclusion of these non-adaptive ap
 \centering
 \caption{A conclusion for non-adaptive approach}
 \label{non-adaptive-conclusion}
-\begin{tabular}{|l|l|l|l|l|l|l|}
+\begin{tabular}{|l|l|l|l|l|l|}
 \hline
-         & Approach     & Limitations          & Needs                    & Test cases         & Compute complexity           & Ability                      \\ \hline
-Origin & CTA          & -                      & CA(N, t, k, v)           & O($tv^{t}log k$)           & depends on CTA & not ensure accurate         \\
-         & SAT          & -                         & CA(N, t, k, v)           & O($tv^{t}log k$)           & depends on SAT       & not ensure accurate         \\ \hline
-Higher   & (d,t) detect & v \textless d \& d, t given & CA(N, d+t, k, v)      & O($dv^{d}log k$)           & N * $ \binom{k}{t}$                        & all  MFS  \\
-         & ELA-safe     & safe value \& d, t given    & CA(N, d+t, k, v)        & O($dv^{d}log k$)           & N * $\sum_{i = 1}^{i = t} \binom{k}{i}$                        & all  MFS  \\
-         & ELA-non-safe & d, t given                & CA(N, d*(t+1), k, v ) & O($d(v^{t})^{d}log k$)          & N * $\sum_{i = 1}^{i = t} \binom{k}{i}$                        & all  MFS \\ \hline
+         & Approach     & Limitations          & Needs                         & Compute complexity           & Ability                      \\ \hline
+Origin & CTA          & -                      & CA(N, t, k, v)                   & depends on CTA & not sure         \\
+         & SAT          & -                         & CA(N, t, k, v)                   & depends on SAT       & not sure         \\ \hline
+Higher   & (d,t) detect & v \textless d \& d, t given & CA(N, d+t, k, v)             & N * $ \binom{k}{t}$                        & all  MFS  \\
+         & ELA-safe     & safe value \& d, t given    & CA(N, d+t, k, v)             & N * $\sum_{i = 1}^{i = t} \binom{k}{i}$                        & all  MFS  \\
+         & ELA-non-safe & d, t given                & CA(N, d*(t+1), k, v )          & N * $\sum_{i = 1}^{i = t} \binom{k}{i}$                        & all  MFS \\ \hline
 \end{tabular}
 \end{table*}
 
@@ -926,17 +928,65 @@ Formula are proposed :
 
 %But this method, however, have its .
 \subsection{Adaptive approaches}
-Non-adaptive approach, simple, one for all. But Either not accurate, either using too many test cases.
-But this formula may produce too many test cases. In fact, fautly schemas or MFS is a small number in SUT. This method may produce too many unnecessary test cases.
+Non-adaptive approach, simple, one for all. But Either not accurate, either using too many test cases. In fact, faulty schemas or MFS is a small number in SUT. This method may produce too many unnecessary test cases. Rather than using a static covering array, adaptive approach support a more flexible idea, i.e., .
+
+To better describe the adaptive approaches, we give a general framework to illustrate the working process for all the adaptive approaches, which is listed in Fig.\ref{figadaptive}. Generally, adaptive approaches. start from. Eend. The differences of these adaptive approaches lies in these three modules.
 
 
-
-\begin{figure*}
+\begin{figure}
  \centering
- \includegraphics[width=5.6in]{MFSpartition.eps}
- \caption{A simple conclusion of the relationships between these MFS identification approaches}
- \label{figch}
-\end{figure*}
+ \includegraphics[width=2.4in]{adaptive-approach.eps}
+ \caption{A framework of Adaptive approaches}
+ \label{figadaptive}
+\end{figure}
+
+
+\subsubsection{Ending criteria}
+
+\subsubsection{Generate next test case}
+
+Optimal problem. How the next test case can give the maximal . In fact it should generate the test case that contains same part as the original failing test case, the remaining are ,
+
+\begin{alignat}{2}
+\min\quad &  S_{faulty} &{}& \tag{EQ8} \label{eq-optimal-testcase}\\
+\mbox{s.t.}\quad
+& \forall t \in T_{p}, s \in S_{faulty}, s \not\in t &\quad& {}\nonumber \\
+& \forall t \in T_{f}, \exists s \in S_{faulty}, s.t., s \in T_{f} &\quad& {}\nonumber
+\end{alignat}
+
+
+\subsubsection{MFS computing}
+
+Let $t_{of}$ be the original failing test case, $T_{af}$ be the additional failing test cases, and $T_{ap}$ be the additional passing test case. Originally, the MFS should be computed as :
+$$ MFS =  \mathcal{M}(\mathcal{I}(t_{of} \bigcup T_{af}) - \mathcal{I}(T_{ap})) $$. Let it be $OMFS$
+
+However, with hypotheses, 
+
+1) Safe value.  Each parameter has a value that is not the part of any MFS. Approaches relies on this hypothesis thinks that the additional test cases the remaining part are safe value. Then the MFS can only caused by the fixed part. In other word, the MFS of additional test case can only appear in the original failing test case. Formally, we have the MFS should be satisified :
+
+$$ MFS \in  t_{of}$$, so MFS should be modified as  $$ MFS = \{ s\ |\ s \in OMFS,\ and\ s \in t_{of} \} $$
+
+2) Multiple MFS 
+
+In fact, cannot handle multiple MFS can be regarded as not completed, that is, it just find one schema as MFS, then stoping the MFS identification process. Hence it igore those pending schemas. We define the pending schemas as $S_{pending}$
+
+$$S \not\in S_{pending}$$, then it can be formulated as  $$ MFS = \{ s\ |\ s \in OMFS,\ and\ s \not\in S_{pending} \} $$
+
+can multiple, but cannot handle overlapping MFS.
+
+that is $S_pending$ not contain the MFS.
+
+3)Degree of MFS
+
+Some approaches needs that MFS are limited  to degrees \emph{t}.
+
+$$ MFS \in  S_{\hat{t}}$$,
+then 
+$$ MFS = \{ s\ |\ s \in OMFS,\ and\ s \in S_{\hat{t}} \} $$
+
+
+
+Hence, the MFS computing will be described as following:
 
 
 %\section{Motivation of the approach}\label{sec:motiv}
@@ -953,15 +1003,23 @@ But this formula may produce too many test cases. In fact, fautly schemas or MFS
 %A big table that consists of many
 
 
-\section{Theory foundation}\label{sec:propositinon}
-
-\begin{assumption}
-
-\end{assumption}
 
 
 
+\section{The approach to identify the minimal failure-inducing schemas}\label{sec:app}
+Based on these definitions and propositions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
 
+\begin{definition}[candidate minimal faulty schema]
+If a schema is a faulty schema and satisfy the followed condition:
+1.none of its subschemas are faulty schemas, 2. at least one subschema is pending schema.(is need discuss!!!!!! one or none is okay?)We then call the schema a \emph{candidate minimal faulty schema}(\emph{CMINFS} for short).
+\end{definition}
+\begin{definition}[candidate maximum healthy schema]
+If a schema is a healthy schema and and satisfy the followed condition:
+1.none of its  parent-schemas are healthy schemas, 2. at least one subschema is pending schema. We then call the schema a \emph{candidate maximum healthy schema}(\emph{CMAXHS} for short).
+\end{definition}
+
+
+\subsection{Theory foundation}
 \begin{proposition}
 All the schemas in a passed test configuration are healthy schemas.
 All the subschemas of a healthy schemas are healthy schemas.
@@ -976,20 +1034,7 @@ All the parent-schemas of a faulty schema are faulty schemas.
 All the subschemas of a healthy schema are healthy schemas.
 \end{proposition}
 
-\subsection{weaken of the assumptions}
-
-\section{The approach to identify the minimal failure-inducing schemas}\label{sec:app}
-Based on these definitions and propositions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
-
-\begin{definition}[candidate minimal faulty schema]
-If a schema is a faulty schema and satisfy the followed condition:
-1.none of its subschemas are faulty schemas, 2. at least one subschema is pending schema.(is need discuss!!!!!! one or none is okay?)We then call the schema a \emph{candidate minimal faulty schema}(\emph{CMINFS} for short).
-\end{definition}
-\begin{definition}[candidate maximum healthy schema]
-If a schema is a healthy schema and and satisfy the followed condition:
-1.none of its  parent-schemas are healthy schemas, 2. at least one subschema is pending schema. We then call the schema a \emph{candidate maximum healthy schema}(\emph{CMAXHS} for short).
-\end{definition}
-
+\subsubsection{weaken of the assumptions}
 
 
 \subsection{additional failure-inducing not be introduced}
