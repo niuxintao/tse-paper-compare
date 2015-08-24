@@ -651,7 +651,7 @@ id& \emph{Highlight} & \emph{Status bar} & \emph{Bookmarks}& \emph{Smart tags} &
   \end{tabular}
 \end{table}
 
-To address this problem, prior work \cite{nie2011minimal} specifically studied the properties of the failure-inducing interactions in SUT, based on which additional test cases were generated to identify them. Other approaches to identify the failure-inducing interactions in SUT include building a tree model \cite{yilmaz2006covering}, adaptively generating additional test cases according to the outcome of the last test case \cite{zhang2011characterizing}, ranking suspicious interactions based on some rules \cite{ghandehari2012identifying}, and using graphic-based deduction \cite{martinez2008algorithms}, among others. These approaches can be partitioned into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests \cite{nie2011minimal,ghandehari2012identifying,niu2013identifying,zhang2011characterizing,shakya2012isolating,wang2010adaptive,li2012improved}or \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel \cite{yilmaz2006covering,colbourn2008locating,martinez2008algorithms,martinez2009locating}.
+To address this problem, prior work \cite{nie2011minimal} specifically studied the properties of the failure-inducing interactions in SUT, based on which additional test cases were generated to identify them. Other approaches to identify the failure-inducing interactions in SUT include building a tree model \cite{yilmaz2006covering}, adaptively generating additional test cases according to the outcome of the last test case \cite{zhang2011characterizing}, ranking suspicious interactions based on some rules \cite{ghandehari2012identifying}, and using graphic-based deduction \cite{martinez2008algorithms}, among others. These approaches can be partitioned into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests \cite{shi2005software,nie2011minimal,ghandehari2012identifying,niu2013identifying,zhang2011characterizing,shakya2012isolating,wang2010adaptive,li2012improved}or \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel \cite{yilmaz2006covering,colbourn2008locating,martinez2008algorithms,martinez2009locating,zhang2012faulty}.
 
 These approaches, however, are essentially approximate solutions to failure-inducing identification (Theoretically, definite solution is of exponential computational complexity). Hence, many issues may affect their effectiveness when applied in practice.  Generally, \emph{non-adaptive} approaches usually can accurately identify the failure-inducing interactions, even when there are multiple ones in the SUT. Their effectiveness are based on some mathematical objects \cite{colbourn2008locating,martinez2008algorithms,martinez2009locating}. The shortcomings of these approaches are they are very ad-hoc, that is, they are restricted to many limitations, such as the number of failure-inducing interactions must be given as well as the number of the maximal factors involved in a failure-inducing interaction. Moreover, these approaches usually consume many test cases \cite{zhang2011characterizing}. \emph{Adaptive} approaches are much more flexible, and they mainly focus on one failing test case. Commonly they are needs much less test cases than \emph{non-adaptive} approaches. However, some problems, such as cannot handle multiple failure-inducing interactions (especially they are have overlapping factors), and cannot handle the newly introduced failure-interactions in the additional generated test cases, negatively affect their performance (both precise and recall).
 %but it can , for example, cannot using less information, introducing , multiple MFS in one test case and so on.
@@ -660,8 +660,10 @@ These approaches, however, are essentially approximate solutions to failure-indu
 %
 %How to identify them is not easy, in effect, there are two problems need to be solved: First, we just need to know the properties of the faulty schemas and healthy schemas, i.e., the differences between them. Figuring out that can help us to design approaches to identify a schema to be healthy or faulty. Second, we should find some strategy to check every possible schemas in a test configuration while using as small resources as possible. As the possible schemas in a test configurations can get to $2^n$(n is the number of options in a configuration), then we want the resources needed is logarithmic related to the number of schemas, which will result in the complexity of algorithm with O($n$)(n is the number of options in a configuration).
 
-In this paper, we propose a novel failure-inducing interaction identification approach (\emph{adaptive}) which aims to alleviate these issues.
-Our approach is based on the notions of \emph{faulty schemas} and \emph{healthy schemas} (A schema is equivalent to interaction), among which the former will result in a failure if a test case contain it while the latter will not. Furthermore, two important data structures are maintained in our approach, i.e., CMINFS(represent for candidate minimal faulty schemas) and CMAXHS(represent for candidate maximal healthy schemas). Through using the two data structures, some schemas in the failing test case can be determined to be healthy, or faulty. Those schemas that cannot be determined by these two data structures will be selected and checked. When an un-determined schema is checked, we will update these two structures. This process is repeated until all the schemas are determined to be healthy or faulty, and the failure-inducing schemas will be selected from those faulty schemas. By doing so, we will not omit any schema that can be candidate failure-inducing interaction in the failing test case. As a result, our approach can handle the cases such as a failing test case containing multiple failure-inducing interactions and interactions consisting of any different number of factors.
+
+%we give an comprehensive analysis of existing  failure-inducing interaction identification approaches, which formally describe the mechanism of each approach, as well as its characteristics and shortcomings. Based on which,
+
+In this paper, we propose a novel failure-inducing interaction identification approach (\emph{adaptive}) which aims to alleviate these issues. Our approach is based on the notions of \emph{faulty schemas} and \emph{healthy schemas} (A schema is equivalent to interaction), among which the former will result in a failure if a test case contain it while the latter will not. Furthermore, two important data structures are maintained in our approach, i.e., CMINFS(represent for candidate minimal faulty schemas) and CMAXHS(represent for candidate maximal healthy schemas). Through using the two data structures, some schemas in the failing test case can be determined to be healthy, or faulty. Those schemas that cannot be determined by these two data structures will be selected and checked. When an un-determined schema is checked, we will update these two structures. This process is repeated until all the schemas are determined to be healthy or faulty, and the failure-inducing schemas will be selected from those faulty schemas. By doing so, we will not omit any schema that can be candidate failure-inducing interaction in the failing test case. As a result, our approach can handle the cases such as a failing test case containing multiple failure-inducing interactions and interactions consisting of any different number of factors.
 
 The order of selecting un-determined schemas to be checked is important as it affects the update of CMINFS and CMAXHS. Particularly, with the same CMINFS and CMAXHS, choosing different schema to check will result in different number of remaining un-determined schemas, which is strongly correlated to cost of our approach, i.e., the number of additional generated test cases. In this paper, we give a selection strategy which tries to optimise the performance of our approach, i.e., makes the amount of generated additional test cases as small as possible. The selection consists of two steps: (1) We select a sequence of closely related un-determined schemas from the remaining un-determined schemas and sort them according to their relationships with each other. Generally, there is more than one such sequence. As such, we will select the one with the maximum number of schemas for that we can determine the schemas as much as possible in the iteration. (2) For the sequence we select in the first step, we use binary search to find the schema in the sequence as the one to be analyzed each turn, and after a schema is determined, about half of the schemas which are correlated to this schema in the sequence will be determined. At last, the complexity of our approach can reach to $O(d\times t \times log k + t^{d})$, where $d$ is the number of failure-inducing interactions in a failing test case, t is the maximal factors a failure-inducing consists of, and $k$ is number of factors in a failing test case. This complexity is very efficient when compared to other approaches. Besides this, we also provide a variation of our approach which support a feedback mechanism, aiming at handling the newly introduced failure-inducing schemas.
 
@@ -687,7 +689,7 @@ The remainder of this paper is organized as follows: Section \ref{sec:back} intr
 \section{Preliminary} \label{sec:back}
 Before we talk about our approach, we will give some formal definitions and proposals first, which is helpful to understand the background of our description of our approach.
 
-\subsection{Definitions}\label{sec:back:define}
+%\subsection{Definitions}\label{sec:back:define}
 Assume that the behaviour of SUT is influenced by \emph{k} parameters, and each parameter $p_{i}$ has $a_{i}$ discrete values from the finite set $V_{i}$, i.e., $a_{i}$ = $|V_{i}|$ ($i$ = 1,2,...,\emph{k}). In practice, these parameters can represent many factors, such as input variables, run-time options, building options, etc. Next we will give some formal definitions, some of them (Definitions \ref{de:test}, \ref{de:tuple}, \ref{de:sub}) were originally defined in \cite{nie2011survey}.
 
 
@@ -752,7 +754,7 @@ These \emph{pending} schema is actually the \emph{un-determined} schema discusse
 
 When applying CT, the most important work is to determine whether the SUT suffers from the interaction faults or not, i.e., to  detect the existence of the MFS. Rather than impractically executing exhaustive test cases, CT commonly design a relatively small set of test cases to cover all the schemas with the degree no more than a prior fixed number, $t$. Such a set of test cases is called the \emph{covering array}.  If some test cases in the covering array failed in execution, then the interaction faults is regard to be detected. Let us formally define the covering array.
 
-\begin{definition} $MCA(N; t, n,$ $(a_{1}, a_{2}, ..., a_{n})$) is a $t$-way \emph{covering array} in the form of $N \times n$ table, where each row represents a \emph{test case} and each column represents a parameter.  For any \emph{t} columns, each possible \emph{t}-degree schema must appear at least once. When $ a_{1} = a_{2} = ... = a_{n} = v $, a $t$-way covering array can be denoted as $CA(N; t, n, v)$.
+\begin{definition} $MCA(N; t, k,$ $(a_{1}, a_{2}, ..., a_{k})$) is a $t$-way \emph{covering array} in the form of $N \times k$ table, where each row represents a \emph{test case} and each column represents a parameter.  For any \emph{t} columns, each possible \emph{t}-degree schema must appear at least once. When $ a_{1} = a_{2} = ... = a_{k} = v $, a $t$-way covering array can be denoted as $CA(N; t, k, v)$.
 \end{definition}
 
 \begin{table}[!ht]
@@ -774,127 +776,252 @@ $t_{5}$ &\multicolumn{4}{l}{1  \ \ \ \  1 \ \ \ \  1 \ \ \ \ 0} \\
 
 For example, Table \ref{ca_example} shows a 2-way covering array CA(5; 2, 4, 2) for the SUT with 4 boolean parameters. For any two columns, any 2-degree schema is covered. Covering array has proven to be effective in detecting the failures caused by interactions of parameters of the SUT. Many existing algorithms focus on constructing covering arrays such that the number of test cases, i.e., $N$, can be as small as possible.
 
-\subsection{MFS identification approaches}
+\section{An analyze of existing MFS identification approaches}\label{sec:existing_MFS_identification}
+In this section, we will give a comprehensive analysis of existing  failure-inducing interaction identification approaches, which formally describe the mechanism of each approach, as well as its characteristics and shortcomings.
+
 Let $\mathcal{I}(t)$ denotes all the schemas that are contained in the test case $t$, e.g., $\mathcal{I}(\ (1 1 1)\ )= \{(1 - -)(- 1 -)(- - 1)(1 1 -)(1 - 1)(- 1 1) (1 1 1)\}$. Additionally, let $\mathcal{I}(T)$ denotes all the schemas that are contained in test set $T$, i.e., $\mathcal{I}(T) = \bigcup_{t\in T} \mathcal{I}(t)$. By the definition of \emph{faulty schema} (Definition \ref{de:faulty:minimal}), it can easily get that all the faulty schemas in the SUT, i.e., $S_{faulty}$, can be computed by the following formula
 \begin{displaymath} S_{faulty} = \mathcal{I}(T_{F}) - \mathcal{I}(T_{P}) \tag{EQ1} \label{eq-s-faulty} \end{displaymath}
-where $T_{F}$ indicates all the failing test cases in the SUT, and $T_{P}$ indicates all the passing test cases (Note that $T_{P} \bigcup T_{F}$ represents all the possible test cases in the SUT, and $T_{F} \bigcap T_{P} = \emptyset $ ).
+where $T_{F}$ indicates all the failing test cases in the SUT, and $T_{P}$ indicates all the passing test cases (Note that $T_{P} \bigcup T_{F}$ represents all the possible test cases, i.e., $T_{all}$, in the SUT, and $T_{F} \bigcap T_{P} = \emptyset $ ).
 
-With \ref{eq-s-faulty} to compute faulty schema\overrightarrow{s, the formula to compute the MFS can be described as following:
+With \ref{eq-s-faulty} to compute faulty schemas, the formula to compute the MFS can be described as following:
 \begin{displaymath} MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\}. \tag{EQ2} \label{eq-s-mfs} \end{displaymath}
 
-An example of shows the faulty schemas and MFS are in Table \ref{example_minimal_schemas} .
+An example of shows the faulty schemas and MFS are in Table \ref{example_minimal_schemas}. Suppose a SUT with three binary parameters, which can be denoted as SUT($2^3$). We can find that all the schemas in $S_{faulty}$ are only contained in test set $T_{F}$ (Those schemas that appear in $T_{P}$ are filtered out). Additionally, $MFS$ is a minimal schema set which filters those super schemas in $S_{faulty}$.
+
 \begin{table}
 \centering
 \caption{Example of the minimal schemas}
 \label{example_minimal_schemas}
-  \begin{tabular}{c | c | c }
- $T$ & $\mathcal{S}(T)$ & $\mathcal{C}(T)$\\ \hline
-(0, 0, 0 ,0) & (0, 0, 0, 0) & (0, 0, 0, -)\\
-(0, 0, 0 ,1) & (0, 0, 0, 1) & (0, 0, -, 0)\\
-(0, 0, 1 ,0) & (0, 0, 1, 0) & \\}
-             & (0, 0, 0, -) & \\
-             & (0, 0, -, 0) & \\ \hline
+  \begin{tabular}{c| c | c | c | c }
+  \hline
+  $T_{all}$ & $T_{F}$ & $T_{P}$ & $S_{faulty}$ & $MFS$ \\ \hline
+(0, 0, 0) & (0, 0, 0) &           & (0, 0, -) & (0, 0, -)\\
+(0, 0, 1) & (0, 0, 1) &           & (0, -, 0) & (0, -, 0)\\
+(0, 1, 0) & (0, 1, 0) &           & (0, 0, 0) & \\
+(0, 1, 1) &           & (0, 1, 1) & (0, 0, 1) &\\
+(1, 0, 0) &           & (1, 0, 0) & (0, 1, 0) &\\
+(1, 0, 1) &           & (1, 0, 1) &           &\\
+(1, 1, 0) &           & (1, 1, 0) &           &\\
+(1, 1, 1) &           & (1, 1, 1) &           &\\\hline
   \end{tabular}
   \end{table}
 
-In practice, this formula to compute MFS is not possible, as all the test cases increases expotentailly. Hence, some body. are approaeximate results. These methods can be partiioned into two main classes, i.e.,
- Two classifies, and each can be paritice twice.
+In practice, using \ref{eq-s-mfs} to compute MFS is not possible, as we should execute all the possible test cases of the SUT, which obviously has exponential complexity ($\prod_{i = 1} ^{k} |V_{i}| $). Hence, MFS identification approaches are essentially approximation to \ref{eq-s-mfs}, taking into account the tradeoffs between the computing cost and the quality of the MFS identification result. Existing MFS approaches can be classified into two categories \cite{colbourn2008locating} according to how the additional test cases are generated: \emph{nonadaptive}--additional test cases are chosen independently and can be executed parallel or \emph{adaptive}--additional test cases are chosen based on the outcomes of the executed tests.
 
+\subsection{Non-adaptive approaches}
+The simplest idea is to sample some test cases instead of all the possible test cases for MFS identification. Covering array is a good sampling mechanism candidate, as it can systematically cover all the schemas with degrees no more than a prior fixed number $t$, as a result, those MFS with degrees no more than \emph{t} can be guaranteed to be detected. With covering array, the formula to compute MFS will be revised. Formally, let $T_{f}$ denotes those failing test cases in a covering array, and $T_{p}$ denotes those passing test cases. Obviously, $T_{f} \subseteq T_{F}$ and $T_{p} \subseteq T_{P}$. Furthermore, $ \mathcal{I}(T_{f}) \bigcup \mathcal{I}(T_{p}) \supset S_{\hat{t}}$, where $S_{\hat{t}}$ represents all the schemas with degrees no more than \emph{t}. Then the formula to describe the MFS identification using covering array can be shown as \ref{eq-s-ca-identi}.
+\begin{alignat}{2}
+ &  S_{faulty} = \mathcal{I}(T_{f}) - \mathcal{I}(T_{p})  &{}&   \nonumber \\
+& MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ3} \label{eq-s-ca-identi} \nonumber
+\end{alignat}
 
-And hence, we
+More precisely, it can be reprsented as $MFS = \mathcal{M}(\mathcal{I}(T_{f}) - \mathcal{I}(T_{p}))$
 
-%Some notations used later are listed below for convenient reference:
-%\begin{itemize}
-%\item $k$ : The number of parameters that influence the SUT.
-%\item $V_{i}$ : The set of discrete values that the $i$th parameter of SUT can take.
-%\item $T^{*}$ :  The exhaustive set of test cases for the SUT. For a SUT with $k$ parameters, and each parameter can take $|V_{i}|$ values, the number of test cases in $T^{*}$ is $\prod_{i = 1}^{i <= k} |V_{i}|$. Note that some test cases may be invalid if there exists constraints among the parameters.
-%\item $T$ : A set of test cases. (Similarly for $T_{i},\ T_{j}, ...$. )
-%\item $\bar{T}$ : The complementary test set of T, i.e., $\bar{T} \bigcup T = T^{*},\ \bar{T} \bigcap T = \emptyset$.
-%\item $A \backslash B$ :  The set of elements that belong to set $A$ but not to $B$. For example $T_{i} \backslash T_{j}$ indicates the set of test cases that belong to set $T_{i}$, but not to $T_{j}$.
-%\item $\mathcal{T}(c)$ :  All the test cases that contain the schema $c$ in the SUT. Based on the definition of MFS, we know that if schema $c$ is an MFS of $F_{m}$, then $\mathcal{T}(c) \subseteq T_{F_{m}}$.
-%%\item $T_{mask(F_{m})}$ :  All the test cases that contain the
-%%\item $T_{mask(F_{m})}$ :
-%%\item $T_{mask(F_{m})}$ :
-%
-%\item $\mathcal{I}(t)$ :  All the schemas that are contained in the test case $t$, e.g., $\mathcal{I}(\ (1 1 1)\ )= \{(1 - -)(- 1 -)(- - 1)(1 1 -)(1 - 1)(- 1 1) (1 1 1)\} $.
-%\item $\mathcal{I}(T)$ :  All the schemas that are contained in test set $T$, i.e., $\mathcal{I}(T) = \bigcup_{t\in T} \mathcal{I}(t)$.
-%\item  $\mathcal{S}(T)$:  All the schemas that are only contained in test set $T$ (Referred to as \emph{Special schemas}); $\mathcal{S}(T) =  \mathcal{I}(T) \backslash \mathcal{I}(\bar{T}) $.
-%\item  $\mathcal{C}(T)$ : A set of the minimal schemas that are only contained in test set $T$ (Referred to as \emph{Minimal schemas}); $\mathcal{C}(T) =  \{c | c \in \mathcal{S}(T)\ and\ \not\exists c' \prec c, s.t., c' \in \mathcal{S}(T)\}$.
-%
-%\end{itemize}
+As  $\mathcal{I}(T_{f}) - \mathcal{I}(T_{p})$ is normally not equal to  $\mathcal{I}(T_{F}) - \mathcal{I}(T_{P})$, \ref{eq-s-ca-identi} may not get an accurate result. For example,  Table \ref{mfs-coveing-array} shows the result which directly using covering array to compute MFS. This example using the same SUT as Table \ref{example_minimal_schemas}, i.e., SUT($2^{3}$) with MFS (0, - ,0) and (0, 0, -). In this example, a $2$-way covering array consists of one failing test case (0, 0, 0) and three passing test cases (0, 1, 1), (1, 0, 1) and (1, 1, 0). Using \ref{eq-s-ca-identi}, we can finally obtain the MFS (0, 0, -), (0, -, 0) and (-, 0, 0), which is different from the correct result in Table \ref{example_minimal_schemas}. Besides this, the complexity of \ref{eq-s-ca-identi} is exponential. This is because we should list all the possible schemas in each test case of $T_{f}$, which is $|T_{f}| * 2 ^ {k - 1}$. As directly utilizing covering array cannot give an ideal result, more efforts are desired to improve this result.
 
-%\begin{proposition}[{smaller schema $c$ has a larger $\mathcal{T}(c)$}] \label{pro:shl}
-%For schemas $c_{1}$, $c_{2}$, if $c_{1} \prec c_{2}$, then all the test cases that contain $c_{2}$ must also contain $c_{1}$, i.e., $\mathcal{T}(c_{2}) \subseteq \mathcal{T}(c_{1})$.
-%\end{proposition}
-%
-%\begin{proof}
-%  $ \forall t \in \mathcal{T}(c_{2})$,  $t$ contains $c_{2}$. As $t$ is a $k$-degree schema, then it has $c_{2} \prec t$ .  As $c_{1} \prec c_{2}$, then $c_{1} \prec t$, indicating that $t$ contains $c_{1}$. Therefore, $t \in \mathcal{T}(c_{1})$. So it follows that $\mathcal{T}(c_{2}) \subseteq \mathcal{T}(c_{1})$.
-%\end{proof}
-%
-%Suppose a SUT with four binary parameters, which can be denoted as SUT($2^4$). Table \ref{example_subsume} illustrates an example of the Proposition \ref{pro:shl}. The left column lists the schema $c_{2}$ = (0,0,-,-) as well as all the test cases in $\mathcal{T}(c_{2})$, while the right column lists the schema $c_{1}$ = (0,-,-,-) and $\mathcal{T}(c_{1})$. We can see that when $c_{1} \prec c_{2}$, $\mathcal{T}(c_{2}) \subseteq \mathcal{T}(c_{1})$.
-%
-%\begin{proposition}[Special schema set of test Set T]\label{pro:stct}
-%For any test set $T$ of the SUT,  $\bigcup_{c \in \mathcal{S}(T)}\mathcal{T}(c) = T$.
-%\end{proposition}
-%\begin{proof}
-%As $\mathcal{S}(T) =  \mathcal{I}(T) \backslash \mathcal{I}(\bar{T}) $,  $\forall c \in \mathcal{S}(T),\ c \in \mathcal{I}(T)\ and\ c \not\in \mathcal{I}(\bar{T})$. Then $\forall t \in \mathcal{T}(c), t \ contains\ c$, indicating that $t \in T$.  Hence, $\mathcal{T}(c) \subseteq T$.  Then $\bigcup_{c \in \mathcal{S}(T)}\mathcal{T}(c) \subseteq T$.
-%
-%On the other hand, $\forall t \in T$,  $\exists c' \in \mathcal{I}(t)$, such that $c' \not\in \mathcal{I}(\bar{T})$ (at least it holds when $c' = t$). Hence, $c' \in \mathcal{S}(T)$.  Obviously $t \in \mathcal{T}(c') \subseteq \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c)$. Therefore,  $ T \subseteq \bigcup_{c \in \mathcal{S}(T)}\mathcal{T}(c)$.
-%\end{proof}
-%
-%
-%\begin{proposition}[Minimal schema set of test Set T]\label{pro:ash}
-%For any test set $T$ of the SUT, $\bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c) = T$.
-%\end{proposition}
-%
-%\begin{proof}
-%As $\mathcal{C}(T) = \{c | c \in \mathcal{S}(T)\ and\ \not\exists c' \prec c, s.t., c' \in \mathcal{S}(T)\}$, indicating that $\mathcal{C}(T) \subseteq \mathcal{S}(T)$.  It is then obviously $\bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c) \subseteq \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c)$. Hence, we just need to prove that $\bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c) \subseteq \bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c)$.
-%
-%$\forall t \in \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c) $, $\exists c \in \mathcal{S}(T),\ s.t., t \in \mathcal{T}(c)$. According to the definition of $\mathcal{C}(T)$, $\exists c' \in \mathcal{C}(T), s.t.,\ c' = c \ or\ c' \prec c$. Correspondingly $\mathcal{T}(c') = \mathcal{T}(c),\ or\ \mathcal{T}(c) \subseteq \mathcal{T}(c')$ by Proposition \ref{pro:shl}. Hence, $t \in \mathcal{T}(c') \subseteq \bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c)$.
-%
-%Therefore, $\bigcup_{c \in \mathcal{C}(T)} \mathcal{T}(c) = \bigcup_{c \in \mathcal{S}(T)} \mathcal{T}(c) = T$.
-%\end{proof}
-%
-%Table \ref{example_minimal_schemas} gives an example of $T^{*}$, $T$, $\bar{T}$, $\mathcal{S}(T)$ and $\mathcal{C}(T)$ in SUT($2^3$). We can find that all the schemas in $\mathcal{S}(T)$ and $\mathcal{C}(T)$ are only contained in test set $T$, and for any $t \in T$, it contains at least one schema in $\mathcal{S}(T)$ and $\mathcal{C}(T)$. Additionally, $\mathcal{C}(T)$ is a minimal schema set which filters those super schemas in $\mathcal{S}(T)$.
+\begin{table}
+\centering
+\caption{MFS identification using covering array}
+\label{mfs-coveing-array}
+  \begin{tabular}{c| c | c | c | c }
+  \hline
+  $T_{all}$ & $T_{f}$ & $T_{p}$ & $S_{faulty}$ & $MFS$ \\ \hline
+(0, 0, 0) & (0, 0, 0) &           & (0, 0, -) & (0, 0, -)\\
+(0, 0, 1) &           &           & (0, -, 0) & (0, -, 0)\\
+(0, 1, 0) &           &           & (-, 0, 0) & (-, 0, 0)\\
+(0, 1, 1) &           & (0, 1, 1) & (0, 0, 0) &\\
+(1, 0, 0) &           &           &           &\\
+(1, 0, 1) &           & (1, 0, 1) &           &\\
+(1, 1, 0) &           & (1, 1, 0) &           &\\
+(1, 1, 1) &           &           &           &\\\hline
+  \end{tabular}
+  \end{table}
 
+\subsubsection{Original Covering array}
+Yilmaz \cite{yilmaz2006covering} proposed an MFS identification approach, which can quickly characterize the MFS based on a covering array. It uses classification tree analysis (CTA) on the executed test cases of covering array to derive a tree structure. The conjunction from the root to a leaf node represents a MFS. For example, when using CTA (Implemented by Weka\cite{hall2009weka}), a tree will be built like Fig \ref{figcta}.
 
-
-\subsubsection{non-adaptive}
-\subsubsection{adaptive}
-\subsubsection{others}
-
-
-\begin{figure*}
+\begin{figure}
  \centering
- \includegraphics[width=5.6in]{MFSpartition.eps}
- \caption{A simple conclusion of the relationships between these MFS identification appraoches}
- \label{figch}
-\end{figure*}
+ \includegraphics[width=2.7in]{cta_example.eps}
+ \caption{CTA example}
+ \label{figcta}
+\end{figure}
 
 
-\section{Motivation of the approach}\label{sec:motiv}
+In this figure, only $p_{1} = 0$ and $p_{3} = 0$ will result in a failure, indicating that (0, -, 0) is MFS. Note that the way that CTA constructing decision trees usually work top-down, by choosing a parameter at each step that best splits the set of test cases \cite{rokach2005top}. Consequently, after choosing the first parameter $p_{1}$ (three parameters have equal chances at the first step), only one of $p_{3}$ and $p_{2}$ can be selected. Hence CTA will identify only one of (0, -, 0) and (0, 0, -), while ignore another.  In fact, even if CTA find two MFS in this SUT, these MFS can only be identified as Figure \ref{figcta2}, i.e., (0, 0, -) and (0, 1, 0), respectively,  which is still not correct. Therefore, the quality of the MFS identification for CTA depends on the executed test cases and the characteristics of MFS.
 
-Take OFOT for example, then illustrate the problems, and other similar approaches problems.
-
-\subsection{Multiple MFS}
-\subsubsection{Overlapping MFS}
-\subsection{High degree MFS}
-\subsection{Too many test cases}
-\subsection{Needs too many computing resources}
-\subsection{Introducing of newly MFS}
-
-A big table that consists of many
+\begin{figure}
+ \centering
+ \includegraphics[width=2.7in]{cta-example2.eps}
+ \caption{Another CTA example}
+ \label{figcta2}
+\end{figure}
 
 
-\section{Theory foundation}\label{sec:propositinon}
+Another approach that are directly based on covering array is proposed by Zhang \cite{zhang2012faulty}. Different from CTA, this approach translate MFS identification to constraints satisfaction and optimal problem. In a high level, it can be described as following:
 
-\begin{assumption}
+\begin{alignat}{2}
+\min\quad &  S_{faulty} &{}& \tag{EQ4} \label{eq-zhang-constriants}\\
+\mbox{s.t.}\quad
+& \forall t \in T_{p}, s \in S_{faulty}, s \not\in t &\quad& {}\nonumber \\
+& \forall t \in T_{f}, \exists s \in S_{faulty}, s.t., s \in T_{f} &\quad& {}\nonumber
+\end{alignat}
 
-\end{assumption}
+\ref{eq-zhang-constriants} shows that the MFS should not be contained in any passing test case, and for each failing test case, it at least contain one MFS. This formula is essentially equal to \ref{eq-s-ca-identi}, however, by using constraints salification and optimal solver, it can greatly speed up the the MFS identification.
+
+
+\subsubsection{Higher-way covering array}
+As discussed previously, just using covering array is far from sufficient to accurately identify MFS, even if taking some optimization measures \cite{yilmaz2006covering,zhang2012faulty}. Generally, there are two methods that can improve the MFS quality over directly using covering array. First, to limit the MFS that needs to be identified. Instead of considering all the possible MFS in the SUT, limiting the MFS with particular characteristics, e.g., only those schemas with degrees under a fixed number \emph{t}, can largely reduce the scope of schemas to be checked. Second, to increase the size of covering array. It is obviously that more test cases will give more information to filter those schemas that are not faulty schemas.
+
+Based on these two points, Charles \cite{colbourn2008locating} proposed the notion of ($d$,$t$)-detecting array, which corresponds to test cases that permit the determination of MFS in the SUT, if the number of MFS $d$ and degree of MFS $t$ are known in prior. They  later proved that if the number of values of any parameter, i.e., $|V_{i}|$, is larger than $d$, then covering array MCA(N; t + d, k, $(a_{1}, a_{2}, ..., a_{k})$) is a ($d$,$t$)-detecting array. Formally, using ($d$,$t$)-detecting array to identify MFS can be described as following:
+
+\begin{alignat}{2}
+ &  S_{faulty} = \{ s | s \in \mathcal{I}(T_{f}') - \mathcal{I}(T_{p}'), \& s \in S_{t}  \}  &{}&   \nonumber \\
+& MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ5} \label{eq-s-highca-identi-cha} \nonumber
+\end{alignat}
+
+In this formula, $T_{f}'$ and $T_{p}'$ are test cases in a covering array MCA(N; t + d, k, $(a_{1}, a_{2}, ..., a_{k})$), satisfying that $ \mathcal{I}(T_{f}') \bigcup \mathcal{I}(T_{p}') \supset S_{\hat{t+d}}$, where $S_{\hat{t+d}}$ represents all the schemas with degrees no more than \emph{t+d}. $S_{t}$ indicates those $t$-degree schemas. The first equation in \ref{eq-s-highca-identi-cha} shows only those schemas with degree equal to \emph{t} \footnote{Charles also proposed the notion of ($d$,$\hat{t}$)-detecting array, which allows for identifying MFS with degrees smaller than $t$, but they have not give construction method for this array} will be selected to be checked whether they are faulty schemas are not.
+
+Compared to \ref{eq-s-ca-identi}, it takes a higher-way ($t+d$) covering array, which consists more test cases. Furthermore,  only a small number of schemas will be checked  (N * $ \binom{k}{t}$), N is the number of test cases in the covering array). When the hypotheses, i.e., the number of MFS is \emph{d}, degree of MFS is \emph{t}, and $|V_{i}| > d$, are satisfied, \ref{eq-s-highca-identi-cha} ensures that it can accurately identify these MFS.
+
+%with degress less than t and number less than d. But this formula may produce too many test cases. In fact, fautly schemas or MFS is a small number in SUT. This method may produce too many unnecessary test cases.
+
+
+Mart{\'\i}nez \cite{martinez2008algorithms,martinez2009locating} has proposed the notion of error locating array (ELA), which has been proved to be the generations of ($d$,$t$)-detecting array. Compared to ($d$,$t$)-detecting array, ELA works on MFS with degrees no more than $t$ (not only those $t$-degree schemas).  There are two kinds of constructions of ELA. The first one is based on the hypothesis that each parameter in SUT has \emph{safe value}, i.e., the value that is not the part of any MFS. Based on this, it has proved that MCA(N; t + d, n, $(a_{1}, a_{2}, ..., a_{n})$) is a ELA, if the number of MFS \emph{d} and maximal degree of MFS \emph{t} are given. Hence the formula to compute MFS (\ref{eq-s-highca-identi-1}) is similar as \ref{eq-s-highca-identi-cha}, except that schemas can be selected in those with degrees smaller than $t$ ($s \in S_{\hat{t}}$).
+
+\begin{alignat}{2}
+&  S_{faulty} = \{ s | s \in \mathcal{I}(T_{f}') - \mathcal{I}(T_{p}'), \& s \in S_{\hat{t}}  \}  &{}&   \nonumber \\
+& MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ6} \label{eq-s-highca-identi-1} \nonumber
+\end{alignat}
+
+The second construction of ELA is without the hypothesis of \emph{safe value}. This is a more general scenario than ($d$,$t$)-detecting array (Note that ($d$,$t$)-detecting array needs that $|V_{i}| > d$). Under this circumstance, they proved that MCA(N; t * (d + 1), k, $(a_{1}, a_{2}, ..., a_{k})$) is a ELA. Formally, it can be described as \ref{eq-s-highca-identi}
+
+
+\begin{alignat}{2}
+ &  S_{faulty} = \{ s | s \in \mathcal{I}(T_{f}'') - \mathcal{I}(T_{p}''), \& s \in S_{\hat{t}}  \}  &{}&   \nonumber \\
+& MFS =  \{s | s \in S_{faulty}\ and\ \not\exists s' \prec s, s.t., s' \in S_{faulty}\} &{}& \tag{EQ7} \label{eq-s-highca-identi} \nonumber
+\end{alignat}
+
+Where $T_{f}''$ and $T_{p}''$ are test cases in a covering array MCA(N; t * (d + 1), k, $(a_{1}, a_{2}, ..., a_{k})$). Note that the computing complexity of \ref{eq-s-highca-identi-1} and \ref{eq-s-highca-identi} is (N * $\sum_{i = 1}^{i = t} \binom{k}{i}$), as they take into account of all these schemas with degrees smaller or equal to $t$.
+
+Table \ref{non-adaptive-conclusion}  gives a conclusion of these non-adaptive approaches. Column $Limitations$ shows the conditions under which the approach can properly work. Column $Needs$ presents the covering array the approach needs to identify the MFS. Column $Test\ Cases$ presents the complexity of the number of test cases, which are based on \cite{bryce2009density}.  Column $Compute\ complexity$ shows the computing complexity for that approach to identify the MFS. In this column, the first two approaches, i.e, CTA and SAT, using CTA and SAT solver, respectively, to compute the MFS, hence, the complexity depends on the implementation of this two techniques.  Column $Ability$ indicates what MFS can be identified by the corresponding approach.
+
+\begin{table*}[htbp]
+\centering
+\caption{A conclusion for non-adaptive approach}
+\label{non-adaptive-conclusion}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+         & Approach     & Limitations          & Needs                         & Compute complexity           & Ability                      \\ \hline
+Origin & CTA          & -                      & CA(N, t, k, v)                   & depends on CTA & not sure  (depending test)       \\
+         & SAT          & -                         & CA(N, t, k, v)                   & depends on SAT       & not sure   (depending test)       \\ \hline
+Higher   & (d,t) detect & v \textless d \& d, t given & CA(N, d+t, k, v)             & N * $ \binom{k}{t}$                        & all  MFS  \\
+         & ELA-safe     & safe value \& d, t given    & CA(N, d+t, k, v)             & N * $\sum_{i = 1}^{i = t} \binom{k}{i}$                        & all  MFS  \\
+         & ELA-non-safe & d, t given                & CA(N, d*(t+1), k, v )          & N * $\sum_{i = 1}^{i = t} \binom{k}{i}$                        & all  MFS \\ \hline
+\end{tabular}
+\end{table*}
+
+Formula are proposed :
 
 
 
 
+%But this method, however, have its .
+\subsection{Adaptive approaches}
+Non-adaptive approach, simple, one for all. But Either not accurate, either using too many test cases. In fact, faulty schemas or MFS is a small number in SUT. This method may produce too many unnecessary test cases. Rather than using a static covering array, adaptive approach support a more flexible idea, i.e., .
+
+To better describe the adaptive approaches, we give a general framework to illustrate the working process for all the adaptive approaches, which is listed in Fig.\ref{figadaptive}. Generally, adaptive approaches. start from. Eend. The differences of these adaptive approaches lies in these three modules.
+
+
+\begin{figure}
+ \centering
+ \includegraphics[width=2.4in]{adaptive-approach.eps}
+ \caption{A framework of Adaptive approaches}
+ \label{figadaptive}
+\end{figure}
+
+
+\subsubsection{Ending criteria}
+
+Generally, a ending criteria for this kind of, is that pending schema should be zero. 
+
+\subsubsection{Generate next test case}
+
+Optimal problem. How the next test case can give the maximal . In fact it should generate the test case that contains same part as the original failing test case, the remaining are ,
+
+\begin{alignat}{2}
+\min\quad &  S_{faulty} &{}& \tag{EQ8} \label{eq-optimal-testcase}\\
+\mbox{s.t.}\quad
+& \forall t \in T_{p}, s \in S_{faulty}, s \not\in t &\quad& {}\nonumber \\
+& \forall t \in T_{f}, \exists s \in S_{faulty}, s.t., s \in T_{f} &\quad& {}\nonumber
+\end{alignat}
+
+
+\subsubsection{MFS computing}
+
+Let $t_{of}$ be the original failing test case, $T_{af}$ be the additional failing test cases, and $T_{ap}$ be the additional passing test case. Originally, the MFS should be computed as :
+$$ MFS =  \mathcal{M}(\mathcal{I}(t_{of} \bigcup T_{af}) - \mathcal{I}(T_{ap})) $$. Let it be $OMFS$
+
+However, with hypotheses,
+
+1) Safe value.  Each parameter has a value that is not the part of any MFS. Approaches relies on this hypothesis thinks that the additional test cases the remaining part are safe value. Then the MFS can only caused by the fixed part. In other word, the MFS of additional test case can only appear in the original failing test case. Formally, we have the MFS should be satisified :
+
+$$ MFS \in  t_{of}$$, so MFS should be modified as  $$ MFS = \{ s\ |\ s \in OMFS,\ and\ s \in t_{of} \} $$
+
+2) Multiple MFS
+
+In fact, cannot handle multiple MFS can be regarded as not completed, that is, it just find one schema as MFS, then stoping the MFS identification process. Hence it igore those pending schemas. We define the pending schemas as $S_{pending}$
+
+$$S \not\in S_{pending}$$, then it can be formulated as  $$ MFS = \{ s\ |\ s \in OMFS,\ and\ s \not\in S_{pending} \} $$
+
+can multiple, but cannot handle overlapping MFS.
+
+that is $S_pending$ not contain the MFS.
+
+3)Degree of MFS
+
+Some approaches needs that MFS are limited  to degrees \emph{t}.
+
+$$ MFS \in  S_{\hat{t}}$$,
+then
+$$ MFS = \{ s\ |\ s \in OMFS,\ and\ s \in S_{\hat{t}} \} $$
+
+
+
+Hence, the MFS computing will be described as following:
+
+
+%\section{Motivation of the approach}\label{sec:motiv}
+%
+%Take OFOT for example, then illustrate the problems, and other similar approaches problems.
+%
+%\subsection{Multiple MFS}
+%\subsubsection{Overlapping MFS}
+%\subsection{High degree MFS}
+%\subsection{Too many test cases}
+%\subsection{Needs too many computing resources}
+%\subsection{Introducing of newly MFS}
+%
+%A big table that consists of many
+
+
+
+
+
+\section{The approach to identify the minimal failure-inducing schemas}\label{sec:app}
+Based on these definitions and propositions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
+
+\begin{definition}[candidate minimal faulty schema]
+If a schema is a faulty schema and satisfy the followed condition:
+1.none of its subschemas are faulty schemas, 2. at least one subschema is pending schema.(is need discuss!!!!!! one or none is okay?)We then call the schema a \emph{candidate minimal faulty schema}(\emph{CMINFS} for short).
+\end{definition}
+\begin{definition}[candidate maximum healthy schema]
+If a schema is a healthy schema and and satisfy the followed condition:
+1.none of its  parent-schemas are healthy schemas, 2. at least one subschema is pending schema. We then call the schema a \emph{candidate maximum healthy schema}(\emph{CMAXHS} for short).
+\end{definition}
+
+
+\subsection{Theory foundation}
 \begin{proposition}
 All the schemas in a passed test configuration are healthy schemas.
 All the subschemas of a healthy schemas are healthy schemas.
@@ -909,20 +1036,7 @@ All the parent-schemas of a faulty schema are faulty schemas.
 All the subschemas of a healthy schema are healthy schemas.
 \end{proposition}
 
-\subsection{weaken of the assumptions}
-
-\section{The approach to identify the minimal failure-inducing schemas}\label{sec:app}
-Based on these definitions and propositions, we will describe our approach to identify the failure-inducing schemas in the SUT. To give a better description, we will start give an approach with an assumption , and later we will weak the assumption.
-
-\begin{definition}[candidate minimal faulty schema]
-If a schema is a faulty schema and satisfy the followed condition:
-1.none of its subschemas are faulty schemas, 2. at least one subschema is pending schema.(is need discuss!!!!!! one or none is okay?)We then call the schema a \emph{candidate minimal faulty schema}(\emph{CMINFS} for short).
-\end{definition}
-\begin{definition}[candidate maximum healthy schema]
-If a schema is a healthy schema and and satisfy the followed condition:
-1.none of its  parent-schemas are healthy schemas, 2. at least one subschema is pending schema. We then call the schema a \emph{candidate maximum healthy schema}(\emph{CMAXHS} for short).
-\end{definition}
-
+\subsubsection{weaken of the assumptions}
 
 
 \subsection{additional failure-inducing not be introduced}
@@ -1641,14 +1755,26 @@ auto oracle, if we don't have a correct version, or we can't determine a test ca
 timing result
 One worrying aspect of this research is that it seems to consider only the number of tests and number of faults uncovered. In the practice of testing, it is as important or more important to know testing times.
 \section{Related works and Discuss}\label{sec:related}
+Combinatorial testing has been widely applied in industry \cite{nie2011survey}.
+
 Detail list the history. In the experiment section, we just give some brief introduction.
 
-Nie's approach in [3] and [6] first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
-Delta debugging [5] proposed by Zeller is an adaptive divide-and-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. [4] also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently,
-Colbourn and McClary [7] proposed a non-adaptive method. Their approach extends the covering array to the locating array to detect and locate interaction faults.
-C. Martiez [8-9] proposed two adaptive algorithms. The first one needs safe value as their assumption and the second one remove the assumption when the number of values of each parameter is equal to 2. Their algorithms focus on identifying the faulty tuples that have no more than 2 parameters.
-Ghandehari.etc [10] defines the suspiciousness of tuple and suspiciousness of the environment of a tuple. Based on this, they rank the possible tuples and generate the test cases. Although their approach imposes minimal assumption, it does not ensure that the tuples ranked in the top are the faulty tuples.
-Yilmaz [11] proposed a machine learning method to identify inducing combinations from a combinatorial testing set. They construct a classified tree to analyze the covering arrays and detect potential faulty combinations. Beside this, Fouch?[12] and Shakya [13] made some improvements in identifying failure-inducing combinations based on Yilmaz' work.
+Shi first \cite{shi2005software} .
+
+Nie's approach in \cite {nie2011minimal} first separates the faulty-possible tuples and healthy-possible tuples into two sets. Subsequently, by changing a parameter value at a time of the original test configuration, this approach generates extra test configurations. After executing the configurations, the approach converges by reducing the number of tuples in the faulty-possible sets.
+Wang then \cite{wang2010adaptive}.
+
+Delta debugging \cite{zeller2002simplifying} proposed by Zeller is an adaptive divide-and-conquer approach to locating interaction fault. It is very efficient and has been applied to real software environment. Zhang et al. \cite{zhang2011characterizing} also proposed a similar approach that can identify the failure-inducing combinations that has no overlapped part efficiently.  JieLi proposed a simliar appraoch \cite{li2012improved}.
+
+Charles \cite{colbourn2008locating} proposed,
+
+Colbourn and McClary \cite{martinez2008algorithms} proposed a non-adaptive method. Their approach extends the covering array to the locating array to detect and locate interaction faults. They \cite{martinez2009locating} then extend this non-adaptive method to any degree with the theory of hyber-graphic.  C. Martiez \cite{martinez2008algorithms,martinez2009locating}proposed two adaptive algorithms. The first one needs safe value as their assumption and the second one remove the assumption when the number of values of each parameter is equal to 2. Their algorithms focus on identifying the faulty tuples that have no more than 2 parameters.
+
+Ghandehari.etc \cite{ghandehari2012identifying} defines the suspiciousness of tuple and suspiciousness of the environment of a tuple. Based on this, they rank the possible tuples and generate the test cases. Although their approach imposes minimal assumption, it does not ensure that the tuples ranked in the top are the faulty tuples. They further utilized the test cases generated from the inducing interaction to locate the fault \cite{ghandehari2013fault}.
+
+Yilmaz \cite{yilmaz2004covering} proposed a machine learning method to identify inducing combinations from a combinatorial testing set. They construct a classified tree to analyze the covering arrays and detect potential faulty combinations. They \cite{yilmaz2006covering} additionally extend their work on variable covering array. Beside this, Fouch?\cite{fouche2009incremental} and Shakya \cite{shakya2012isolating} made some improvements in identifying failure-inducing combinations based on Yilmaz' work.
+
+Zhangjian \cite{zhang2012faulty}.
 
 We list a comprehensive detail and comparison table \ref{comparison-metrics}as followed.
 

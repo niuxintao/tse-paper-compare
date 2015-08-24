@@ -913,8 +913,8 @@ Table \ref{non-adaptive-conclusion}  gives a conclusion of these non-adaptive ap
 \begin{tabular}{|l|l|l|l|l|l|}
 \hline
          & Approach     & Limitations          & Needs                         & Compute complexity           & Ability                      \\ \hline
-Origin & CTA          & -                      & CA(N, t, k, v)                   & depends on CTA & not sure         \\
-         & SAT          & -                         & CA(N, t, k, v)                   & depends on SAT       & not sure         \\ \hline
+Origin & CTA          & -                      & CA(N, t, k, v)                   & depends on CTA & not sure  (depending test)       \\
+         & SAT          & -                         & CA(N, t, k, v)                   & depends on SAT       & not sure   (depending test)       \\ \hline
 Higher   & (d,t) detect & v \textless d \& d, t given & CA(N, d+t, k, v)             & N * $ \binom{k}{t}$                        & all  MFS  \\
          & ELA-safe     & safe value \& d, t given    & CA(N, d+t, k, v)             & N * $\sum_{i = 1}^{i = t} \binom{k}{i}$                        & all  MFS  \\
          & ELA-non-safe & d, t given                & CA(N, d*(t+1), k, v )          & N * $\sum_{i = 1}^{i = t} \binom{k}{i}$                        & all  MFS \\ \hline
@@ -943,6 +943,37 @@ To better describe the adaptive approaches, we give a general framework to illus
 
 \subsubsection{Ending criteria}
 
+Generally, a ending criteria for this kind of, is that pending schema should be zero. 
+
+The ending criteria of many approaches are very ambiguous, i.e, it didn't give an very . For example, wang gives that. Additionally, they also support the . Hence we need design very critical ending criteria, and omit these ambiguous ones. 
+
+\textbf{SOFOT}: it ends execute k test cases. The k additional generated test cases are fixed, i.e, one additional test case is by mutating one factor value of original test case.
+
+\textbf{OFOT}: It ends execute k*v test cases. Different from SOFOT, each factor will   generate v -1 additional test cases. Each test case will be give different value for that factor (remaining are the same), except the original one.
+
+\textbf{FIC}: It ends when one MFS is found.
+
+\textbf{FIC\_BS}: It ends when one MFS is found.
+
+\textbf{NOVLP}: It ends when all the non-overlapping MFS is found.
+
+\textbf{RI}: It ends when one MFS is found.
+
+\textbf{IterAIFL} : It ends when all the possible test cases that mutating at least one factor of the original failing test case  are generated. 
+
+\textbf{Spectrum-like}: it ends when all the s-pending is empty
+
+\textbf{Martinez-safe}: it ends when all the MFS are found.
+
+\textbf{Martinez-without-safe}: it ends when all the MFS are found.
+
+\textbf{Path}: it ends when s-pending is empty
+
+\textbf{Path-NA}: it ends when s-pending is empty
+
+
+
+
 \subsubsection{Generate next test case}
 
 Optimal problem. How the next test case can give the maximal . In fact it should generate the test case that contains same part as the original failing test case, the remaining are ,
@@ -957,16 +988,18 @@ Optimal problem. How the next test case can give the maximal . In fact it should
 
 \subsubsection{MFS computing}
 
+
+
 Let $t_{of}$ be the original failing test case, $T_{af}$ be the additional failing test cases, and $T_{ap}$ be the additional passing test case. Originally, the MFS should be computed as :
 $$ MFS =  \mathcal{M}(\mathcal{I}(t_{of} \bigcup T_{af}) - \mathcal{I}(T_{ap})) $$. Let it be $OMFS$
 
-However, with hypotheses, 
+However, with hypotheses,
 
-1) Safe value.  Each parameter has a value that is not the part of any MFS. Approaches relies on this hypothesis thinks that the additional test cases the remaining part are safe value. Then the MFS can only caused by the fixed part. In other word, the MFS of additional test case can only appear in the original failing test case. Formally, we have the MFS should be satisified :
+1) Safe value.  Each parameter has a value that is not the part of any MFS. Approaches relies on this hypothesis thinks that the additional test cases the remaining part are safe value. Then the MFS can only caused by the fixed part. In other word, the MFS of additional test case can only appear in the original failing test case. Formally, we have the MFS should be satisfied :
 
 $$ MFS \in  t_{of}$$, so MFS should be modified as  $$ MFS = \{ s\ |\ s \in OMFS,\ and\ s \in t_{of} \} $$
 
-2) Multiple MFS 
+2) Multiple MFS
 
 In fact, cannot handle multiple MFS can be regarded as not completed, that is, it just find one schema as MFS, then stoping the MFS identification process. Hence it igore those pending schemas. We define the pending schemas as $S_{pending}$
 
@@ -981,12 +1014,17 @@ that is $S_pending$ not contain the MFS.
 Some approaches needs that MFS are limited  to degrees \emph{t}.
 
 $$ MFS \in  S_{\hat{t}}$$,
-then 
+then
 $$ MFS = \{ s\ |\ s \in OMFS,\ and\ s \in S_{\hat{t}} \} $$
 
 
 
 Hence, the MFS computing will be described as following:
+
+Note that, some of these approaches didn't directly use . They deduce the result, but however, in enssense, they are equal. For example, SOFOT, we can learn that .
+
+
+\subsubsection{A conclusion of the adaptive approaches}
 
 
 %\section{Motivation of the approach}\label{sec:motiv}
